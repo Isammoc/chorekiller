@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  web:
+    image: nginx
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d
+    ports:
+      - 80:80
+      - 4200:4200
+    links:
+      - front
+      - back
+  front:
+    image: angular-cli
+    volumes:
+      - ./front:/code
+    working_dir: /code
+    command: ng serve --host 0.0.0.0
+  back:
+    image: openjdk
+    volumes:
+      - ./back:/code
+      - /root/.ivy2
+      - /root/.sbt
+    working_dir: /code
+    command: /code/bin/activator ~run
