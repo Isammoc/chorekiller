@@ -7,11 +7,15 @@ import { HttpModule } from '@angular/http';
 
 import { MaterialModule } from '@angular/material';
 
+import { ConfigService } from './service/config/config.service';
+
 import { AppComponent } from './app.component';
+import { RibbonComponent } from './ribbon/ribbon.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    RibbonComponent,
   ],
   imports: [
     BrowserModule,
@@ -20,7 +24,9 @@ import { AppComponent } from './app.component';
     MaterialModule.forRoot(),
     BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [
+    ConfigService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
