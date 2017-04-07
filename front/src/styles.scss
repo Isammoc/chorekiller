@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/core/theming/_all-theme.scss';
+/* NOTE: Theming is currently experimental and not yet publically released! */
+
+@include mat-core();
+
+$primary: mat-palette($mat-indigo);
+$accent:  mat-palette($mat-pink, A200, A100, A400);
+$warn:    mat-palette($mat-red, A700);
+
+$theme: mat-light-theme($primary, $accent);
+
+@include angular-material-theme($theme);
+
+body {
+  margin: 0;
+}
