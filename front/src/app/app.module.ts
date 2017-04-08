@@ -10,12 +10,14 @@ import { MaterialModule } from '@angular/material';
 import { ConfigService } from './service/config/config.service';
 
 import { AppComponent } from './app.component';
+import { FooterComponent } from './footer/footer.component';
 import { RibbonComponent } from './ribbon/ribbon.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RibbonComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

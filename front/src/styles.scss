@@ -12,6 +12,10 @@ $theme: mat-light-theme($primary, $accent);
 
 @include angular-material-theme($theme);
 
-body {
+@import './app/footer/_footer-theme.scss';
+
+@include footer-theme($theme);
+
+html, body {
   margin: 0;
 }

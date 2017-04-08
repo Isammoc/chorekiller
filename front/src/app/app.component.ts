@@ -8,7 +8,6 @@ import { ConfigService } from './service/config/config.service';
 export class AppComponent {
   title = 'app works!';
   name: string;
-  version: string;
 
   constructor(private configService: ConfigService) {
   }
@@ -16,7 +15,6 @@ export class AppComponent {
   ngOnInit(): void {
     this.configService.observeConfig()
       .subscribe((res) => {
-        this.version = res.version;
         this.name = res.name;
       });
   }
