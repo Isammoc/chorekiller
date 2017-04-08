@@ -1,12 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ConfigService } from './service/config/config.service';
 @Component({
-  selector: 'app-root',
+  selector: 'ck-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  title = 'app works!';
+export class AppComponent implements OnInit {
   name: string;
 
   constructor(private configService: ConfigService) {
