@@ -1,0 +1,21 @@
+<form [formGroup]="myForm" (submit)="submit(myForm.value)">
+  <h3 md-dialog-title>Se connecter</h3>
+  <md-dialog-content>
+    <md-input-container>
+      <input mdInput placeholder="Identifiant" [formControl]="myForm.controls['login']">
+      <md-error *ngIf="(myForm.controls['login'].touched || myForm.controls['login'].dirty) && myForm.hasError('required','login')"
+          class="error" align="start">Veuillez renseigner votre mot de passe.</md-error>
+    </md-input-container>
+    <md-input-container>
+      <input type="password" mdInput placeholder="Mot de passe" [formControl]="myForm.controls['passwd']">
+      <md-error *ngIf="(myForm.controls['passwd'].touched || myForm.controls['passwd'].dirty) && myForm.hasError('minlength','passwd')"
+          class="error" align="start">Le mot de passe est trop petit.</md-error>
+      <md-error *ngIf="(myForm.controls['passwd'].touched || myForm.controls['passwd'].dirty) && myForm.hasError('required','passwd')"
+          class="error" align="start">Veuillez renseigner votre mot de passe.</md-error>
+    </md-input-container>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button md-raised-button color="primary" [disabled]="myForm.invalid">Se connecter</button>
+    <button md-button md-dialog-close>Annuler</button>
+  </md-dialog-actions>
+</form>
