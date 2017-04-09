@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MdDialogRef } from '@angular/material';
 
+import { UserService } from '../service/user/user.service';
+
 @Component({
   templateUrl: './login.dialog.html',
   styleUrls: ['./login.dialog.scss'],
@@ -9,7 +11,7 @@ import { MdDialogRef } from '@angular/material';
 export class LoginDialogComponent {
   myForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private dialog: MdDialogRef<LoginDialogComponent>) {
+  constructor(private userService: UserService, private fb: FormBuilder, private dialog: MdDialogRef<LoginDialogComponent>) {
     this.buildForm();
   }
 
@@ -24,13 +26,13 @@ export class LoginDialogComponent {
     if (this.myForm.invalid) {
       console.error('Comment est-ce possible?');
     } else {
-      if (form.login === 'admin' && form.passwd === 'changeit') {
-        // Connected
-        this.dialog.close();
-      } else {
-        console.error('Unknown user');
-        this.buildForm();
-      }
+      this.userService.login(form.login, form.passwd).subscribe(
+        user => this.dialog.close(),
+        error => {
+          console.error('Unknown user');
+          this.buildForm();
+        },
+      );
     }
   }
 }

@@ -8,6 +8,7 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 
 import { ConfigService } from './service/config/config.service';
+import { UserService } from './service/user/user.service';
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
@@ -37,6 +38,7 @@ import { LoginDialogComponent } from './login/login.dialog';
   ],
   providers: [
     ConfigService,
+    UserService,
   ],
   bootstrap: [AppComponent]
 })
