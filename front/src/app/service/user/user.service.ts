@@ -41,4 +41,8 @@ export class UserService {
   private setUser(user: User) {
     this.userSubscribers.next(user);
   }
+
+  logout() {
+    this.setUser(null);
+  }
 }

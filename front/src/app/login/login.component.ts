@@ -13,14 +13,15 @@ import { User } from '../service/user/user';
 export class LoginComponent {
   user: User;
 
-  constructor(private dialog: MdDialog, userService: UserService) {
-    userService.user.subscribe(user => {
-        console.log('Getting a new user to display');
-        this.user = user;
-      });
+  constructor(private dialog: MdDialog, private userService: UserService) {
+    userService.user.subscribe(user => this.user = user);
   }
 
   openDialog() {
     this.dialog.open(LoginDialogComponent);
+  }
+
+  logout() {
+      this.userService.logout();
   }
 }
