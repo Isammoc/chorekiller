@@ -10,7 +10,7 @@ import { User } from './user';
 
 @Injectable()
 export class UserService {
-  private baseUrl: '/api/users';
+  private baseUrl = '/api/users';
   private userObs: Observable<User>;
   private userSubscribers: Subscriber<User>;
 
@@ -26,16 +26,16 @@ export class UserService {
   }
 
   login(login: string, passwd: string) {
-    return new Observable<User>(observer => {
-      if (login === 'admin' && passwd === 'changeit') {
-        const user = {login: 'admin', displayName: 'Administrateurr'} as User;
-        this.setUser(user);
-        observer.next(user);
-      } else {
-        observer.error(400);
-        this.setUser(null);
-      }
-    });
+    const request = this.http
+        .post(this.baseUrl + '/me', {login: login, password: passwd})
+        .map(res => res.json() as User);
+
+    request.subscribe(
+      user => this.setUser(user),
+      err => this.setUser(null)
+    );
+
+    return request;
   }
 
   private setUser(user: User) {

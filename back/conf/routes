@@ -4,3 +4,5 @@
 
 # An example controller showing a sample home page
 GET     /config                     controllers.ConfigController.get
+
+POST    /users/me                   controllers.UsersController.authenticate
