@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MdDialogRef } from '@angular/material';
 
-import { UserService } from '../service/user/user.service';
+import { AuthenticationService } from '../service/user/authentication.service';
 
 @Component({
   templateUrl: './login.dialog.html',
@@ -11,7 +11,7 @@ import { UserService } from '../service/user/user.service';
 export class LoginDialogComponent {
   myForm: FormGroup;
 
-  constructor(private userService: UserService, private fb: FormBuilder, private dialog: MdDialogRef<LoginDialogComponent>) {
+  constructor(private userService: AuthenticationService, private fb: FormBuilder, private dialog: MdDialogRef<LoginDialogComponent>) {
     this.buildForm();
   }
 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { LoginDialogComponent } from './login.dialog';
 
-import { UserService } from '../service/user/user.service';
+import { AuthenticationService } from '../service/user/authentication.service';
 
 import { User } from '../service/user/user';
 
@@ -13,8 +13,8 @@ import { User } from '../service/user/user';
 export class LoginComponent {
   user: User;
 
-  constructor(private dialog: MdDialog, private userService: UserService) {
-    userService.user.subscribe(user => this.user = user);
+  constructor(private dialog: MdDialog, private userService: AuthenticationService) {
+    userService.user().subscribe(user => this.user = user);
   }
 
   openDialog() {
