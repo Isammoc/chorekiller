@@ -18,7 +18,7 @@ docker-compose up
 
 After a first time boot, you will be able to go to [http://localhost](http://localhost).
 
-And connect with `admin` / `changeit`.
+And connect with `admin` / `liberty`.
 
 
 ## Features

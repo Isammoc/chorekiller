@@ -10,19 +10,22 @@ import models.User
 import play.Logger
 
 import services.UserService
+import scala.concurrent.ExecutionContext
 
-class UsersController @Inject() (val userService: UserService) extends Controller with Secured {
+class UsersController @Inject() (val userService: UserService)(implicit executionContext: ExecutionContext) extends Controller with Secured {
 
   case class LoginRequest(login: String, password: String)
 
-  def authenticate = Action { implicit request =>
+  def authenticate = Action.async { implicit request =>
     request.body.asJson.flatMap(_.asOpt(Json.reads[LoginRequest])) match {
-      case Some(data) => if (data.login == "admin" && data.password == "changeit") {
-        Ok(Json.toJson(User("admin", "Administrateur"))(Json.writes[User])).addingToJwtSession("login", "admin")
-      } else {
-        BadRequest("No matching login/password")
-      }
-      case None => BadRequest("Unreadable request")
+      case Some(data) =>
+        userService.login(data.login, data.password).map {
+          case Some(u) =>
+            Ok(Json.toJson(u)(Json.writes[User])).addingToJwtSession("login", data.login)
+          case _ =>
+            BadRequest("No matching login/password")
+        }
+      case None => Future.successful(BadRequest("Unreadable request"))
     }
   }
 

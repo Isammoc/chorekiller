@@ -15,5 +15,6 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-slick" % "2.1.0",
   "com.typesafe.play" %% "play-slick-evolutions" % "2.1.0",
   "org.postgresql" % "postgresql" % "42.0.0",
+  "org.mindrot" % "jbcrypt" % "0.4",
   "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test
 )
