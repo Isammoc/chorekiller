@@ -25,3 +25,11 @@ services:
       - /root/.sbt
     working_dir: /code
     command: /code/bin/activator ~run
+    links:
+      - db:chorekiller-db
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=chorekiller
+      - POSTGRES_PASSWORD=chorekiller
+      - POSTGRES_DB=chorekiller
