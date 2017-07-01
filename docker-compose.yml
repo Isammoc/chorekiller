@@ -24,7 +24,7 @@ services:
       - /root/.ivy2
       - /root/.sbt
     working_dir: /code
-    command: /code/bin/activator ~run
+    command: /code/sbt ~run
     links:
       - db:chorekiller-db
   db:
