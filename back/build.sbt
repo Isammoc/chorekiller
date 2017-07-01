@@ -6,15 +6,16 @@ val conf = ConfigFactory.parseFile(new File("conf/application.conf")).resolve()
 name    := conf.getString("app.name")
 version := conf.getString("app.version")
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.12.2"
 
 libraryDependencies ++= Seq(
-  cache,
   ws,
-  "com.pauldijou" %% "jwt-play" % "0.12.1",
-  "com.typesafe.play" %% "play-slick" % "2.1.0",
-  "com.typesafe.play" %% "play-slick-evolutions" % "2.1.0",
-  "org.postgresql" % "postgresql" % "42.0.0",
+  guice,
+  "com.pauldijou" %% "jwt-play" % "0.13.0",
+  "com.typesafe.play" %% "play-json" % "2.6.0",
+  "com.typesafe.play" %% "play-slick" % "3.0.0",
+  "com.typesafe.play" %% "play-slick-evolutions" % "3.0.0",
+  "org.postgresql" % "postgresql" % "42.1.1",
   "org.mindrot" % "jbcrypt" % "0.4",
-  "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test
+  "org.scalatestplus.play" %% "scalatestplus-play" % "3.0.0" % Test
 )

@@ -3,16 +3,17 @@ package controllers
 import scala.concurrent.Future
 
 import play.api.mvc.Action
-import play.api.mvc.Controller
+import play.api.mvc.AbstractController
+import play.api.mvc.ControllerComponents
 import javax.inject.Inject
 import play.api.libs.json.Json
 import models.User
 import play.Logger
-
+import pdi.jwt.JwtSession._
 import services.UserService
 import scala.concurrent.ExecutionContext
 
-class UsersController @Inject() (val userService: UserService)(implicit executionContext: ExecutionContext) extends Controller with Secured {
+class UsersController @Inject() (authenticatedAction: AuthenticatedAction, userService: UserService, cc: ControllerComponents)(implicit executionContext: ExecutionContext) extends AbstractController(cc) {
 
   case class LoginRequest(login: String, password: String)
 
@@ -29,7 +30,7 @@ class UsersController @Inject() (val userService: UserService)(implicit executio
     }
   }
 
-  def getCurrent = AuthenticatedAction { implicit request =>
+  def getCurrent = authenticatedAction { implicit request =>
     Ok(Json.toJson(request.user)(Json.writes[User]))
   }
 }
