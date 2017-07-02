@@ -8,3 +8,4 @@ target
 /RUNNING_PID
 /.cache-tests
 /.cache-main
+/bin/

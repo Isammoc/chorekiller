@@ -16,7 +16,7 @@ services:
     volumes:
       - ./front:/code
     working_dir: /code
-    command: ng serve --host 0.0.0.0
+    command: ng serve --disableHostCheck --host 0.0.0.0
   back:
     image: openjdk
     volumes:
@@ -24,7 +24,7 @@ services:
       - /root/.ivy2
       - /root/.sbt
     working_dir: /code
-    command: /code/bin/activator ~run
+    command: /code/sbt ~run
     links:
       - db:chorekiller-db
   db:
