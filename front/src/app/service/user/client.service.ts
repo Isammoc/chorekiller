@@ -38,10 +38,10 @@ export class ClientService extends Http implements AuthenticationService {
         // let's make option object
         options = {headers: new Headers()};
       }
-      options.headers.set('Token', this.token);
+      options.headers.set('Authorization', this.token);
     } else {
       // we have to add the token to the url object
-      url.headers.set('Token', this.token);
+      url.headers.set('Authorization', this.token);
     }
     return super.request(url, options);
   }
@@ -54,7 +54,7 @@ export class ClientService extends Http implements AuthenticationService {
   login(login: string, passwd: string) {
     const request = super.post(this.baseUrl + '/me', {login: login, password: passwd})
         .map((res: Response) => {
-          this.token = res.headers.get('Token');
+          this.token = res.headers.get('Authorization');
           localStorage.setItem('token', this.token);
           return res.json() as User;
         }).share();
