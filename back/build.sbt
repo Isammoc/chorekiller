@@ -11,7 +11,7 @@ scalaVersion := "2.12.2"
 libraryDependencies ++= Seq(
   ws,
   guice,
-  "com.pauldijou" %% "jwt-play" % "0.13.0",
+  "com.pauldijou" %% "jwt-play" % "0.14.0",
   "com.typesafe.play" %% "play-json" % "2.6.0",
   "com.typesafe.play" %% "play-slick" % "3.0.0",
   "com.typesafe.play" %% "play-slick-evolutions" % "3.0.0",
