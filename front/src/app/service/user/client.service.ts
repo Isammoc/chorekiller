@@ -54,7 +54,7 @@ export class ClientService extends Http implements AuthenticationService {
   login(login: string, passwd: string) {
     const request = super.post(this.baseUrl + '/me', {login: login, password: passwd})
         .map((res: Response) => {
-          this.token = res.headers.get('Authorization');
+          this.token = res.headers.get('Set-Authorization');
           localStorage.setItem('token', this.token);
           return res.json() as User;
         }).share();
