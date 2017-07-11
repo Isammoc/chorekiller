@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
+import { RouterModule, Routes } from '@angular/router';
 
 import { MaterialModule } from '@angular/material';
 
@@ -24,6 +25,10 @@ export function clientFactory(backend: XHRBackend, options: RequestOptions) {
   return new ClientService(backend, options);
 }
 
+const appRoutes: Routes = [
+  { path: '', component: UnderConstructionComponent },
+  { path: '**', component: UnderConstructionComponent },
+];
 
 @NgModule({
   declarations: [
@@ -32,7 +37,7 @@ export function clientFactory(backend: XHRBackend, options: RequestOptions) {
     LoginComponent,
     RibbonComponent,
     LoginDialogComponent,
-    UnderConstructionComponent
+    UnderConstructionComponent,
   ],
   entryComponents: [
     LoginDialogComponent,
@@ -44,6 +49,7 @@ export function clientFactory(backend: XHRBackend, options: RequestOptions) {
     HttpModule,
     MaterialModule.forRoot(),
     BrowserAnimationsModule,
+    RouterModule.forRoot(appRoutes),
   ],
   providers: [
     ConfigService,
