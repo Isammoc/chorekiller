@@ -18,6 +18,8 @@ import { RibbonComponent } from './ribbon/ribbon.component';
 
 import { LoginDialogComponent } from './login/login.dialog';
 
+import { UnderConstructionComponent } from './under-construction/under-construction.component';
+
 export function clientFactory(backend: XHRBackend, options: RequestOptions) {
   return new ClientService(backend, options);
 }
@@ -30,6 +32,7 @@ export function clientFactory(backend: XHRBackend, options: RequestOptions) {
     LoginComponent,
     RibbonComponent,
     LoginDialogComponent,
+    UnderConstructionComponent
   ],
   entryComponents: [
     LoginDialogComponent,
