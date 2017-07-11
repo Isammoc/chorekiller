@@ -5,7 +5,7 @@
     <md-icon>more_vert</md-icon>
   </button>
   <md-menu #menuLogin="mdMenu">
-    <button md-menu-item disabled>
+    <button md-menu-item (click)="gotoProfile()">
       <md-icon>account_circle</md-icon>
       <span>Profile</span>
     </button>

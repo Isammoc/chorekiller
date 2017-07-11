@@ -15,6 +15,7 @@ import { ClientService } from './service/user/client.service';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './profile/profile.component';
 import { RibbonComponent } from './ribbon/ribbon.component';
 
 import { LoginDialogComponent } from './login/login.dialog';
@@ -27,6 +28,7 @@ export function clientFactory(backend: XHRBackend, options: RequestOptions) {
 
 const appRoutes: Routes = [
   { path: '', component: UnderConstructionComponent },
+  { path: 'users/:login', component: ProfileComponent },
   { path: '**', component: UnderConstructionComponent },
 ];
 
@@ -35,6 +37,7 @@ const appRoutes: Routes = [
     AppComponent,
     FooterComponent,
     LoginComponent,
+    ProfileComponent,
     RibbonComponent,
     LoginDialogComponent,
     UnderConstructionComponent,
