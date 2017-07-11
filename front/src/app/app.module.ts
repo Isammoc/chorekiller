@@ -15,6 +15,7 @@ import { ClientService } from './service/user/client.service';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RibbonComponent } from './ribbon/ribbon.component';
 
@@ -29,7 +30,7 @@ export function clientFactory(backend: XHRBackend, options: RequestOptions) {
 const appRoutes: Routes = [
   { path: '', component: UnderConstructionComponent },
   { path: 'users/:login', component: ProfileComponent },
-  { path: '**', component: UnderConstructionComponent },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
@@ -37,6 +38,7 @@ const appRoutes: Routes = [
     AppComponent,
     FooterComponent,
     LoginComponent,
+    NotFoundComponent,
     ProfileComponent,
     RibbonComponent,
     LoginDialogComponent,
