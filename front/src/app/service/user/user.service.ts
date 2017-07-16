@@ -6,56 +6,41 @@ import { Subscriber } from 'rxjs/Subscriber';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/share';
 
-import { AuthenticationService } from './authentication.service';
+import { ChorekillerClient } from '../../shared/chorekiller-client/chorekiller-client';
 import { User } from './user';
 
 @Injectable()
-export class ClientService extends Http implements AuthenticationService {
+export class UserService {
   private baseUrl = '/api/users';
   private userObs: Observable<User>;
   private userSubscribers: Subscriber<User>;
   private token: string;
 
-  constructor(_backend: ConnectionBackend, _defaultOptions: RequestOptions) {
-    super(_backend, _defaultOptions);
-
+  constructor(private client: ChorekillerClient) {
     // set token if saved in local storage
     this.token = localStorage.getItem('token');
+    console.log('loading with token = ');
+    console.log(this.token);
     this.userObs = new Observable<User>(observers => {
       this.userSubscribers = observers;
       if (this.token) {
-        this.get(this.baseUrl + '/me').subscribe(res => {
-            this.setUser(res.json() as User);
-          }
-        );
+        this.client.connectedUser(this.token)
+            .subscribe((user: User) => this.setUser(user));
       }
     }).share();
   }
-
-  request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-    if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
-      if (!options) {
-        // let's make option object
-        options = {headers: new Headers()};
-      }
-      options.headers.set('Authorization', this.token);
-    } else {
-      // we have to add the token to the url object
-      url.headers.set('Authorization', this.token);
-    }
-    return super.request(url, options);
-  }
-
 
   user() {
     return this.userObs;
   }
 
   login(login: string, passwd: string) {
-    const request = super.post(this.baseUrl + '/me', {login: login, password: passwd})
+    const request = this.client.login(login, passwd)
         .map((res: Response) => {
           this.token = res.headers.get('Set-Authorization');
           localStorage.setItem('token', this.token);
+          console.log('Store');
+          console.log(this.token);
           return res.json() as User;
         }).share();
     request.subscribe(

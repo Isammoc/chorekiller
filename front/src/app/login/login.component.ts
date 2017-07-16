@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { LoginDialogComponent } from './login.dialog';
 
-import { AuthenticationService } from '../service/user/authentication.service';
+import { UserService } from '../service/user/user.service';
 
 import { User } from '../service/user/user';
 
@@ -17,7 +17,7 @@ export class LoginComponent {
 
   constructor(
     private dialog: MdDialog,
-    private userService: AuthenticationService,
+    private userService: UserService,
     private router: Router,
   ) {
     userService.user().subscribe(user => this.user = user);

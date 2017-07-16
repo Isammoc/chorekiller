@@ -8,9 +8,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { MaterialModule } from '@angular/material';
 
+import { ChorekillerClient } from './shared/chorekiller-client/chorekiller-client';
+
 import { ConfigService } from './service/config/config.service';
-import { AuthenticationService } from './service/user/authentication.service';
-import { ClientService } from './service/user/client.service';
+import { UserService } from './service/user/user.service';
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
@@ -22,10 +23,6 @@ import { RibbonComponent } from './ribbon/ribbon.component';
 import { LoginDialogComponent } from './login/login.dialog';
 
 import { UnderConstructionComponent } from './under-construction/under-construction.component';
-
-export function clientFactory(backend: XHRBackend, options: RequestOptions) {
-  return new ClientService(backend, options);
-}
 
 const appRoutes: Routes = [
   { path: '', component: UnderConstructionComponent },
@@ -57,14 +54,9 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
   ],
   providers: [
+    ChorekillerClient,
     ConfigService,
-    {
-      provide: ClientService,
-      useFactory: clientFactory,
-      deps: [XHRBackend, RequestOptions]
-    },
-    {provide: Http, useExisting: ClientService},
-    {provide: AuthenticationService, useExisting: ClientService},
+    UserService,
   ],
   bootstrap: [AppComponent]
 })

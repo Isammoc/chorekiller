@@ -1,0 +1,25 @@
+import { Injectable } from '@angular/core';
+import { Http, Response, Headers, ConnectionBackend, Request, RequestOptions, RequestOptionsArgs } from '@angular/http';
+
+import { Observable } from 'rxjs/Observable';
+
+import { User } from '../../service/user/user';
+
+@Injectable()
+export class ChorekillerClient {
+  private baseUrl = '/api/users';
+
+  constructor(private http: Http) {}
+
+  login(login: string, passwd: string): Observable<Response> {
+    return this.http.post(this.baseUrl + '/me', {login: login, password: passwd});
+  }
+
+  connectedUser(token: string): Observable<User> {
+    return this.http.get(this.baseUrl + '/me', {
+      headers: new Headers({
+        'Authorization': token
+      })
+    }).map((res: Response) => res.json() as User);
+  }
+}
