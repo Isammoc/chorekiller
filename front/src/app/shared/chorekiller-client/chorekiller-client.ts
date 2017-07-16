@@ -7,19 +7,25 @@ import { User } from '../../service/user/user';
 
 @Injectable()
 export class ChorekillerClient {
-  private baseUrl = '/api/users';
+  private baseUrl = '/api';
 
   constructor(private http: Http) {}
 
   login(login: string, passwd: string): Observable<Response> {
-    return this.http.post(this.baseUrl + '/me', {login: login, password: passwd});
+    return this.http.post(this.baseUrl + '/users/me', {login: login, password: passwd});
   }
 
   connectedUser(token: string): Observable<User> {
-    return this.http.get(this.baseUrl + '/me', {
+    return this.http.get(this.baseUrl + '/users/me', {
       headers: new Headers({
         'Authorization': token
       })
     }).map((res: Response) => res.json() as User);
+  }
+
+  findUserByLogin(token: string, login: string): Observable<User> {
+    return this.http.get(this.baseUrl + '/users/' + login, {headers: new Headers({
+      'Authorization': token
+    })}).map((res: Response) => res.json() as User)
   }
 }

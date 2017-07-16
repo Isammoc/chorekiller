@@ -33,4 +33,12 @@ class UsersController @Inject() (authenticatedAction: AuthenticatedAction, userS
   def getCurrent = authenticatedAction { implicit request =>
     Ok(Json.toJson(request.user)(Json.writes[User]))
   }
+
+  def get(name: String) = authenticatedAction.async { implicit request =>
+    userService.findByLogin(name).map {
+      case Some(user) =>
+          Ok(Json.toJson(user)(Json.writes[User]))
+      case None => NotFound
+    }
+  }
 }

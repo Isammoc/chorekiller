@@ -7,3 +7,5 @@ GET     /config                     controllers.ConfigController.get
 
 GET     /users/me                   controllers.UsersController.getCurrent
 POST    /users/me                   controllers.UsersController.authenticate
+
+GET     /users/:name                controllers.UsersController.get(name: String)

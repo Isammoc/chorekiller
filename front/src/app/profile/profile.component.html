@@ -1,2 +1,16 @@
-<h2>Profile : {{login}}</h2>
-<ck-todo></ck-todo>
+<ng-container *ngIf="!user">
+    <md-progress-spinner
+        color="primary"
+        mode="indeterminate">
+    </md-progress-spinner>
+</ng-container>
+<ng-container *ngIf="user">
+  <h2>Profile : {{user?.displayName}}</h2>
+  <dl>
+    <dt>Login: </dt>
+    <dd>{{user?.login}}</dd>
+    <dt>Name: </dt>
+    <dd>{{user?.displayName}}</dd>
+  </dl>
+  <ck-todo></ck-todo>
+</ng-container>

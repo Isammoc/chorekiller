@@ -14,17 +14,17 @@ export class UserService {
   private baseUrl = '/api/users';
   private userObs: Observable<User>;
   private userSubscribers: Subscriber<User>;
-  private token: string;
+  private _token: string;
 
   constructor(private client: ChorekillerClient) {
     // set token if saved in local storage
-    this.token = localStorage.getItem('token');
+    this._token = localStorage.getItem('token');
     console.log('loading with token = ');
-    console.log(this.token);
+    console.log(this._token);
     this.userObs = new Observable<User>(observers => {
       this.userSubscribers = observers;
-      if (this.token) {
-        this.client.connectedUser(this.token)
+      if (this._token) {
+        this.client.connectedUser(this._token)
             .subscribe((user: User) => this.setUser(user));
       }
     }).share();
@@ -37,10 +37,10 @@ export class UserService {
   login(login: string, passwd: string) {
     const request = this.client.login(login, passwd)
         .map((res: Response) => {
-          this.token = res.headers.get('Set-Authorization');
-          localStorage.setItem('token', this.token);
+          this._token = res.headers.get('Set-Authorization');
+          localStorage.setItem('token', this._token);
           console.log('Store');
-          console.log(this.token);
+          console.log(this._token);
           return res.json() as User;
         }).share();
     request.subscribe(
@@ -57,7 +57,11 @@ export class UserService {
 
   logout() {
     this.setUser(null);
-    this.token = null;
+    this._token = null;
     localStorage.removeItem('token');
+  }
+
+  get token() {
+    return this._token;
   }
 }
