@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'ck-under-construction',
+  selector: 'ck-todo',
   templateUrl: './under-construction.component.html'
 })
 export class UnderConstructionComponent {
