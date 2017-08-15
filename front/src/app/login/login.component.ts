@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MdDialog, MdSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 
 import { LoginDialogComponent } from './login.dialog';
@@ -19,6 +19,7 @@ export class LoginComponent {
     private dialog: MdDialog,
     private userService: UserService,
     private router: Router,
+    private snackBar: MdSnackBar,
   ) {
     userService.user().subscribe(user => this.user = user);
   }
@@ -29,6 +30,7 @@ export class LoginComponent {
 
   logout() {
       this.userService.logout();
+      this.snackBar.open("Déconnecté");
   }
 
   gotoProfile(): void {

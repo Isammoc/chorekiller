@@ -17,6 +17,7 @@ import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
+import { PasswordChangeComponent } from './profile/password-change/password-change-component';
 import { ProfileComponent } from './profile/profile.component';
 import { RibbonComponent } from './ribbon/ribbon.component';
 
@@ -36,6 +37,7 @@ const appRoutes: Routes = [
     FooterComponent,
     LoginComponent,
     NotFoundComponent,
+    PasswordChangeComponent,
     ProfileComponent,
     RibbonComponent,
     LoginDialogComponent,

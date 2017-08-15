@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MdDialogRef } from '@angular/material';
+import { MdDialogRef, MdSnackBar } from '@angular/material';
 
 import { UserService } from '../service/user/user.service';
 
@@ -11,7 +11,12 @@ import { UserService } from '../service/user/user.service';
 export class LoginDialogComponent {
   myForm: FormGroup;
 
-  constructor(private userService: UserService, private fb: FormBuilder, private dialog: MdDialogRef<LoginDialogComponent>) {
+  constructor(
+    private userService: UserService,
+    private fb: FormBuilder,
+    private dialog: MdDialogRef<LoginDialogComponent>,
+    private snackBar: MdSnackBar
+  ) {
     this.buildForm();
   }
 
@@ -27,9 +32,16 @@ export class LoginDialogComponent {
       console.error('Comment est-ce possible?');
     } else {
       this.userService.login(form.login, form.passwd).subscribe(
-        user => this.dialog.close(),
+        user => {
+          this.dialog.close();
+          this.snackBar.open("Connexion réussie", null, {
+            duration: 3000
+          });
+        },
         error => {
-          console.error('Unknown user');
+          this.snackBar.open("Connexion échouée", null, {
+            duration: 5000
+          });
           this.buildForm();
         },
       );

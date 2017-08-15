@@ -9,10 +9,10 @@ import { User } from '../../service/user/user';
 export class ChorekillerClient {
   private baseUrl = '/api';
 
-  constructor(private http: Http) {}
+  constructor(private http: Http) { }
 
   login(login: string, passwd: string): Observable<Response> {
-    return this.http.post(this.baseUrl + '/users/me', {login: login, password: passwd});
+    return this.http.post(this.baseUrl + '/users/me', { login: login, password: passwd });
   }
 
   connectedUser(token: string): Observable<User> {
@@ -24,8 +24,23 @@ export class ChorekillerClient {
   }
 
   findUserByLogin(token: string, login: string): Observable<User> {
-    return this.http.get(this.baseUrl + '/users/' + login, {headers: new Headers({
-      'Authorization': token
-    })}).map((res: Response) => res.json() as User)
+    return this.http.get(this.baseUrl + '/users/' + login, {
+      headers: new Headers({
+        'Authorization': token
+      })
+    }).map((res: Response) => res.json() as User)
+  }
+
+  changePassword(token: string, oldPassword: string, newPassword: string) {
+    return this.http.post(this.baseUrl + '/users/me/password',
+      {
+        oldPassword: oldPassword,
+        newPassword: newPassword
+      }, {
+        headers: new Headers({
+          'Authorization': token
+        })
+      }
+    );
   }
 }

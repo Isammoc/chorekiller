@@ -14,13 +14,16 @@ import { User } from '../service/user/user';
 export class ProfileComponent implements OnInit {
   private login: string;
   private user: User;
+  private currentUser: User;
 
   constructor(
     private route: ActivatedRoute,
     private client: ChorekillerClient,
     private userService: UserService,
     private router: Router,
-  ) {}
+  ) {
+    this.userService.user().subscribe((user: User) => this.currentUser = user);
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe( params => {
@@ -32,7 +35,7 @@ export class ProfileComponent implements OnInit {
             (err) => {
               console.log(err);
               if (404 === err.status) {
-                console.log("Not found");
+                console.log('Not found');
               }
               this.gotoHome();
             }
