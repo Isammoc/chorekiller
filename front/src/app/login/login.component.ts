@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MdDialog, MdSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
+
 import { LoginDialogComponent } from './login.dialog';
 
-import { AuthenticationService } from '../service/user/authentication.service';
+import { UserService } from '../service/user/user.service';
 
 import { User } from '../service/user/user';
 
@@ -13,7 +15,12 @@ import { User } from '../service/user/user';
 export class LoginComponent {
   user: User;
 
-  constructor(private dialog: MdDialog, private userService: AuthenticationService) {
+  constructor(
+    private dialog: MdDialog,
+    private userService: UserService,
+    private router: Router,
+    private snackBar: MdSnackBar,
+  ) {
     userService.user().subscribe(user => this.user = user);
   }
 
@@ -23,5 +30,10 @@ export class LoginComponent {
 
   logout() {
       this.userService.logout();
+      this.snackBar.open("Déconnecté");
+  }
+
+  gotoProfile(): void {
+    this.router.navigate(['/users', this.user.login]);
   }
 }

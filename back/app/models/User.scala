@@ -28,6 +28,12 @@ class UserDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
     } yield (u.password, u)).result.headOption
   }
 
+  def changePassword(login: String, password: String) = db.run {
+    (for {
+      u <- Users if u.login === login
+    } yield u.password).update(password)
+  }
+  
   private class UsersTable(tag: Tag) extends Table[User](tag, "user_account") {
 
     def id = column[Long]("id", O.PrimaryKey)
