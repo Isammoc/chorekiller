@@ -31,7 +31,7 @@ export class LoginDialogComponent {
     if (this.myForm.invalid) {
       console.error('Comment est-ce possible?');
     } else {
-      this.userService.login(form.login, form.passwd).subscribe(
+      this.userService.login(form.login.toLowerCase(), form.passwd).subscribe(
         user => {
           this.dialog.close();
           this.snackBar.open("Connexion réussie", null, {
