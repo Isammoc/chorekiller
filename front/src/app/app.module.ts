@@ -11,22 +11,25 @@ import { MaterialModule } from '@angular/material';
 import { ChorekillerClient } from './shared/chorekiller-client/chorekiller-client';
 
 import { ConfigService } from './service/config/config.service';
+import { GroceryService } from './service/grocery/grocery.service';
 import { UserService } from './service/user/user.service';
 
 import { AppComponent } from './app.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { PasswordChangeComponent } from './profile/password-change/password-change-component';
 import { ProfileComponent } from './profile/profile.component';
 import { RibbonComponent } from './ribbon/ribbon.component';
+import { GroceryListComponent } from './grocery-list/grocery-list.component';
 
 import { LoginDialogComponent } from './login/login.dialog';
 
 import { UnderConstructionComponent } from './under-construction/under-construction.component';
 
 const appRoutes: Routes = [
-  { path: '', component: UnderConstructionComponent },
+  { path: '', component: DashboardComponent },
   { path: 'users/:login', component: ProfileComponent },
   { path: '**', component: NotFoundComponent },
 ];
@@ -34,7 +37,9 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
+    DashboardComponent,
     FooterComponent,
+    GroceryListComponent,
     LoginComponent,
     NotFoundComponent,
     PasswordChangeComponent,
@@ -59,6 +64,7 @@ const appRoutes: Routes = [
     ChorekillerClient,
     ConfigService,
     UserService,
+    GroceryService,
   ],
   bootstrap: [AppComponent]
 })
