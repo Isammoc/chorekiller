@@ -15,7 +15,7 @@ class GroceryDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvid
   private val Groceries = TableQuery[GroceryTable]
 
   def findAll: Future[Seq[Grocery]] = db.run {
-    Groceries.result
+    Groceries.sortBy(_.id).result
   }
 
   def add(name: String): Future[Grocery] = db.run {
@@ -24,6 +24,14 @@ class GroceryDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvid
 
   def delete(id: Long): Future[Int] = db.run {
     Groceries.filter(_.id === id).delete
+  }
+  
+  def complete(id: Long): Future[Int] = db.run {
+    Groceries.filter(_.id === id).map(_.completed).update(true)
+  }
+
+  def uncomplete(id: Long): Future[Int] = db.run {
+    Groceries.filter(_.id === id).map(_.completed).update(false)
   }
 
   private class GroceryTable(tag: Tag) extends Table[Grocery](tag, "grocery") {

@@ -36,4 +36,12 @@ class GroceriesController @Inject() (
       case _ => NoContent
     }
   }
+
+  def complete(id: Long) = authenticatedAction.async {
+    groceryService.changeCompletion(id, true).map { _ => NoContent }
+  }
+
+  def uncomplete(id: Long) = authenticatedAction.async {
+    groceryService.changeCompletion(id, false).map { _ => NoContent }
+  }
 }

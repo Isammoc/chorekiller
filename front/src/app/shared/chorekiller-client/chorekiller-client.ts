@@ -69,4 +69,20 @@ export class ChorekillerClient {
       })
     });
   }
+
+  complete(token: string, id: number) {
+    return this.http.post(this.baseUrl + '/lists/1/items/' + id + '/completion', {}, {
+      headers: new Headers({
+        'Authorization': token
+      })
+    });
+  }
+
+  uncomplete(token: string, id: number) {
+    return this.http.delete(this.baseUrl + '/lists/1/items/' + id + '/completion', {
+      headers: new Headers({
+        'Authorization': token
+      })
+    });
+  }
 }

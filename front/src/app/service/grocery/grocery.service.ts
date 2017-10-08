@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Subscriber } from 'rxjs/Subscriber';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 
 import { UserService } from '../user/user.service';
@@ -11,9 +10,7 @@ import { GroceryItem } from './grocery-item';
 
 @Injectable()
 export class GroceryService {
-  private _items: GroceryItem[];
-  private groceriesSubject = new BehaviorSubject<GroceryItem[]>(this._items);
-  private currentId = 4;
+  private groceriesSubject = new ReplaySubject<GroceryItem[]>();
 
   constructor(private client: ChorekillerClient, private userService: UserService) {
     this.refresh();
@@ -32,13 +29,10 @@ export class GroceryService {
   }
 
   toggleCompleted(item: GroceryItem) {
-    this._items = this._items.map(i => {
-      if(i.id === item.id) {
-        i.completed = !i.completed;
-      }
-      return i;
-    });
-    this.groceriesSubject.next(this._items);
+    (item.completed
+      ? this.client.uncomplete(this.userService.token, item.id)
+      : this.client.complete(this.userService.token, item.id)
+    ).subscribe(_ => this.refresh());
   }
 
   private refresh() {
