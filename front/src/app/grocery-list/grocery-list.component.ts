@@ -22,7 +22,6 @@ export class GroceryListComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder, private groceryService: GroceryService) {
     this.newItemForm = this.fb.group({
       name: ['', Validators.required],
-      completed: false,
     });
   }
 
@@ -31,7 +30,7 @@ export class GroceryListComponent implements OnInit, OnDestroy {
   }
 
   addItem() {
-    this.groceryService.addItem(this.newItemForm.value.name, this.newItemForm.value.completed);
+    this.groceryService.addItem(this.newItemForm.value.name);
     this.newItemForm.reset();
   }
 

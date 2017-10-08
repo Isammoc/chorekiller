@@ -27,9 +27,8 @@ export class GroceryService {
     return this.groceriesSubject.asObservable();
   }
 
-  addItem(name: string, completed: boolean = false) {
-    this._items.push({id: this.currentId++, name: name, completed: completed});
-    this.groceriesSubject.next(this._items);
+  addItem(name: string) {
+    this.client.addItem(this.userService.token, name).subscribe(_ => this.refresh());
   }
 
   removeItem(item: GroceryItem) {

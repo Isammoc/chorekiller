@@ -51,4 +51,14 @@ export class ChorekillerClient {
       })
     });
   }
+
+  addItem(token: string, name: string) {
+    return this.http.post(this.baseUrl + '/lists/1/items', {
+      name: name
+    }, {
+        headers: new Headers({
+          'Authorization': token
+        })
+      });
+  }
 }

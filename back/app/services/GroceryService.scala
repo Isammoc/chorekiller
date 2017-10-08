@@ -9,4 +9,5 @@ import models.GroceryDAO
 @Singleton
 class GroceryService @Inject() (groceryDao: GroceryDAO)(implicit executionContext: ExecutionContext) {
   def findAll = groceryDao.findAll
+  def add(name: String) = groceryDao.add(name)
 }

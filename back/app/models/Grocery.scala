@@ -13,14 +13,18 @@ class GroceryDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvid
   import profile.api._
 
   private val Groceries = TableQuery[GroceryTable]
-  
+
   def findAll: Future[Seq[Grocery]] = db.run {
     Groceries.result
   }
 
+  def add(name: String): Future[Grocery] = db.run {
+    (Groceries returning Groceries.map(_.id) into ((grocery, id) => grocery.copy(id = id))) += Grocery(0, name, false)
+  }
+
   private class GroceryTable(tag: Tag) extends Table[Grocery](tag, "grocery") {
 
-    def id = column[Long]("id", O.PrimaryKey)
+    def id = column[Long]("id", O.AutoInc, O.PrimaryKey)
     def name = column[String]("name")
     def completed = column[Boolean]("completed")
 

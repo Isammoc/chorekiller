@@ -12,3 +12,4 @@ POST    /users/me/password          controllers.UsersController.changePassword
 GET     /users/:name                controllers.UsersController.get(name: String)
 
 GET     /lists/1/items              controllers.GroceriesController.findAll
+POST    /lists/1/items              controllers.GroceriesController.add

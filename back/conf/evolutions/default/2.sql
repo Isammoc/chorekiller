@@ -9,11 +9,11 @@ CREATE TABLE grocery (
 );
 
 INSERT INTO grocery
-  (id, name, completed)
+  (name, completed)
   VALUES
-    (1, 'Lait', FALSE),
-    (2, 'Oeufs', FALSE),
-    (3, 'Jus d''orange', TRUE)
+    ('Lait', FALSE),
+    ('Oeufs', FALSE),
+    ('Jus d''orange', TRUE)
 ;
 
 # --- !Downs
