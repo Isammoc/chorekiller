@@ -43,4 +43,12 @@ export class ChorekillerClient {
       }
     );
   }
+
+  items(token: string) {
+    return this.http.get(this.baseUrl + '/lists/1/items', {
+      headers: new Headers({
+        'Authorization': token
+      })
+    });
+  }
 }
