@@ -43,4 +43,46 @@ export class ChorekillerClient {
       }
     );
   }
+
+  items(token: string) {
+    return this.http.get(this.baseUrl + '/lists/1/items', {
+      headers: new Headers({
+        'Authorization': token
+      })
+    });
+  }
+
+  addItem(token: string, name: string) {
+    return this.http.post(this.baseUrl + '/lists/1/items', {
+      name: name
+    }, {
+        headers: new Headers({
+          'Authorization': token
+        })
+      });
+  }
+
+  deleteItem(token: string, id: number) {
+    return this.http.delete(this.baseUrl + '/lists/1/items/' + id, {
+      headers: new Headers({
+        'Authorization': token
+      })
+    });
+  }
+
+  complete(token: string, id: number) {
+    return this.http.post(this.baseUrl + '/lists/1/items/' + id + '/completion', {}, {
+      headers: new Headers({
+        'Authorization': token
+      })
+    });
+  }
+
+  uncomplete(token: string, id: number) {
+    return this.http.delete(this.baseUrl + '/lists/1/items/' + id + '/completion', {
+      headers: new Headers({
+        'Authorization': token
+      })
+    });
+  }
 }

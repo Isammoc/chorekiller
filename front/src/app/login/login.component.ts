@@ -30,7 +30,7 @@ export class LoginComponent {
 
   logout() {
       this.userService.logout();
-      this.snackBar.open("Déconnecté");
+      this.snackBar.open('Déconnecté');
   }
 
   gotoProfile(): void {
