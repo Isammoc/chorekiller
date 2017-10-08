@@ -22,6 +22,10 @@ class GroceryDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvid
     (Groceries returning Groceries.map(_.id) into ((grocery, id) => grocery.copy(id = id))) += Grocery(0, name, false)
   }
 
+  def delete(id: Long): Future[Int] = db.run {
+    Groceries.filter(_.id === id).delete
+  }
+
   private class GroceryTable(tag: Tag) extends Table[Grocery](tag, "grocery") {
 
     def id = column[Long]("id", O.AutoInc, O.PrimaryKey)

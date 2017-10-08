@@ -61,4 +61,12 @@ export class ChorekillerClient {
         })
       });
   }
+
+  deleteItem(token: string, id: number) {
+    return this.http.delete(this.baseUrl + '/lists/1/items/' + id, {
+      headers: new Headers({
+        'Authorization': token
+      })
+    });
+  }
 }

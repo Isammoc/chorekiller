@@ -13,3 +13,4 @@ GET     /users/:name                controllers.UsersController.get(name: String
 
 GET     /lists/1/items              controllers.GroceriesController.findAll
 POST    /lists/1/items              controllers.GroceriesController.add
+DELETE  /lists/1/items/:id          controllers.GroceriesController.delete(id: Long)

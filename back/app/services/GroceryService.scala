@@ -10,4 +10,5 @@ import models.GroceryDAO
 class GroceryService @Inject() (groceryDao: GroceryDAO)(implicit executionContext: ExecutionContext) {
   def findAll = groceryDao.findAll
   def add(name: String) = groceryDao.add(name)
+  def delete(id: Long) = groceryDao.delete(id)
 }

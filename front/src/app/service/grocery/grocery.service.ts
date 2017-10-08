@@ -11,11 +11,7 @@ import { GroceryItem } from './grocery-item';
 
 @Injectable()
 export class GroceryService {
-  private _items: GroceryItem[] = [
-    {id: 1, name: 'Lait', completed: true},
-    {id: 2, name: 'Oeufs', completed: false},
-    {id: 3, name: 'Gruyère', completed: true},
-  ];
+  private _items: GroceryItem[];
   private groceriesSubject = new BehaviorSubject<GroceryItem[]>(this._items);
   private currentId = 4;
 
@@ -32,8 +28,7 @@ export class GroceryService {
   }
 
   removeItem(item: GroceryItem) {
-    this._items = this._items.filter(i => i.id !== item.id);
-    this.groceriesSubject.next(this._items);
+    this.client.deleteItem(this.userService.token, item.id).subscribe(_ => this.refresh());
   }
 
   toggleCompleted(item: GroceryItem) {
