@@ -13,7 +13,7 @@ import { User } from '../service/user/user';
 })
 export class ProfileComponent implements OnInit {
   private login: string;
-  private user: User;
+  public user: User;
   private currentUser: User;
 
   constructor(
