@@ -3,14 +3,14 @@
   <md-dialog-content>
     <md-input-container>
       <input mdInput placeholder="Identifiant" [formControl]="myForm.controls['login']">
-      <md-error *ngIf="(myForm.controls['login'].touched || myForm.controls['login'].dirty) && myForm.hasError('required','login')"
+      <md-error *ngIf="(myForm.controls['login'].touched || myForm.controls['login'].dirty) && myForm.hasError('required', ['login'])"
           class="error" align="start">Veuillez renseigner votre mot de passe.</md-error>
     </md-input-container>
     <md-input-container>
       <input type="password" mdInput placeholder="Mot de passe" [formControl]="myForm.controls['passwd']">
-      <md-error *ngIf="(myForm.controls['passwd'].touched || myForm.controls['passwd'].dirty) && myForm.hasError('minlength','passwd')"
+      <md-error *ngIf="(myForm.controls['passwd'].touched || myForm.controls['passwd'].dirty) && myForm.hasError('minlength', ['passwd'])"
           class="error" align="start">Le mot de passe est trop petit.</md-error>
-      <md-error *ngIf="(myForm.controls['passwd'].touched || myForm.controls['passwd'].dirty) && myForm.hasError('required','passwd')"
+      <md-error *ngIf="(myForm.controls['passwd'].touched || myForm.controls['passwd'].dirty) && myForm.hasError('required', ['passwd'])"
           class="error" align="start">Veuillez renseigner votre mot de passe.</md-error>
     </md-input-container>
   </md-dialog-content>
