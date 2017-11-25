@@ -1,6 +1,6 @@
 {
   "name": "chorekiller",
-  "version": "0.2.2-SNAPSHOT",
+  "version": "0.2.2",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
