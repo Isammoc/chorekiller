@@ -37,7 +37,7 @@ export class GroceryService {
 
   private refresh() {
     this.client.items(this.userService.token).subscribe(res =>
-      this.groceriesSubject.next(res.json().groceries as GroceryItem[])
+      this.groceriesSubject.next((res.json().groceries as GroceryItem[]).sort((a,b) => a.name.localeCompare(b.name)))
     );
   }
 }
