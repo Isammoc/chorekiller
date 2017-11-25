@@ -1,4 +1,4 @@
-FROM node:alpine as builder
+FROM node:6-alpine as builder
 COPY . /code
 WORKDIR /code
 RUN npm install -g @angular/cli
