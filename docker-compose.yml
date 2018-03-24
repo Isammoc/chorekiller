@@ -7,16 +7,16 @@ services:
       - ./docker/nginx:/etc/nginx/conf.d
     ports:
       - 80:80
-      - 4200:4200
+      - 3000:3000
     links:
       - front
       - back
   front:
-    image: angular-cli
+    image: node:9.9.0
     volumes:
       - ./front:/code
     working_dir: /code
-    command: ng serve --disableHostCheck --host 0.0.0.0
+    command: yarn start
   back:
     image: openjdk
     volumes:
