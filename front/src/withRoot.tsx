@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+import { Provider } from 'react-redux';
+import { createStore, AnyAction } from 'redux';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import createMuiTheme from 'material-ui/styles/createMuiTheme';
 
@@ -22,13 +25,19 @@ const theme = createMuiTheme({
   }
 });
 
+const rootReducer = (state = {}, action: AnyAction) => state;
+
+const store = createStore(rootReducer);
+
 function withRoot<P>(Component: React.ComponentType) {
   return function (props: P) {
     return (
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <Component {...props} />
-      </MuiThemeProvider>
+      <Provider store={store}>
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          <Component {...props} />
+        </MuiThemeProvider>
+      </Provider>
     );
   };
 }
