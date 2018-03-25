@@ -27,7 +27,10 @@ const theme = createMuiTheme({
   }
 });
 
-const store = createStore(rootReducer);
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 function withRoot<P>(Component: React.ComponentType) {
   return function (props: P) {
