@@ -1,12 +1,14 @@
 import * as React from 'react';
 
 import { Provider } from 'react-redux';
-import { createStore, AnyAction } from 'redux';
+import { createStore } from 'redux';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import createMuiTheme from 'material-ui/styles/createMuiTheme';
 
 import CssBaseline from 'material-ui/CssBaseline';
+
+import rootReducer from './root.reducer';
 
 const theme = createMuiTheme({
   palette: {
@@ -24,8 +26,6 @@ const theme = createMuiTheme({
     }
   }
 });
-
-const rootReducer = (state = {}, action: AnyAction) => state;
 
 const store = createStore(rootReducer);
 
