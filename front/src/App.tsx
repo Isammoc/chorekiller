@@ -1,56 +1,52 @@
 import * as React from 'react';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import ActionAccountCircle from 'material-ui-icons/AccountCircle';
 
-import * as colorManipulator from 'material-ui/utils/colorManipulator';
-import * as colors from 'material-ui/styles/colors';
+import { withStyles, WithStyles, StyleRulesCallback } from 'material-ui';
 
 import AppBar from 'material-ui/AppBar';
-import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
-import FlatButton from 'material-ui/FlatButton';
+import Button from 'material-ui/Button';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from 'material-ui/Typography';
 
 import Footer from './Footer';
 import Ribbon from './Ribbon';
 import Welcome from './Welcome';
 
-const muiTheme = getMuiTheme({
-  palette: {
-    primary1Color: colors.blueGrey500,
-    primary2Color: colors.blueGrey700,
-    primary3Color: colors.grey400,
-    accent1Color: colors.pinkA200,
-    accent2Color: colors.grey100,
-    accent3Color: colors.grey500,
-    textColor: colors.darkBlack,
-    secondaryTextColor: colorManipulator.fade(colors.darkBlack, 0.54),
-    alternateTextColor: colors.white,
-    canvasColor: colors.white,
-    borderColor: colors.grey300,
-    disabledColor: colorManipulator.fade(colors.darkBlack, 0.3),
-    pickerHeaderColor: colors.cyan500,
-    clockCircleColor: colorManipulator.fade(colors.darkBlack, 0.07),
-    shadowColor: colors.fullBlack
+import withRoot from './withRoot';
+
+const appBarStyles = {
+  flex: {
+    flex: 1,
+  },
+};
+
+const MyAppBar = withStyles(appBarStyles)<{}>(({ classes }: WithStyles<'flex'>) => (
+  <AppBar>
+    <Toolbar>
+      <Typography variant="title" color="inherit" className={classes.flex}>
+        Chorekiller
+      </Typography>
+      <Button color="inherit"><ActionAccountCircle />&nbsp;Se connecter</Button>
+    </Toolbar>
+  </AppBar>)
+);
+
+const styles: StyleRulesCallback = theme => ({
+  root: {
+    paddingTop: theme.spacing.unit * 10,
   }
 });
 
-class App extends React.Component {
-  render() {
-    return (
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <div>
-          <Ribbon />
-          <AppBar
-            showMenuIconButton={false}
-            title="Chorekiller"
-            iconElementRight={<FlatButton label="Se connecter" icon={<ActionAccountCircle />} />}
-          />
-          <Welcome />
-          <Footer />
-        </div>
-      </MuiThemeProvider>
-    );
-  }
-}
+const App: React.SFC<{} & WithStyles> = ({ classes }) => (
+  <div className={classes.root}>
+    <Ribbon />
+    <MyAppBar />
+    <Welcome />
+    <Footer />
+  </div>
+);
 
-export default App;
+const StyledApp = withStyles(styles)<{}>(App);
+
+export default withRoot(StyledApp);

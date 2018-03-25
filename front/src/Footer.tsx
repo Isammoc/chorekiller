@@ -1,20 +1,21 @@
 import * as React from 'react';
-import { MuiTheme } from 'material-ui/styles';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+import { withStyles, Theme, StyleRulesCallback, WithStyles } from 'material-ui';
 
-const Footer: React.SFC<{ muiTheme?: MuiTheme }> = ({ muiTheme }) => (
-  <footer
-    style={{
-      color: 'white',
-      backgroundColor: muiTheme!.palette!.primary1Color,
-      marginTop: '4em',
-      padding: '.8em 0',
-      display: 'flex',
-      justifyContent: 'center',
-    }}
-  >
+const styles: StyleRulesCallback<'footer'> = (theme: Theme) => ({
+  footer: {
+    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.primary.main,
+    marginTop: '4em',
+    padding: '.8em 0',
+    display: 'flex',
+    justifyContent: 'center',
+  }
+});
+
+const Footer: React.SFC<WithStyles<'footer'>> = ({ classes }) => (
+  <footer className={classes!.footer}>
     Version: 0.2.3-SNAPSHOT
   </footer>
 );
 
-export default muiThemeable()(Footer);
+export default withStyles(styles)<{}>(Footer);
