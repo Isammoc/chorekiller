@@ -5,8 +5,8 @@ import { Dispatch } from 'redux';
 import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
 
-import { AppState } from './root.reducer';
-import { openModal } from './login.reducer';
+import { AppState } from '../state/root.reducer';
+import { openModal } from '../state/login.duck';
 
 interface WelcomeProps {
   onConnect: () => void;

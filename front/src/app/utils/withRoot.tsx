@@ -8,7 +8,7 @@ import createMuiTheme from 'material-ui/styles/createMuiTheme';
 
 import CssBaseline from 'material-ui/CssBaseline';
 
-import rootReducer from './root.reducer';
+import rootReducer from '../state/root.reducer';
 
 const theme = createMuiTheme({
   palette: {

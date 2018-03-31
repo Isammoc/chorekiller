@@ -14,13 +14,13 @@ import TextField from 'material-ui/TextField';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 
-import Footer from './Footer';
-import Ribbon from './Ribbon';
-import Welcome from './Welcome';
+import Footer from './views/Footer';
+import Ribbon from './views/Ribbon';
+import Welcome from './views/Welcome';
 
-import withRoot from './withRoot';
-import { AppState } from './root.reducer';
-import { closeModal, openModal } from './login.reducer';
+import withRoot from './utils/withRoot';
+import { AppState } from './state/root.reducer';
+import { closeModal, openModal } from './state/login.duck';
 
 const appBarStyles = {
   flex: {

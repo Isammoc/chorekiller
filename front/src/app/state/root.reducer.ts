@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import loginReducer, { UserState } from './login.reducer';
+import loginReducer, { UserState } from './login.duck';
 
 const rootReducer = combineReducers({
   currentUser: loginReducer,
