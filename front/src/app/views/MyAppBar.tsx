@@ -51,7 +51,7 @@ export default connect(
       {currentUser &&
         <div>
           <IconButton>
-            <Avatar>A</Avatar>
+            <Avatar>{currentUser.name.toUpperCase()[0]}</Avatar>
           </IconButton>
         </div>
       }

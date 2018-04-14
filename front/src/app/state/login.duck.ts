@@ -11,7 +11,8 @@ const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 
 const defaultCurrentUser: PossibleState<User> = {
   current: null,
-  status: 'none'
+  status: 'none',
+  form: 'none',
 };
 
 // Reducer
@@ -20,23 +21,31 @@ const loginReducer = (state: PossibleState<User> = defaultCurrentUser, action: A
     case OPEN_MODAL:
       return {
         ...state,
-        status: 'pending'
+        form: 'pending',
       };
     case CLOSE_MODAL:
       return {
         ...state,
-        status: 'none'
+        form: 'none',
       };
-      case LOGIN_REQUEST:
+    case LOGIN_REQUEST:
       return {
         ...state,
-        status: 'pending'
+        status: 'pending',
+        form: 'pending',
       };
-    case LOGIN_SUCCESS:
+      case LOGIN_SUCCESS:
       return {
         ...state,
         status: 'alive',
+        form: 'none',
         current: action.payload,
+      };
+    case LOGIN_FAILURE:
+      return {
+        ...state,
+        status: 'none',
+        form: 'error',
       };
     default:
       return state;
@@ -99,6 +108,7 @@ export function login(username: string, password: string) {
 export interface PossibleState<P> {
   current: P | null;
   status: 'none' | 'pending' | 'alive';
+  form: 'none' | 'pending' | 'error';
 }
 
 export interface User {
