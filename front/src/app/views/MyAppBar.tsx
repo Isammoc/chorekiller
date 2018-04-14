@@ -5,39 +5,55 @@ import { connect } from 'react-redux';
 
 import ActionAccountCircle from 'material-ui-icons/AccountCircle';
 
-import { withStyles } from 'material-ui';
+import { withStyles, Avatar, IconButton } from 'material-ui';
 
 import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 
-import { openModal } from '../state/login.duck';
+import { openModal, User } from '../state/login.duck';
 
 import { AppState } from '../state/root.reducer';
 
-const appBarStyles = {
-    flex: {
-        flex: 1,
-    },
-};
-
 interface MyAppBarProps {
-    onConnect: () => void;
+  currentUser: null | User;
+  onConnect: () => void;
 }
 
 export default connect(
-    (state: AppState) => ({}),
-    (dispatch: Dispatch<AppState>) => ({
-        onConnect: () => { dispatch(openModal()); },
-    }),
-)(withStyles(appBarStyles)<MyAppBarProps>(({ classes, onConnect }) => (
-    <AppBar>
-        <Toolbar>
-            <Typography variant="title" color="inherit" className={classes.flex}>
-                Chorekiller
-        </Typography>
-            <Button color="inherit" onClick={onConnect}><ActionAccountCircle />&nbsp;Se connecter</Button>
-        </Toolbar>
-    </AppBar>)
-));
+  (state: AppState) => ({
+    currentUser: state.currentUser.current,
+  }),
+  (dispatch: Dispatch<AppState>) => ({
+    onConnect: () => { dispatch(openModal()); },
+  }),
+)(withStyles({
+  flex: {
+    flex: 1,
+  },
+  icon: {
+    position: 'relative',
+    fontSize: '1.2em',
+    display: 'inline-flex',
+  }
+})<MyAppBarProps>(({ classes, onConnect, currentUser }) => (
+  <AppBar>
+    <Toolbar>
+      <Typography variant="title" color="inherit" className={classes.flex}>
+        Chorekiller
+      </Typography>
+      {!currentUser &&
+        <Button color="inherit" onClick={onConnect}>
+          <ActionAccountCircle />&nbsp;Se connecter
+        </Button>
+      }
+      {currentUser &&
+        <div>
+          <IconButton>
+            <Avatar>A</Avatar>
+          </IconButton>
+        </div>
+      }
+    </Toolbar>
+  </AppBar>)));

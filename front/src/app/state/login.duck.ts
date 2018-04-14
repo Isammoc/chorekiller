@@ -1,8 +1,13 @@
-import { AnyAction } from 'redux';
+import { AnyAction, Dispatch } from 'redux';
+import { AppState } from './root.reducer';
 
 // Actions
 const OPEN_MODAL = 'OPEN_MODAL';
 const CLOSE_MODAL = 'CLOSE_MODAL';
+
+const LOGIN_REQUEST = 'LOGIN_REQUEST';
+const LOGIN_FAILURE = 'LOGIN_FAILURE';
+const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 
 const defaultCurrentUser: PossibleState<User> = {
   current: null,
@@ -13,9 +18,26 @@ const defaultCurrentUser: PossibleState<User> = {
 const loginReducer = (state: PossibleState<User> = defaultCurrentUser, action: AnyAction) => {
   switch (action.type) {
     case OPEN_MODAL:
-      return Object.assign({}, state, { status: 'pending' });
+      return {
+        ...state,
+        status: 'pending'
+      };
     case CLOSE_MODAL:
-      return Object.assign({}, state, { status: 'none' });
+      return {
+        ...state,
+        status: 'none'
+      };
+      case LOGIN_REQUEST:
+      return {
+        ...state,
+        status: 'pending'
+      };
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        status: 'alive',
+        current: action.payload,
+      };
     default:
       return state;
   }
@@ -31,6 +53,48 @@ export const openModal = () => ({
 export const closeModal = () => ({
   type: CLOSE_MODAL,
 });
+
+const loginRequest = () => ({
+  type: LOGIN_REQUEST,
+});
+
+const loginFailure = (error: Error) => ({
+  type: LOGIN_FAILURE,
+  payload: {
+    error,
+  }
+});
+
+const loginSuccess = (user: User) => ({
+  type: LOGIN_SUCCESS,
+  payload: user,
+});
+
+export function login(username: string, password: string) {
+  return (dispatch: Dispatch<AppState>) => {
+    dispatch(loginRequest());
+    fetch('/api/users/me', {
+      method: 'post',
+      body: JSON.stringify({ login: username, password: password }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => {
+        if (res.ok) {
+          res.json().then(json =>
+            dispatch(loginSuccess({
+              login: json.login,
+              name: json.displayName,
+            }))
+          ).catch(err => dispatch(loginFailure(err)));
+        } else {
+          dispatch(loginFailure({ name: res.statusText, message: '' + res.status }));
+        }
+      })
+      .catch(err => dispatch(loginFailure(err)));
+  };
+}
 
 export interface PossibleState<P> {
   current: P | null;
