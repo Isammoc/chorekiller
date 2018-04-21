@@ -6,7 +6,7 @@ val conf = ConfigFactory.parseFile(new File("conf/application.conf")).resolve()
 name    := conf.getString("app.name")
 version := conf.getString("app.version")
 
-scalaVersion := "2.12.3"
+scalaVersion := "2.12.4"
 
 libraryDependencies ++= Seq(
   ws,
