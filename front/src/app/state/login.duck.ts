@@ -9,6 +9,8 @@ const LOGIN_REQUEST = 'LOGIN_REQUEST';
 const LOGIN_FAILURE = 'LOGIN_FAILURE';
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 
+const LOGOUT = 'LOGOUT';
+
 const defaultCurrentUser: PossibleState<User> = {
   current: null,
   status: 'none',
@@ -49,6 +51,13 @@ const loginReducer = (state: PossibleState<User> = defaultCurrentUser, action: A
         ...state,
         status: 'none',
         form: 'error',
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        status: 'none',
+        form: 'none',
+        current: null,
       };
     default:
       return state;
@@ -107,6 +116,10 @@ export function login(username: string, password: string) {
       .catch(err => dispatch(loginFailure(err)));
   };
 }
+
+export const logout = () => ({
+  type: LOGOUT,
+});
 
 export interface PossibleState<P> {
   current: P | null;
