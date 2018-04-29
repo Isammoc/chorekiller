@@ -1,6 +1,7 @@
 import { AnyAction, Dispatch } from 'redux';
 import { AppState } from './root.reducer';
 import { User, login as clientLogin } from '../client';
+import { fetchList } from './groceries.duck';
 
 export { User } from '../client';
 
@@ -98,8 +99,10 @@ export const login = (username: string, password: string) =>
   (dispatch: Dispatch<AppState>) => {
     dispatch(loginRequest());
     clientLogin(username, password)
-      .then(res => dispatch(loginSuccess(res)))
-      .catch(err => dispatch(loginFailure(err)));
+      .then(res => {
+        dispatch(loginSuccess(res));
+        dispatch(fetchList());
+      }).catch(err => dispatch(loginFailure(err)));
   };
 
 export const logout = () => ({
