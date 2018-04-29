@@ -19,6 +19,9 @@ const defaultCurrentUser: PossibleState<User> = {
 const loginReducer = (state: PossibleState<User> = defaultCurrentUser, action: AnyAction) => {
   switch (action.type) {
     case OPEN_MODAL:
+      if ( state.status === 'alive') {
+         return state;
+      }
       return {
         ...state,
         form: 'pending',
