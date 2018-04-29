@@ -1,5 +1,8 @@
 import { AnyAction, Dispatch } from 'redux';
 import { AppState } from './root.reducer';
+import { User, login as clientLogin } from '../client';
+
+export { User } from '../client';
 
 // Actions
 const OPEN_MODAL = 'OPEN_MODAL';
@@ -21,8 +24,8 @@ const defaultCurrentUser: PossibleState<User> = {
 const loginReducer = (state: PossibleState<User> = defaultCurrentUser, action: AnyAction) => {
   switch (action.type) {
     case OPEN_MODAL:
-      if ( state.status === 'alive') {
-         return state;
+      if (state.status === 'alive') {
+        return state;
       }
       return {
         ...state,
@@ -39,7 +42,7 @@ const loginReducer = (state: PossibleState<User> = defaultCurrentUser, action: A
         status: 'pending',
         form: 'pending',
       };
-      case LOGIN_SUCCESS:
+    case LOGIN_SUCCESS:
       return {
         ...state,
         status: 'alive',
@@ -91,31 +94,13 @@ const loginSuccess = (user: User) => ({
   payload: user,
 });
 
-export function login(username: string, password: string) {
-  return (dispatch: Dispatch<AppState>) => {
+export const login = (username: string, password: string) =>
+  (dispatch: Dispatch<AppState>) => {
     dispatch(loginRequest());
-    fetch('/api/users/me', {
-      method: 'post',
-      body: JSON.stringify({ login: username, password: password }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => {
-        if (res.ok) {
-          res.json().then(json =>
-            dispatch(loginSuccess({
-              login: json.login,
-              name: json.displayName,
-            }))
-          ).catch(err => dispatch(loginFailure(err)));
-        } else {
-          dispatch(loginFailure({ name: res.statusText, message: '' + res.status }));
-        }
-      })
+    clientLogin(username, password)
+      .then(res => dispatch(loginSuccess(res)))
       .catch(err => dispatch(loginFailure(err)));
   };
-}
 
 export const logout = () => ({
   type: LOGOUT,
@@ -125,11 +110,6 @@ export interface PossibleState<P> {
   current: P | null;
   status: 'none' | 'pending' | 'alive';
   form: 'none' | 'pending' | 'error';
-}
-
-export interface User {
-  login: string;
-  name: string;
 }
 
 export type UserState = PossibleState<User>;
