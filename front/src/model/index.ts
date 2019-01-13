@@ -16,6 +16,8 @@ export interface User {
   authorization: string;
 }
 
-export type GroceryState = PossibleState<Item[]>;
+export interface GroceryState extends PossibleState<Item[]> {
+  itemToAdd: string;
+}
 
 export type UserState = PossibleState<User>;

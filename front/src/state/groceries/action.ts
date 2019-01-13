@@ -19,6 +19,11 @@ const listSuccess = (items: Item[]) => ({
   payload: items,
 });
 
+export const changeItemToAdd = (item: string) => ({
+  type: ActionTypes.CHANGE_ITEM_TO_ADD,
+  payload: item,
+});
+
 export const fetchList = () => (dispatch: Dispatch<AnyAction>, getState: () => AppState) => {
   dispatch(listRequest());
   fetch('/api/lists/1/items', {
@@ -30,6 +35,20 @@ export const fetchList = () => (dispatch: Dispatch<AnyAction>, getState: () => A
       dispatch(listSuccess(json.groceries));
     }).catch(err => dispatch(listFailure(err)));
   }).catch(err => dispatch(listFailure(err)));
+};
+
+export const addItem = () => (dispatch: ThunkDispatch<AppState, {}, AnyAction>, getState: () => AppState) => {
+  fetch('/api/lists/1/items', {
+    headers: {
+      'Authorization': getState().currentUser.current!.authorization,
+      'Content-Type': 'application/json',
+    },
+    method: 'post',
+    body: JSON.stringify({ name: getState().groceries.itemToAdd }),
+  }).then(res => {
+    dispatch(changeItemToAdd(''));
+    dispatch(fetchList());
+  });
 };
 
 export const deleteItem = (id: number) =>

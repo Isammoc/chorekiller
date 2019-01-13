@@ -12,13 +12,13 @@ services:
       - front
       - back
   front:
-    image: node:9.9.0
+    image: node:10.15
     volumes:
       - ./front:/code
     working_dir: /code
     command: sh -c 'yarn install && yarn start'
   back:
-    image: openjdk
+    image: openjdk:8-jdk
     volumes:
       - ./back:/code
       - /root/.ivy2
@@ -28,7 +28,7 @@ services:
     links:
       - db:chorekiller-db
   db:
-    image: postgres
+    image: postgres:11.1
     environment:
       - POSTGRES_USER=chorekiller
       - POSTGRES_PASSWORD=chorekiller
