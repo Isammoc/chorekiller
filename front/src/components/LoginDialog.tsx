@@ -106,7 +106,7 @@ class LoginDialog extends React.Component<LoginDialogProps, LoginDialogState> {
             <Button
               type="submit"
               disabled={!submittable}
-              variant="raised"
+              variant="contained"
               color="primary"
             >
               Se connecter

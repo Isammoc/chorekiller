@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import { createStyles, WithStyles, withStyles } from '@material-ui/core';
 
 interface GroceryProps {
   name: string;
@@ -15,10 +16,18 @@ interface GroceryProps {
   onDelete: () => void;
 }
 
-const Grocery: React.SFC<GroceryProps> = ({ name, completed, onClick, onDelete }) => (
+const styles = createStyles({
+  completed: {
+    textDecoration: 'line-through',
+    textDecorationStyle: 'double',
+  }
+});
+
+const Grocery: React.SFC<GroceryProps & WithStyles<typeof styles>> =
+({ name, completed, onClick, onDelete, classes }) => (
   <ListItem button={true} onClick={onClick}>
-    <Checkbox checked={completed} disableRipple={true} />
-    <ListItemText primary={name} />
+    <Checkbox checked={completed} disableRipple={true} color="primary" />
+    <ListItemText primary={name} className={completed ? classes.completed : undefined}/>
     <ListItemSecondaryAction>
       <IconButton aria-label="Delete" onClick={onDelete}>
         <RemoveCircle />
@@ -27,4 +36,4 @@ const Grocery: React.SFC<GroceryProps> = ({ name, completed, onClick, onDelete }
   </ListItem>
 );
 
-export default Grocery;
+export default withStyles(styles)(Grocery);

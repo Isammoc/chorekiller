@@ -67,7 +67,7 @@ class MyAppBar extends React.Component<MyAppBarProps & WithStyles, MyAppBarState
     return (
       <AppBar>
         <Toolbar>
-          <Typography variant="title" color="inherit" className={classes.flex}>
+          <Typography variant="h6" color="inherit" className={classes.flex}>
             Chorekiller
           </Typography>
           {!currentUser &&

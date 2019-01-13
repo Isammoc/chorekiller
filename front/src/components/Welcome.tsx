@@ -17,7 +17,7 @@ const Welcome: React.SFC<WelcomeProps> = ({ onConnect }) => (
     <p>Chorekiller est mon petit projet pour suivre les tâches ménagères au jour le jour.</p>
     <p>Aujourd'hui, il ne contient qu'une seule liste de course.</p>
     <p>
-      <Button variant="raised" color="primary" onClick={onConnect}>Connectez-vous</Button>
+      <Button variant="contained" color="primary" onClick={onConnect}>Connectez-vous</Button>
       &nbsp;si vous avez un compte. Sinon, créez votre propre instance.
       </p>
   </Paper>

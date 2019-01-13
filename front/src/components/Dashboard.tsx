@@ -5,7 +5,7 @@ import GroceryList from './groceries/GroceryList';
 export default () => (
   <Card>
     <CardContent>
-      <Typography variant="headline" component="h2">Liste de courses</Typography>
+      <Typography variant="h2" component="h2">Liste de courses</Typography>
       <GroceryList />
     </CardContent>
   </Card>

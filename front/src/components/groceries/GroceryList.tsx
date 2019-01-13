@@ -1,12 +1,15 @@
 import * as React from 'react';
 
 import { connect } from 'react-redux';
-import { Dispatch, AnyAction } from 'redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+
+import List from '@material-ui/core/List';
 
 import { Item } from '../../model';
 import Grocery from './Grocery';
 import { AppState } from '../../state/root.reducer';
-import List from '@material-ui/core/List';
+import { deleteItem, toggle } from '../../state/groceries/action';
 
 interface GroceryListProps {
   items: Item[];
@@ -34,8 +37,8 @@ export default connect(
   (state: AppState) => ({
     items: itemsFromState(state.groceries.current),
   }),
-  (dispatch: Dispatch<AnyAction>) => ({
-    onToggle: (id: number) => { dispatch({ type: 'TOGGLE', payload: id }); },
-    onDelete: (id: number) => { dispatch({ type: 'DELETE', payload: id }); },
+  (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => ({
+    onToggle: (id: number) => { dispatch(toggle(id)); },
+    onDelete: (id: number) => { dispatch(deleteItem(id)); },
   })
 )(GroceryList);
