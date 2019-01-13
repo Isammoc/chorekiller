@@ -1,20 +1,20 @@
 import * as React from 'react';
 
-import { Dispatch } from 'redux';
+import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'react-redux';
 
-import ActionAccountCircle from 'material-ui-icons/AccountCircle';
+import ActionAccountCircle from '@material-ui/icons/AccountCircle';
 
-import { withStyles, WithStyles, StyleRulesCallback } from 'material-ui';
+import { withStyles, WithStyles, StyleRulesCallback } from '@material-ui/core';
 
-import AppBar from 'material-ui/AppBar';
-import Avatar from 'material-ui/Avatar';
-import Button from 'material-ui/Button';
-import IconButton from 'material-ui/IconButton';
-import Menu from 'material-ui/Menu';
-import MenuItem from 'material-ui/Menu/MenuItem';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
 import { openModal, User, logout } from '../state/login.duck';
 
@@ -98,8 +98,8 @@ export default connect(
   (state: AppState) => ({
     currentUser: state.currentUser.current,
   }),
-  (dispatch: Dispatch<AppState>) => ({
+  (dispatch: Dispatch<AnyAction>) => ({
     onConnect: () => { dispatch(openModal()); },
     onLogout: () => { dispatch(logout()); },
   }),
-)(withStyles(styles)<MyAppBarProps>(MyAppBar));
+)(withStyles(styles)(MyAppBar));

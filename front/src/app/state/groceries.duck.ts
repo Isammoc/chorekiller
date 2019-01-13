@@ -1,5 +1,5 @@
 import { AnyAction } from 'redux';
-import { Dispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import { AppState } from './root.reducer';
 
 // Actions
@@ -53,7 +53,7 @@ const listSuccess = (items: Item[]) => ({
   payload: items,
 });
 
-export const fetchList = () => (dispatch: Dispatch<AppState>, getState: () => AppState) => {
+export const fetchList = () => (dispatch: Dispatch<AnyAction>, getState: () => AppState) => {
   dispatch(listRequest());
   fetch('/api/lists/1/items', {
     headers: {

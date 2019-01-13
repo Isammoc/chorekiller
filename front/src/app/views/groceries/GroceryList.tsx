@@ -1,11 +1,12 @@
 import * as React from 'react';
 
-import { connect, Dispatch } from 'react-redux';
+import { connect } from 'react-redux';
+import { Dispatch, AnyAction } from 'redux';
 
 import { Item } from '../../state/groceries.duck';
 import Grocery from './Grocery';
 import { AppState } from '../../state/root.reducer';
-import { List } from 'material-ui';
+import List from '@material-ui/core/List';
 
 interface GroceryListProps {
   items: Item[];
@@ -33,8 +34,8 @@ export default connect(
   (state: AppState) => ({
     items: itemsFromState(state.groceries.current),
   }),
-  (dispatch: Dispatch<AppState>) => ({
+  (dispatch: Dispatch<AnyAction>) => ({
     onToggle: (id: number) => { dispatch({ type: 'TOGGLE', payload: id }); },
     onDelete: (id: number) => { dispatch({ type: 'DELETE', payload: id }); },
   })
-)<GroceryListProps>(GroceryList);
+)(GroceryList);

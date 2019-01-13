@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { withStyles, Theme, StyleRulesCallback, WithStyles } from 'material-ui';
+import { withStyles, Theme, StyleRulesCallback, WithStyles } from '@material-ui/core';
 
 const styles: StyleRulesCallback<'footer'> = (theme: Theme) => ({
   footer: {
@@ -18,4 +18,4 @@ const Footer: React.SFC<WithStyles<'footer'>> = ({ classes }) => (
   </footer>
 );
 
-export default withStyles(styles)<{}>(Footer);
+export default withStyles(styles)(Footer);

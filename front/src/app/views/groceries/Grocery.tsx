@@ -1,10 +1,12 @@
 import * as React from 'react';
 
-import RemoveCircle from 'material-ui-icons/RemoveCircle';
+import RemoveCircle from '@material-ui/icons/RemoveCircle';
 
-import Checkbox from 'material-ui/Checkbox';
-import IconButton from 'material-ui/IconButton';
-import { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
+import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from '@material-ui/core/IconButton';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
 
 interface GroceryProps {
   name: string;

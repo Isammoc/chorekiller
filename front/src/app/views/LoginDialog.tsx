@@ -1,15 +1,22 @@
 import * as React from 'react';
 
-import Button from 'material-ui/Button';
-import Dialog, { DialogTitle, DialogContent, DialogActions } from 'material-ui/Dialog';
-import TextField from 'material-ui/TextField';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
-import { Dispatch } from 'redux';
+import TextField from '@material-ui/core/TextField';
+
+import { AnyAction } from 'redux';
 import { connect } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { AppState } from '../state/root.reducer';
 import { closeModal, login } from '../state/login.duck';
-import { FormHelperText, CircularProgress } from 'material-ui';
+
+import CircularProgress from '@material-ui/core/CircularProgress';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 interface LoginDialogProps {
   open: boolean;
@@ -117,7 +124,7 @@ export default connect(
     submittable: state.currentUser.form !== 'none' && state.currentUser.status !== 'pending',
     error: state.currentUser.form === 'error',
   }),
-  (dispatch: Dispatch<AppState>) => ({
+  (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => ({
     onClose: () => {
       dispatch(closeModal());
     },

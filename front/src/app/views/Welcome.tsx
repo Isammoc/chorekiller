@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { Dispatch, AnyAction } from 'redux';
 
-import Button from 'material-ui/Button';
-import Paper from 'material-ui/Paper';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 
-import { AppState } from '../state/root.reducer';
 import { openModal } from '../state/login.duck';
 
 interface WelcomeProps {
@@ -24,6 +23,6 @@ const Welcome: React.SFC<WelcomeProps> = ({ onConnect }) => (
   </Paper>
 );
 
-export default connect(null, (dispatch: Dispatch<AppState>) => ({
+export default connect(null, (dispatch: Dispatch<AnyAction>) => ({
   onConnect: () => { dispatch(openModal()); }
 }))(Welcome);

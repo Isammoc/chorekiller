@@ -1,7 +1,9 @@
-import { AnyAction, Dispatch } from 'redux';
-import { AppState } from './root.reducer';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+
 import { User, login as clientLogin } from '../client';
 import { fetchList } from './groceries.duck';
+import { AppState } from './root.reducer';
 
 export { User } from '../client';
 
@@ -96,7 +98,7 @@ const loginSuccess = (user: User) => ({
 });
 
 export const login = (username: string, password: string) =>
-  (dispatch: Dispatch<AppState>) => {
+  (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => {
     dispatch(loginRequest());
     clientLogin(username, password)
       .then(res => {
