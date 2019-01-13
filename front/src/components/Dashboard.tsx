@@ -6,7 +6,7 @@ import GroceryInput from './groceries/GroceryInput';
 export default () => (
   <Card>
     <CardContent>
-      <Typography variant="h2" component="h2">Liste de courses</Typography>
+      <Typography variant="h4" component="h4">Liste de courses</Typography>
       <GroceryList />
       <GroceryInput />
     </CardContent>

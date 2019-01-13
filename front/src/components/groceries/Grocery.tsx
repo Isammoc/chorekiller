@@ -20,12 +20,16 @@ const styles = createStyles({
   completed: {
     textDecoration: 'line-through',
     textDecorationStyle: 'double',
-  }
+  },
+  item: {
+    paddingTop: '2px',
+    paddingBottom: '2px',
+  },
 });
 
 const Grocery: React.SFC<GroceryProps & WithStyles<typeof styles>> =
 ({ name, completed, onClick, onDelete, classes }) => (
-  <ListItem button={true} onClick={onClick}>
+  <ListItem button={true} onClick={onClick} className={classes.item}>
     <Checkbox checked={completed} disableRipple={true} color="primary" />
     <ListItemText primary={name} className={completed ? classes.completed : undefined}/>
     <ListItemSecondaryAction>
