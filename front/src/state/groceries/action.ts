@@ -4,6 +4,7 @@ import { Item } from '../../model';
 import { Dispatch, AnyAction } from 'redux';
 import { AppState } from '../root.reducer';
 import { ThunkDispatch } from 'redux-thunk';
+import client from '../../client/groceries';
 
 const listRequest = () => ({
   type: ActionTypes.LIST_REQUEST,
@@ -26,26 +27,16 @@ export const changeItemToAdd = (item: string) => ({
 
 export const fetchList = () => (dispatch: Dispatch<AnyAction>, getState: () => AppState) => {
   dispatch(listRequest());
-  fetch('/api/lists/1/items', {
-    headers: {
-      'Authorization': getState().currentUser.current!.authorization
-    },
-  }).then(res => {
-    res.json().then(json => {
-      dispatch(listSuccess(json.groceries));
-    }).catch(err => dispatch(listFailure(err)));
-  }).catch(err => dispatch(listFailure(err)));
+  client.fetchItems(getState().currentUser.current!.authorization)
+  .then(items => dispatch(listSuccess(items)))
+  .catch(err => dispatch(listFailure(err)));
 };
 
 export const addItem = () => (dispatch: ThunkDispatch<AppState, {}, AnyAction>, getState: () => AppState) => {
-  fetch('/api/lists/1/items', {
-    headers: {
-      'Authorization': getState().currentUser.current!.authorization,
-      'Content-Type': 'application/json',
-    },
-    method: 'post',
-    body: JSON.stringify({ name: getState().groceries.itemToAdd }),
-  }).then(res => {
+  client.addItem(
+      getState().currentUser.current!.authorization,
+      getState().groceries.itemToAdd
+  ).then(res => {
     dispatch(changeItemToAdd(''));
     dispatch(fetchList());
   });
@@ -53,12 +44,7 @@ export const addItem = () => (dispatch: ThunkDispatch<AppState, {}, AnyAction>, 
 
 export const deleteItem = (id: number) =>
   (dispatch: ThunkDispatch<AppState, {}, AnyAction>, getState: () => AppState) => {
-    fetch('/api/lists/1/items/' + id, {
-      headers: {
-        'Authorization': getState().currentUser.current!.authorization
-      },
-      method: 'delete'
-    }).then(res => {
+    client.deleteItem(getState().currentUser.current!.authorization, id).then(res => {
       dispatch(fetchList());
     });
   };
@@ -66,12 +52,9 @@ export const deleteItem = (id: number) =>
 export const toggle = (id: number) => (dispatch: ThunkDispatch<AppState, {}, AnyAction>, getState: () => AppState) => {
   const completed = getState().groceries.current!.find(e => e.id === id)!.completed;
 
-  fetch('/api/lists/1/items/' + id + '/completion', {
-    headers: {
-      'Authorization': getState().currentUser.current!.authorization
-    },
-    method: completed ? 'delete' : 'post'
-  }).then(res => {
+  const clientMethod = completed ? client.uncompleteItem : client.completeItem;
+
+  clientMethod(getState().currentUser.current!.authorization, id).then(res => {
     dispatch(fetchList());
   });
 };
