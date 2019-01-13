@@ -1,8 +1,4 @@
-export interface User {
-  login: string;
-  name: string;
-  authorization: string;
-}
+import { User } from '../model';
 
 export const login = (username: string, password: string) => new Promise<User>((resolve, reject): void => {
   fetch('/api/users/me', {

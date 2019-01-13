@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 
 import { AppState } from '../state/root.reducer';
-import { closeModal, login } from '../state/login.duck';
+import { closeModal, login } from '../state/login/action';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormHelperText from '@material-ui/core/FormHelperText';

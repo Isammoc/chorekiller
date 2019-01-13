@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 
-import Footer from './views/Footer';
-import Ribbon from './views/Ribbon';
+import Footer from './components/Footer';
+import Ribbon from './components/Ribbon';
 import withRoot from './utils/withRoot';
 
-import Welcome from './views/Welcome';
+import Welcome from './components/Welcome';
 
-import Dashboard from './views/Dashboard';
-import MyAppBar from './views/MyAppBar';
-import LoginDialog from './views/LoginDialog';
+import Dashboard from './components/Dashboard';
+import MyAppBar from './components/MyAppBar';
+import LoginDialog from './components/LoginDialog';
 
 import { AppState }  from './state/root.reducer';
 import { createStyles, Theme } from '@material-ui/core';

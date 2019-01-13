@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, AnyAction } from 'redux';
 
-import { Item } from '../../state/groceries.duck';
+import { Item } from '../../model';
 import Grocery from './Grocery';
 import { AppState } from '../../state/root.reducer';
 import List from '@material-ui/core/List';

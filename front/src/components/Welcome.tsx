@@ -5,7 +5,7 @@ import { Dispatch, AnyAction } from 'redux';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 
-import { openModal } from '../state/login.duck';
+import * as login from '../state/login/action';
 
 interface WelcomeProps {
   onConnect: () => void;
@@ -24,5 +24,5 @@ const Welcome: React.SFC<WelcomeProps> = ({ onConnect }) => (
 );
 
 export default connect(null, (dispatch: Dispatch<AnyAction>) => ({
-  onConnect: () => { dispatch(openModal()); }
+  onConnect: () => { dispatch(login.openModal()); }
 }))(Welcome);

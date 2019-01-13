@@ -16,9 +16,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-import { openModal, User, logout } from '../state/login.duck';
+import { openModal, logout } from '../state/login/action';
 
 import { AppState } from '../state/root.reducer';
+import { User } from '../model';
 
 interface MyAppBarProps {
   currentUser: null | User;

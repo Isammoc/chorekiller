@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
 
-import loginReducer, { UserState } from './login.duck';
-import groceriesReducer, { GroceryState } from './groceries.duck';
+import currentUser from './login/reducer';
+import groceries from './groceries/reducer';
+import { GroceryState, UserState } from '../model';
 
 const rootReducer = combineReducers({
-  currentUser: loginReducer,
-  groceries: groceriesReducer,
+  currentUser,
+  groceries,
 });
 
 export default rootReducer;
