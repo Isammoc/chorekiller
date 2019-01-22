@@ -7,18 +7,18 @@ services:
       - ./docker/nginx:/etc/nginx/conf.d
     ports:
       - 80:80
-      - 4200:4200
+      - 3000:3000
     links:
       - front
       - back
   front:
-    image: angular-cli
+    image: node:10.15
     volumes:
       - ./front:/code
     working_dir: /code
-    command: ng serve --disableHostCheck --host 0.0.0.0
+    command: sh -c 'yarn install && yarn start'
   back:
-    image: openjdk
+    image: openjdk:8-jdk
     volumes:
       - ./back:/code
       - /root/.ivy2
@@ -28,7 +28,7 @@ services:
     links:
       - db:chorekiller-db
   db:
-    image: postgres
+    image: postgres:11.1
     environment:
       - POSTGRES_USER=chorekiller
       - POSTGRES_PASSWORD=chorekiller

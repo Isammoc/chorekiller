@@ -1,9 +1,0 @@
-@mixin footer-theme($theme) {
-  $primary: map-get($theme, primary);
-  ck-footer {
-    footer {
-      background: mat-color($primary);
-      color: mat-color($primary, default-contrast);
-    }
-  }
-}
