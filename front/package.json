@@ -1,6 +1,6 @@
 {
   "name": "chorekiller",
-  "version": "0.3.0",
+  "version": "0.3.1-SNAPSHOT",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.8.3",
