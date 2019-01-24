@@ -27,7 +27,7 @@ export const login = (username: string, password: string) => new Promise<User>((
     reject,
     fetch('/api/users/me', {
       method: 'post',
-      body: JSON.stringify({ login: username, password: password }),
+      body: JSON.stringify({ login: username.toLowerCase(), password: password }),
       headers: {
         'Content-Type': 'application/json'
       }

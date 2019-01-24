@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-import { Dispatch, AnyAction } from 'redux';
+import { AnyAction } from 'redux';
 import { connect } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import ActionAccountCircle from '@material-ui/icons/AccountCircle';
 
@@ -104,7 +105,7 @@ export default connect(
   (state: AppState) => ({
     currentUser: state.currentUser.current,
   }),
-  (dispatch: Dispatch<AnyAction>) => ({
+  (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => ({
     onConnect: () => { dispatch(openModal()); },
     onLogout: () => { dispatch(logout()); },
   }),

@@ -57,6 +57,11 @@ export const login = (username: string, password: string) =>
       }).catch(err => dispatch(loginFailure(err)));
   };
 
-export const logout = () => ({
+const actionLogout = () => ({
   type: actionTypes.LOGOUT,
 });
+
+export const logout = () => (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => {
+  localStorage.removeItem('token');
+  dispatch(actionLogout());
+};
