@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-import { Dispatch, AnyAction } from 'redux';
+import { AnyAction } from 'redux';
 import { connect } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import ActionAccountCircle from '@material-ui/icons/AccountCircle';
 
@@ -10,6 +11,7 @@ import { withStyles, WithStyles, StyleRulesCallback } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import { deepPurple } from '@material-ui/core/colors';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -39,7 +41,10 @@ const styles: StyleRulesCallback = theme => ({
     position: 'relative',
     fontSize: '1.2em',
     display: 'inline-flex',
-  }
+  },
+  mainIcon: {
+    backgroundColor: deepPurple[500],
+  },
 });
 
 class MyAppBar extends React.Component<MyAppBarProps & WithStyles, MyAppBarState> {
@@ -67,6 +72,7 @@ class MyAppBar extends React.Component<MyAppBarProps & WithStyles, MyAppBarState
     return (
       <AppBar>
         <Toolbar>
+          <Avatar alt="Chorekiller" src="/favicon.ico" className={classes.mainIcon} />
           <Typography variant="h6" color="inherit" className={classes.flex}>
             Chorekiller
           </Typography>
@@ -99,7 +105,7 @@ export default connect(
   (state: AppState) => ({
     currentUser: state.currentUser.current,
   }),
-  (dispatch: Dispatch<AnyAction>) => ({
+  (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => ({
     onConnect: () => { dispatch(openModal()); },
     onLogout: () => { dispatch(logout()); },
   }),

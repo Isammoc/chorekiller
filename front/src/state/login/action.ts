@@ -1,5 +1,5 @@
 import actionTypes from './actionTypes';
-import { login as clientLogin } from '../../client/login';
+import { login as clientLogin, connectedUser as clientConnected } from '../../client/login';
 import { User } from '../../model';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppState } from '../root.reducer';
@@ -30,16 +30,38 @@ const loginSuccess = (user: User) => ({
   payload: user,
 });
 
+const saveToken = (user: User) => {
+  localStorage.setItem('token', user.authorization);
+};
+
+export const loadToken = (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    dispatch(loginRequest());
+    clientConnected(token)
+    .then(res => {
+      dispatch(loginSuccess(res));
+      dispatch(fetchList());
+    }).catch(err => dispatch(loginFailure(err)));
+  }
+};
+
 export const login = (username: string, password: string) =>
   (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => {
     dispatch(loginRequest());
     clientLogin(username, password)
       .then(res => {
         dispatch(loginSuccess(res));
+        saveToken(res);
         dispatch(fetchList());
       }).catch(err => dispatch(loginFailure(err)));
   };
 
-export const logout = () => ({
+const actionLogout = () => ({
   type: actionTypes.LOGOUT,
 });
+
+export const logout = () => (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => {
+  localStorage.removeItem('token');
+  dispatch(actionLogout());
+};
