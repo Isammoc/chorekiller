@@ -10,6 +10,7 @@ import { withStyles, WithStyles, StyleRulesCallback } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import { deepPurple } from '@material-ui/core/colors';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -39,7 +40,10 @@ const styles: StyleRulesCallback = theme => ({
     position: 'relative',
     fontSize: '1.2em',
     display: 'inline-flex',
-  }
+  },
+  mainIcon: {
+    backgroundColor: deepPurple[500],
+  },
 });
 
 class MyAppBar extends React.Component<MyAppBarProps & WithStyles, MyAppBarState> {
@@ -67,6 +71,7 @@ class MyAppBar extends React.Component<MyAppBarProps & WithStyles, MyAppBarState
     return (
       <AppBar>
         <Toolbar>
+          <Avatar alt="Chorekiller" src="/favicon.ico" className={classes.mainIcon} />
           <Typography variant="h6" color="inherit" className={classes.flex}>
             Chorekiller
           </Typography>
