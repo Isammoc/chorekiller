@@ -29,7 +29,7 @@ const itemsFromState = (state: Item[] | null) => {
   if (state === null) {
     return null;
   } else {
-    return state.slice().sort((a, b) => +(a.name > b.name));
+    return state.slice().sort((a, b) => a.name.localeCompare(b.name));
   }
 };
 
