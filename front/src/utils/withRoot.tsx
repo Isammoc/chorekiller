@@ -11,6 +11,7 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import rootReducer from '../state/root.reducer';
+import onStart from './onStart';
 
 const theme = createMuiTheme({
   palette: {
@@ -40,6 +41,8 @@ const store = createStore(
     applyMiddleware(thunk),
   )
 );
+
+onStart(store);
 
 if (module.hot) {
   module.hot.accept('../state/root.reducer', () => {
