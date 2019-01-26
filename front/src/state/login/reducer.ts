@@ -10,6 +10,10 @@ const defaultCurrentUser: UserState = {
   form: 'none',
 };
 
+const changeIfOpen = (state: UserState, newForm: 'none' | 'pending' | 'error') =>
+  state.form === 'none' ? state.form : newForm
+  ;
+
 const reducer: Reducer<UserState, AnyAction> =
   (state: UserState = defaultCurrentUser, action: AnyAction) => {
     switch (action.type) {
@@ -30,7 +34,7 @@ const reducer: Reducer<UserState, AnyAction> =
         return {
           ...state,
           status: 'pending',
-          form: 'pending',
+          form: changeIfOpen(state, 'pending'),
         };
       case actionTypes.LOGIN_SUCCESS:
         return {
@@ -43,7 +47,7 @@ const reducer: Reducer<UserState, AnyAction> =
         return {
           ...state,
           status: 'none',
-          form: 'error',
+          form: changeIfOpen(state, 'error'),
         };
       case actionTypes.LOGOUT:
         return {
