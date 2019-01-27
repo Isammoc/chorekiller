@@ -1,5 +1,7 @@
-import { UserState } from '../../model';
 import { AnyAction } from 'redux';
+
+import { UserState } from '../../model';
+
 import actionTypes from './actionTypes';
 
 const defaultCurrentUser: UserState = {

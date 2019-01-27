@@ -1,6 +1,7 @@
 import { AnyAction } from 'redux';
 
 import { GroceryState } from '../../model';
+
 import ActionTypes from './actionTypes';
 
 const defaultState: GroceryState = {

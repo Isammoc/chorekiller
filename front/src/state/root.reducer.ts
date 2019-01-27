@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
 
+import { GroceryState, UserState } from '../model';
+
 import currentUser from './login/reducer';
 import groceries from './groceries/reducer';
-import { GroceryState, UserState } from '../model';
 
 const rootReducer = combineReducers({
   currentUser,

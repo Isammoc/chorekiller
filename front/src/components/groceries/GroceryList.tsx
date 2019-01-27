@@ -7,9 +7,10 @@ import { ThunkDispatch } from 'redux-thunk';
 import List from '@material-ui/core/List';
 
 import { Item } from '../../model';
-import Grocery from './Grocery';
 import { AppState } from '../../state/root.reducer';
 import { deleteItem, toggle } from '../../state/groceries/action';
+
+import Grocery from './Grocery';
 
 interface GroceryListProps {
   items: Item[];
