@@ -5,7 +5,7 @@ import { GroceryState, UserState } from '../model';
 import currentUser from './login/reducer';
 import groceries from './groceries/reducer';
 
-const rootReducer = combineReducers({
+const rootReducer = combineReducers<AppState>({
   currentUser,
   groceries,
 });

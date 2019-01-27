@@ -1,14 +1,14 @@
 import * as React from 'react';
 
 import { Provider } from 'react-redux';
-import { createStore, compose, applyMiddleware } from 'redux';
+import { createStore, compose, applyMiddleware, AnyAction } from 'redux';
 import thunk from 'redux-thunk';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
-import rootReducer from '../state/root.reducer';
+import rootReducer, { AppState } from '../state/root.reducer';
 
 import onStart from './onStart';
 
@@ -34,7 +34,7 @@ const theme = createMuiTheme({
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(
+const store = createStore<AppState, AnyAction, {}, {}>(
   rootReducer,
   composeEnhancers(
     applyMiddleware(thunk),
