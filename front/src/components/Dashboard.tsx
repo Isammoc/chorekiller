@@ -2,15 +2,15 @@ import * as React from 'react';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import CardHeader from '@material-ui/core/CardHeader';
 
 import GroceryList from './groceries/GroceryList';
 import GroceryInput from './groceries/GroceryInput';
 
 export default () => (
   <Card>
+    <CardHeader title="Liste de courses"/>
     <CardContent>
-      <Typography variant="h4" component="h4">Liste de courses</Typography>
       <GroceryList />
       <GroceryInput />
     </CardContent>
