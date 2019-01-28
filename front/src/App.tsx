@@ -16,6 +16,7 @@ import Ribbon from './components/Ribbon';
 
 import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
+import Profile from './pages/Profile';
 import Welcome from './pages/Welcome';
 
 import { AppState } from './state/root.reducer';
@@ -38,6 +39,7 @@ const App: React.SFC<AppProps & WithStyles<typeof styles>> = ({ connected, class
     {connected
       && <Switch>
           <Route exact={true} path="/" component={Dashboard} />
+          <Route exact={true} path="/profile/:id" component={Profile} />
           <Route component={NotFound} />
         </Switch>
       || <Switch>
