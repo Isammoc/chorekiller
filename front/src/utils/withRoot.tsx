@@ -13,6 +13,7 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
 import rootReducer, { AppState } from '../state/root.reducer';
 
+import { onLocationChange } from './onLocationChange';
 import onStart from './onStart';
 
 const theme = createMuiTheme({
@@ -49,7 +50,12 @@ const store = createStore<AppState, AnyAction, {}, {}>(
   )
 );
 
+const myLocationListener = onLocationChange(store.getState, store.dispatch);
+
+history.listen(myLocationListener);
+
 onStart(store);
+myLocationListener(history.location, undefined);
 
 if (module.hot) {
   module.hot.accept('../state/root.reducer', () => {
