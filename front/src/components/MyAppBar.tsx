@@ -10,6 +10,7 @@ import ActionAccountCircle from '@material-ui/icons/AccountCircle';
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -27,6 +28,7 @@ interface MyAppBarProps {
   onConnect: () => void;
   onLogout: () => void;
   onHome: () => void;
+  onProfile: (login: string) => void;
 }
 
 interface MyAppBarState {
@@ -75,7 +77,7 @@ class MyAppBar extends React.Component<MyAppBarProps & WithStyles, MyAppBarState
   }
 
   public render() {
-    const { classes, onConnect, currentUser, onLogout } = this.props;
+    const { classes, onConnect, currentUser, onLogout, onProfile } = this.props;
     return (
       <AppBar>
         <Toolbar>
@@ -100,6 +102,8 @@ class MyAppBar extends React.Component<MyAppBarProps & WithStyles, MyAppBarState
             open={Boolean(this.state.anchorEl)}
             onClose={this.handleClose}
           >
+            <MenuItem onClick={() => { this.handleClose(); onProfile( currentUser!.login ); }}>Profile</MenuItem>
+            <Divider />
             <MenuItem onClick={() => { this.handleClose(); onLogout(); }}>Déconnexion</MenuItem>
           </Menu>
         </Toolbar>
@@ -115,5 +119,6 @@ export default connect(
     onConnect: () => { dispatch(openModal()); },
     onLogout: () => { dispatch(logout()); },
     onHome: () => { dispatch(push('/')); },
+    onProfile: (login: string) => { dispatch(push('/profile/' + login)); },
   }),
 )(withStyles(styles)(MyAppBar));
