@@ -1,10 +1,13 @@
-import actionTypes from './actionTypes';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+
 import { login as clientLogin, connectedUser as clientConnected } from '../../client/login';
 import { User } from '../../model';
-import { ThunkDispatch } from 'redux-thunk';
+
 import { AppState } from '../root.reducer';
-import { AnyAction } from 'redux';
 import { fetchList } from '../groceries/action';
+
+import actionTypes from './actionTypes';
 
 export const openModal = () => ({
   type: actionTypes.OPEN_MODAL,

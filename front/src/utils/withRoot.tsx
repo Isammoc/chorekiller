@@ -1,16 +1,19 @@
 import * as React from 'react';
 
 import { Provider } from 'react-redux';
-import { createStore, compose, applyMiddleware } from 'redux';
-
+import { createStore, compose, applyMiddleware, AnyAction } from 'redux';
 import thunk from 'redux-thunk';
+import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 
+import { createBrowserHistory } from 'history';
+
+import CssBaseline from '@material-ui/core/CssBaseline';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
-import CssBaseline from '@material-ui/core/CssBaseline';
+import rootReducer, { AppState } from '../state/root.reducer';
 
-import rootReducer from '../state/root.reducer';
+import { onLocationChange } from './onLocationChange';
 import onStart from './onStart';
 
 const theme = createMuiTheme({
@@ -35,14 +38,24 @@ const theme = createMuiTheme({
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(
-  rootReducer,
+const history = createBrowserHistory();
+
+const store = createStore<AppState, AnyAction, {}, {}>(
+  rootReducer(history),
   composeEnhancers(
-    applyMiddleware(thunk),
+    applyMiddleware(
+      routerMiddleware(history),
+      thunk,
+    ),
   )
 );
 
+const myLocationListener = onLocationChange(store.getState, store.dispatch);
+
+history.listen(myLocationListener);
+
 onStart(store);
+myLocationListener(history.location, undefined);
 
 if (module.hot) {
   module.hot.accept('../state/root.reducer', () => {
@@ -50,14 +63,20 @@ if (module.hot) {
   });
 }
 
-function withRoot<P>(Component: React.ComponentType) {
+function withRoot<P>(Component: React.ComponentType<P>) {
   return function (props: P) {
+    const realProps = {
+      ...props,
+      history
+    };
     return (
       <Provider store={store}>
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <Component {...props} />
-        </MuiThemeProvider>
+        <ConnectedRouter history={history}>
+          <MuiThemeProvider theme={theme}>
+            <CssBaseline />
+            <Component {...realProps} />
+          </MuiThemeProvider>
+        </ConnectedRouter>
       </Provider>
     );
   };

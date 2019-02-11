@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { withStyles, Theme, StyleRulesCallback, WithStyles } from '@material-ui/core';
+
+import withStyles, { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 const styles: StyleRulesCallback<'footer'> = (theme: Theme) => ({
   footer: {

@@ -1,21 +1,25 @@
 import * as React from 'react';
 
 import { connect } from 'react-redux';
+import { Route, Switch } from 'react-router';
 
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
+import createStyles from '@material-ui/core/styles/createStyles';
 
-import Footer from './components/Footer';
-import Ribbon from './components/Ribbon';
 import withRoot from './utils/withRoot';
 
-import Welcome from './components/Welcome';
-
-import Dashboard from './components/Dashboard';
-import MyAppBar from './components/MyAppBar';
+import Footer from './components/Footer';
 import LoginDialog from './components/LoginDialog';
+import MyAppBar from './components/MyAppBar';
+import Ribbon from './components/Ribbon';
 
-import { AppState }  from './state/root.reducer';
-import { createStyles, Theme } from '@material-ui/core';
+import Dashboard from './pages/Dashboard';
+import NotFound from './pages/NotFound';
+import Profile from './pages/Profile';
+import Welcome from './pages/Welcome';
+
+import { AppState } from './state/root.reducer';
 
 const styles = (theme: Theme) => createStyles({
   root: {
@@ -33,8 +37,15 @@ const App: React.SFC<AppProps & WithStyles<typeof styles>> = ({ connected, class
     <LoginDialog />
     <MyAppBar />
     {connected
-      && <Dashboard />
-      || <Welcome />
+      && <Switch>
+          <Route exact={true} path="/" component={Dashboard} />
+          <Route exact={true} path="/profile/:id" component={Profile} />
+          <Route component={NotFound} />
+        </Switch>
+      || <Switch>
+          <Route exact={true} path="/" component={Welcome} />
+          <Route component={NotFound} />
+        </Switch>
     }
     <Footer />
   </div>

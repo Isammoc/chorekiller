@@ -1,10 +1,11 @@
-import ActionTypes from './actionTypes';
+import { Dispatch, AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { Item } from '../../model';
-import { Dispatch, AnyAction } from 'redux';
 import { AppState } from '../root.reducer';
-import { ThunkDispatch } from 'redux-thunk';
 import client from '../../client/groceries';
+
+import ActionTypes from './actionTypes';
 
 const listRequest = () => ({
   type: ActionTypes.LIST_REQUEST,
