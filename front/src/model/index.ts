@@ -14,6 +14,7 @@ export interface User {
   login: string;
   name: string;
   authorization: string;
+  passwordChanged: 'none' | 'success' | 'error' | 'pending';
 }
 
 export interface GroceryState extends PossibleState<Item[]> {

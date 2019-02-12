@@ -10,14 +10,16 @@ import Work from '@material-ui/icons/Work';
 
 import { Profile } from '../state/profile/reducer';
 import { loadProfile } from '../state/profile/action';
+import PasswordForm from '../components/PasswordForm';
 
 interface ProfileProps {
   who: string;
   profile?: Profile;
+  currentUser: boolean;
   onLoad: (id: string) => void;
 }
 
-const Profile: React.SFC<ProfileProps> = ({ who, profile, onLoad }) => {
+const Profile: React.SFC<ProfileProps> = ({ currentUser, who, profile, onLoad }) => {
   React.useEffect(() => {
     if (!profile) {
       onLoad(who);
@@ -39,6 +41,7 @@ const Profile: React.SFC<ProfileProps> = ({ who, profile, onLoad }) => {
       />
       <CardContent>
         Nom affiché : {displayName}
+        {currentUser && <PasswordForm />}
       </CardContent>
     </Card>
   );
@@ -50,6 +53,7 @@ export default connect(
     return {
       who: id,
       profile: state.profiles[id],
+      currentUser: id === state.currentUser.current!.login
     };
   },
   (dispatch: CKDispatch) => ({

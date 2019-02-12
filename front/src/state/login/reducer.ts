@@ -14,6 +14,14 @@ const changeIfOpen = (state: UserState, newForm: 'none' | 'pending' | 'error') =
   state.form === 'none' ? state.form : newForm
   ;
 
+const changePasswordStatus = (state: UserState, status: 'none' | 'success' | 'error' | 'pending') => ({
+  ...state,
+  current: {
+    ...state.current!,
+    passwordChanged: status
+  },
+});
+
 const reducer: Reducer<UserState, CKAction> =
   (state: UserState = defaultCurrentUser, action: CKAction) => {
     switch (action.type) {
@@ -56,6 +64,12 @@ const reducer: Reducer<UserState, CKAction> =
           form: 'none',
           current: null,
         };
+      case actionTypes.CHANGE_PASSWORD_REQUEST:
+        return changePasswordStatus(state, 'pending');
+      case actionTypes.CHANGE_PASSWORD_FAILURE:
+        return changePasswordStatus(state, 'error');
+      case actionTypes.CHANGE_PASSWORD_SUCCESS:
+        return changePasswordStatus(state, 'success');
       default:
         return state;
     }
