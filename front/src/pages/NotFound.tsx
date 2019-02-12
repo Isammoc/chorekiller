@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 
 import LogInButton from '../components/LogInButton';
+import { selectors } from '../state/root.selector';
 
 interface NotFoundProps {
   connected: boolean;
@@ -27,6 +28,6 @@ const NotFound: React.SFC<NotFoundProps> = ({ connected }) => (
 
 export default connect(
   (state: CKState) => ({
-    connected: state.currentUser.current !== null,
+    connected: selectors(state).isConnected,
   })
 )(NotFound);

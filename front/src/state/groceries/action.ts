@@ -1,5 +1,6 @@
 import { Item } from '../../model';
 import client from '../../client/groceries';
+import { selectors } from '../root.selector';
 
 import ActionTypes from './actionTypes';
 
@@ -24,14 +25,14 @@ export const changeItemToAdd = (item: string) => ({
 
 export const fetchList = () => (dispatch: CKDispatch, getState: () => CKState) => {
   dispatch(listRequest());
-  client.fetchItems(getState().currentUser.current!.authorization)
+  client.fetchItems(selectors(getState()).token)
   .then(items => dispatch(listSuccess(items)))
   .catch(err => dispatch(listFailure(err)));
 };
 
 export const addItem = () => (dispatch: CKDispatch, getState: () => CKState) => {
   client.addItem(
-      getState().currentUser.current!.authorization,
+      selectors(getState()).token,
       getState().groceries.itemToAdd
   ).then(res => {
     dispatch(changeItemToAdd(''));
@@ -41,7 +42,7 @@ export const addItem = () => (dispatch: CKDispatch, getState: () => CKState) => 
 
 export const deleteItem = (id: number) =>
   (dispatch: CKDispatch, getState: () => CKState) => {
-    client.deleteItem(getState().currentUser.current!.authorization, id).then(res => {
+    client.deleteItem(selectors(getState()).token, id).then(res => {
       dispatch(fetchList());
     });
   };
@@ -51,7 +52,7 @@ export const toggle = (id: number) => (dispatch: CKDispatch, getState: () => CKS
 
   const clientMethod = completed ? client.uncompleteItem : client.completeItem;
 
-  clientMethod(getState().currentUser.current!.authorization, id).then(res => {
+  clientMethod(selectors(getState()).token, id).then(res => {
     dispatch(fetchList());
   });
 };
