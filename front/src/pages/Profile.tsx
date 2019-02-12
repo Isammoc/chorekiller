@@ -1,16 +1,13 @@
 import * as React from 'react';
 
-import { AnyAction } from 'redux';
 import { connect } from 'react-redux';
 import { createMatchSelector } from 'connected-react-router';
-import { ThunkDispatch } from 'redux-thunk';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Work from '@material-ui/icons/Work';
 
-import { AppState } from '../state/root.reducer';
 import { Profile } from '../state/profile/reducer';
 import { loadProfile } from '../state/profile/action';
 
@@ -48,14 +45,14 @@ const Profile: React.SFC<ProfileProps> = ({ who, profile, onLoad }) => {
 };
 
 export default connect(
-  (state: AppState) => {
-    const id = createMatchSelector<AppState, { id: string }>('/profile/:id')(state)!.params.id;
+  (state: CKState) => {
+    const id = createMatchSelector<CKState, { id: string }>('/profile/:id')(state)!.params.id;
     return {
       who: id,
       profile: state.profiles[id],
     };
   },
-  (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => ({
+  (dispatch: CKDispatch) => ({
     onLoad: (id: string) => {
       dispatch(loadProfile(id));
     },

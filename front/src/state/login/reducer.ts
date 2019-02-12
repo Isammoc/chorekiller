@@ -1,4 +1,4 @@
-import { AnyAction, Reducer } from 'redux';
+import { Reducer } from 'redux';
 
 import { UserState } from '../../model';
 
@@ -14,8 +14,8 @@ const changeIfOpen = (state: UserState, newForm: 'none' | 'pending' | 'error') =
   state.form === 'none' ? state.form : newForm
   ;
 
-const reducer: Reducer<UserState, AnyAction> =
-  (state: UserState = defaultCurrentUser, action: AnyAction) => {
+const reducer: Reducer<UserState, CKAction> =
+  (state: UserState = defaultCurrentUser, action: CKAction) => {
     switch (action.type) {
       case actionTypes.OPEN_MODAL:
         if (state.status === 'alive') {

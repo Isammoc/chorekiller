@@ -1,4 +1,4 @@
-import { AnyAction, Reducer } from 'redux';
+import { Reducer } from 'redux';
 
 import { GroceryState } from '../../model';
 
@@ -11,8 +11,8 @@ const defaultState: GroceryState = {
   itemToAdd: '',
 };
 
-const reducer: Reducer<GroceryState, AnyAction> =
-  (state: GroceryState = defaultState, action: AnyAction) => {
+const reducer: Reducer<GroceryState, CKAction> =
+  (state: GroceryState = defaultState, action: CKAction) => {
     switch (action.type) {
       case ActionTypes.CHANGE_ITEM_TO_ADD:
         return {

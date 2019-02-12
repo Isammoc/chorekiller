@@ -1,13 +1,10 @@
 import * as React from 'react';
 
 import { connect } from 'react-redux';
-import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
 
 import List from '@material-ui/core/List';
 
 import { Item } from '../../model';
-import { AppState } from '../../state/root.reducer';
 import { deleteItem, toggle } from '../../state/groceries/action';
 
 import Grocery from './Grocery';
@@ -35,10 +32,10 @@ const itemsFromState = (state: Item[] | null) => {
 };
 
 export default connect(
-  (state: AppState) => ({
+  (state: CKState) => ({
     items: itemsFromState(state.groceries.current),
   }),
-  (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => ({
+  (dispatch: CKDispatch) => ({
     onToggle: (id: number) => { dispatch(toggle(id)); },
     onDelete: (id: number) => { dispatch(deleteItem(id)); },
   })

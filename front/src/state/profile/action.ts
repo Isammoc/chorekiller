@@ -1,8 +1,3 @@
-import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-
-import { AppState } from '../root.reducer';
-
 import { getProfile } from '../../client/profile';
 
 import actionTypes from './actionTypes';
@@ -28,7 +23,7 @@ const profileSuccess = (name: string, profile: Profile) => ({
 
 export const loadProfile =
   (name: string) =>
-    (dispatch: ThunkDispatch<AppState, {}, AnyAction>, getState: () => AppState) => {
+    (dispatch: CKDispatch, getState: () => CKState) => {
       dispatch(profileRequest(name));
       getProfile(getState().currentUser.current!.authorization, name)
         .then(

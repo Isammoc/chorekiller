@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-import { AnyAction } from 'redux';
 import { connect } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
 import { push } from 'connected-react-router';
 
 import ActionAccountCircle from '@material-ui/icons/AccountCircle';
@@ -20,7 +18,6 @@ import { deepPurple } from '@material-ui/core/colors';
 import withStyles, { WithStyles, StyleRulesCallback } from '@material-ui/core/styles/withStyles';
 
 import { openModal, logout } from '../state/login/action';
-import { AppState } from '../state/root.reducer';
 import { User } from '../model';
 
 interface MyAppBarProps {
@@ -112,10 +109,10 @@ class MyAppBar extends React.Component<MyAppBarProps & WithStyles, MyAppBarState
 }
 
 export default connect(
-  (state: AppState) => ({
+  (state: CKState) => ({
     currentUser: state.currentUser.current,
   }),
-  (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => ({
+  (dispatch: CKDispatch) => ({
     onConnect: () => { dispatch(openModal()); },
     onLogout: () => { dispatch(logout()); },
     onHome: () => { dispatch(push('/')); },
