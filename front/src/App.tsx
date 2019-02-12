@@ -19,8 +19,6 @@ import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
 import Welcome from './pages/Welcome';
 
-import { AppState } from './state/root.reducer';
-
 const styles = (theme: Theme) => createStyles({
   root: {
     paddingTop: theme.spacing.unit * 10,
@@ -53,7 +51,7 @@ const App: React.SFC<AppProps & WithStyles<typeof styles>> = ({ connected, class
 
 const StyledApp = withStyles(styles)(App);
 
-const ConnectedApp = connect((state: AppState) => ({
+const ConnectedApp = connect((state: CKState) => ({
   connected: state.currentUser.current !== null,
 }))(StyledApp);
 

@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-import { AnyAction } from 'redux';
 import { connect } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
 
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -13,7 +11,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
 
-import { AppState } from '../state/root.reducer';
 import { closeModal, login } from '../state/login/action';
 
 interface LoginDialogProps {
@@ -117,12 +114,12 @@ class LoginDialog extends React.Component<LoginDialogProps, LoginDialogState> {
 }
 
 export default connect(
-  (state: AppState) => ({
+  (state: CKState) => ({
     open: state.currentUser.form !== 'none',
     submittable: state.currentUser.form !== 'none' && state.currentUser.status !== 'pending',
     error: state.currentUser.form === 'error',
   }),
-  (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => ({
+  (dispatch: CKDispatch) => ({
     onClose: () => {
       dispatch(closeModal());
     },

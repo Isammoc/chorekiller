@@ -1,10 +1,6 @@
-import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-
 import { login as clientLogin, connectedUser as clientConnected } from '../../client/login';
 import { User } from '../../model';
 
-import { AppState } from '../root.reducer';
 import { fetchList } from '../groceries/action';
 
 import actionTypes from './actionTypes';
@@ -37,7 +33,7 @@ const saveToken = (user: User) => {
   localStorage.setItem('token', user.authorization);
 };
 
-export const loadToken = (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => {
+export const loadToken = (dispatch: CKDispatch) => {
   const token = localStorage.getItem('token');
   if (token) {
     dispatch(loginRequest());
@@ -50,7 +46,7 @@ export const loadToken = (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => {
 };
 
 export const login = (username: string, password: string) =>
-  (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => {
+  (dispatch: CKDispatch) => {
     dispatch(loginRequest());
     clientLogin(username, password)
       .then(res => {
@@ -64,7 +60,7 @@ const actionLogout = () => ({
   type: actionTypes.LOGOUT,
 });
 
-export const logout = () => (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => {
+export const logout = () => (dispatch: CKDispatch) => {
   localStorage.removeItem('token');
   dispatch(actionLogout());
 };

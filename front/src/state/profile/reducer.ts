@@ -1,4 +1,4 @@
-import { Reducer, AnyAction } from 'redux';
+import { Reducer } from 'redux';
 import actionTypes from './actionTypes';
 
 export interface Profile {
@@ -9,8 +9,8 @@ export interface Profile {
 
 export type ProfileState = { [name: string]: Profile };
 
-const reducer: Reducer<ProfileState, AnyAction> =
-  (state: ProfileState = {}, action: AnyAction) => {
+const reducer: Reducer<ProfileState, CKAction> =
+  (state: ProfileState = {}, action: CKAction) => {
     switch (action.type) {
       case actionTypes.PROFILE_SUCCESS:
         return {

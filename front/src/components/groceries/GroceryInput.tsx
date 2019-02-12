@@ -1,14 +1,11 @@
 import * as React from 'react';
 
-import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
 
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import TextField from '@material-ui/core/TextField';
 
-import { AppState } from '../../state/root.reducer';
 import { addItem, changeItemToAdd } from '../../state/groceries/action';
 
 interface GroceryInputProps {
@@ -38,10 +35,10 @@ const GroceryInput: React.SFC<GroceryInputProps> = ({ item, onSubmit, onChange }
 );
 
 export default connect(
-  (state: AppState) => ({
+  (state: CKState) => ({
     item: state.groceries.itemToAdd,
   }),
-  (dispatch: ThunkDispatch<AppState, {}, AnyAction>) => ({
+  (dispatch: CKDispatch) => ({
     onSubmit: () => { dispatch(addItem()); },
     onChange: (item: string) => { dispatch(changeItemToAdd(item)); },
   }))(GroceryInput);

@@ -1,8 +1,4 @@
-import { Dispatch, AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-
 import { Item } from '../../model';
-import { AppState } from '../root.reducer';
 import client from '../../client/groceries';
 
 import ActionTypes from './actionTypes';
@@ -26,14 +22,14 @@ export const changeItemToAdd = (item: string) => ({
   payload: item,
 });
 
-export const fetchList = () => (dispatch: Dispatch<AnyAction>, getState: () => AppState) => {
+export const fetchList = () => (dispatch: CKDispatch, getState: () => CKState) => {
   dispatch(listRequest());
   client.fetchItems(getState().currentUser.current!.authorization)
   .then(items => dispatch(listSuccess(items)))
   .catch(err => dispatch(listFailure(err)));
 };
 
-export const addItem = () => (dispatch: ThunkDispatch<AppState, {}, AnyAction>, getState: () => AppState) => {
+export const addItem = () => (dispatch: CKDispatch, getState: () => CKState) => {
   client.addItem(
       getState().currentUser.current!.authorization,
       getState().groceries.itemToAdd
@@ -44,13 +40,13 @@ export const addItem = () => (dispatch: ThunkDispatch<AppState, {}, AnyAction>, 
 };
 
 export const deleteItem = (id: number) =>
-  (dispatch: ThunkDispatch<AppState, {}, AnyAction>, getState: () => AppState) => {
+  (dispatch: CKDispatch, getState: () => CKState) => {
     client.deleteItem(getState().currentUser.current!.authorization, id).then(res => {
       dispatch(fetchList());
     });
   };
 
-export const toggle = (id: number) => (dispatch: ThunkDispatch<AppState, {}, AnyAction>, getState: () => AppState) => {
+export const toggle = (id: number) => (dispatch: CKDispatch, getState: () => CKState) => {
   const completed = getState().groceries.current!.find(e => e.id === id)!.completed;
 
   const clientMethod = completed ? client.uncompleteItem : client.completeItem;
