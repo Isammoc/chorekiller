@@ -8,6 +8,7 @@ import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import createStyles from '@material-ui/core/styles/createStyles';
 
 import withRoot from './utils/withRoot';
+import { selectors } from './state/root.selector';
 
 import Footer from './components/Footer';
 import LoginDialog from './components/LoginDialog';
@@ -52,7 +53,7 @@ const App: React.SFC<AppProps & WithStyles<typeof styles>> = ({ connected, class
 const StyledApp = withStyles(styles)(App);
 
 const ConnectedApp = connect((state: CKState) => ({
-  connected: state.currentUser.current !== null,
+  connected: selectors(state).isConnected,
 }))(StyledApp);
 
 export default withRoot(ConnectedApp);

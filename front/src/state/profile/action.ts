@@ -1,4 +1,5 @@
 import { getProfile } from '../../client/profile';
+import { selectors } from '../root.selector';
 
 import actionTypes from './actionTypes';
 import { Profile } from './reducer';
@@ -25,7 +26,7 @@ export const loadProfile =
   (name: string) =>
     (dispatch: CKDispatch, getState: () => CKState) => {
       dispatch(profileRequest(name));
-      getProfile(getState().currentUser.current!.authorization, name)
+      getProfile(selectors(getState()).token, name)
         .then(
           profile => { dispatch(profileSuccess(name, profile)); }
         ).catch(
