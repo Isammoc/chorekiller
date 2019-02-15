@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Provider } from 'react-redux';
-import { createStore, compose, applyMiddleware } from 'redux';
+import { createStore, compose, applyMiddleware, Store } from 'redux';
 import thunk from 'redux-thunk';
 import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 
@@ -15,6 +15,7 @@ import rootReducer from '../state/root.reducer';
 
 import { onLocationChange } from './onLocationChange';
 import onStart from './onStart';
+import client from '../client';
 
 const theme = createMuiTheme({
   palette: {
@@ -40,12 +41,12 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const history = createBrowserHistory();
 
-const store = createStore<CKState, CKAction, {}, {}>(
+const store: Store<CKState, CKAction> = createStore<CKState, CKAction, {}, {}>(
   rootReducer(history),
   composeEnhancers(
     applyMiddleware(
       routerMiddleware(history),
-      thunk,
+      thunk.withExtraArgument({ client: client(() => store.getState()) }),
     ),
   )
 );

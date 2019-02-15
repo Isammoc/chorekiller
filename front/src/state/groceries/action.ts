@@ -1,6 +1,4 @@
 import { Item } from '../../model';
-import client from '../../client/groceries';
-import { selectors } from '../root.selector';
 
 import ActionTypes from './actionTypes';
 
@@ -23,17 +21,16 @@ export const changeItemToAdd = (item: string) => ({
   payload: item,
 });
 
-export const fetchList = () => (dispatch: CKDispatch, getState: () => CKState) => {
+export const fetchList = () => (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
   dispatch(listRequest());
-  client.fetchItems(selectors(getState()).token)
-  .then(items => dispatch(listSuccess(items)))
-  .catch(err => dispatch(listFailure(err)));
+  client.groceries.fetchItems()
+    .then(items => dispatch(listSuccess(items)))
+    .catch(err => dispatch(listFailure(err)));
 };
 
-export const addItem = () => (dispatch: CKDispatch, getState: () => CKState) => {
-  client.addItem(
-      selectors(getState()).token,
-      getState().groceries.itemToAdd
+export const addItem = () => (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
+  client.groceries.addItem(
+    getState().groceries.itemToAdd
   ).then(res => {
     dispatch(changeItemToAdd(''));
     dispatch(fetchList());
@@ -41,18 +38,19 @@ export const addItem = () => (dispatch: CKDispatch, getState: () => CKState) => 
 };
 
 export const deleteItem = (id: number) =>
-  (dispatch: CKDispatch, getState: () => CKState) => {
-    client.deleteItem(selectors(getState()).token, id).then(res => {
+  (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
+    client.groceries.deleteItem(id).then(res => {
       dispatch(fetchList());
     });
   };
 
-export const toggle = (id: number) => (dispatch: CKDispatch, getState: () => CKState) => {
-  const completed = getState().groceries.current!.find(e => e.id === id)!.completed;
+export const toggle = (id: number) =>
+  (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
+    const completed = getState().groceries.current!.find(e => e.id === id)!.completed;
 
-  const clientMethod = completed ? client.uncompleteItem : client.completeItem;
+    const clientMethod = completed ? client.groceries.uncompleteItem : client.groceries.completeItem;
 
-  clientMethod(selectors(getState()).token, id).then(res => {
-    dispatch(fetchList());
-  });
-};
+    clientMethod(id).then(res => {
+      dispatch(fetchList());
+    });
+  };
