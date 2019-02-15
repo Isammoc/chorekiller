@@ -1,11 +1,11 @@
 import { Profile } from '../state/profile/reducer';
 
-export const getProfile = (token: string, id: string) => new Promise<Profile>((resolve, reject): void => {
+export const getProfile = (token: () => string) => (id: string) => new Promise<Profile>((resolve, reject): void => {
   fetch('/api/users/' + id, {
     method: 'get',
     headers: {
       'Content-Type': 'application.json',
-      'Authorization': token,
+      'Authorization': token(),
     }
   }).then(res => {
     if (res.ok) {
@@ -17,4 +17,8 @@ export const getProfile = (token: string, id: string) => new Promise<Profile>((r
     }
   })
   .catch(reject);
+});
+
+export default (token: () => string) => ({
+  get: getProfile(token),
 });

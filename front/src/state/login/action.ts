@@ -1,12 +1,7 @@
-import {
-  login as clientLogin,
-  connectedUser as clientConnected,
-  changePassword as clientChangePassword
-} from '../../client/login';
 import { User } from '../../model';
 
+import { connectedUser } from '../../client/login';
 import { fetchList } from '../groceries/action';
-import { selectors } from '../root.selector';
 
 import actionTypes from './actionTypes';
 
@@ -42,7 +37,7 @@ export const loadToken = (dispatch: CKDispatch) => {
   const token = localStorage.getItem('token');
   if (token) {
     dispatch(loginRequest());
-    clientConnected(token)
+    connectedUser(token)
       .then(res => {
         dispatch(loginSuccess(res));
         dispatch(fetchList());
@@ -51,9 +46,9 @@ export const loadToken = (dispatch: CKDispatch) => {
 };
 
 export const login = (username: string, password: string) =>
-  (dispatch: CKDispatch) => {
+  (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
     dispatch(loginRequest());
-    clientLogin(username, password)
+    client.login.login(username, password)
       .then(res => {
         dispatch(loginSuccess(res));
         saveToken(res);
@@ -85,9 +80,9 @@ const changePasswordSuccess = () => ({
 
 export const changePassword =
   (oldPassword: string, newPassword: string) =>
-    (dispatch: CKDispatch, getState: () => CKState) => {
+    (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
       dispatch(changePasswordRequest());
-      clientChangePassword(selectors(getState()).token, oldPassword, newPassword)
+      client.login.changePassword(oldPassword, newPassword)
         .then(() => { dispatch(changePasswordSuccess()); })
         .catch(err => { dispatch(changePasswordFailure(err)); });
     };

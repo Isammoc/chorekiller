@@ -1,6 +1,3 @@
-import { getProfile } from '../../client/profile';
-import { selectors } from '../root.selector';
-
 import actionTypes from './actionTypes';
 import { Profile } from './reducer';
 
@@ -24,9 +21,9 @@ const profileSuccess = (name: string, profile: Profile) => ({
 
 export const loadProfile =
   (name: string) =>
-    (dispatch: CKDispatch, getState: () => CKState) => {
+    (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
       dispatch(profileRequest(name));
-      getProfile(selectors(getState()).token, name)
+      client.profile.get(name)
         .then(
           profile => { dispatch(profileSuccess(name, profile)); }
         ).catch(

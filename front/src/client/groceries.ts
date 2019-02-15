@@ -1,9 +1,9 @@
 import { Item } from '../model';
 
-const addItem = (authorization: string, item: string) => new Promise<void>((resolve, reject): void => {
+const addItem = (token: () => string) => (item: string) => new Promise<void>((resolve, reject): void => {
   fetch('/api/lists/1/items', {
     headers: {
-      'Authorization': authorization,
+      'Authorization': token(),
       'Content-Type': 'application/json',
     },
     method: 'post',
@@ -11,37 +11,37 @@ const addItem = (authorization: string, item: string) => new Promise<void>((reso
   }).catch(reject).then(_ => resolve());
 });
 
-const deleteItem = (authorization: string, id: number) => new Promise<void>((resolve, reject): void => {
+const deleteItem = (token: () => string) => (id: number) => new Promise<void>((resolve, reject): void => {
   fetch('/api/lists/1/items/' + id, {
     headers: {
-      'Authorization': authorization,
+      'Authorization': token(),
     },
     method: 'delete'
   }).catch(reject).then(_ => resolve());
 });
 
-const completeItem = (authorization: string, id: number) => new Promise<void>((resolve, reject) => {
+const completeItem = (token: () => string) => (id: number) => new Promise<void>((resolve, reject) => {
   fetch('/api/lists/1/items/' + id + '/completion', {
     headers: {
-      'Authorization': authorization,
+      'Authorization': token(),
     },
     method: 'post'
   }).catch(reject).then(_ => resolve());
 });
 
-const uncompleteItem = (authorization: string, id: number) => new Promise<void>((resolve, reject) => {
+const uncompleteItem = (token: () => string) => (id: number) => new Promise<void>((resolve, reject) => {
   fetch('/api/lists/1/items/' + id + '/completion', {
     headers: {
-      'Authorization': authorization,
+      'Authorization': token(),
     },
     method: 'delete'
   }).catch(reject).then(_ => resolve());
 });
 
-const fetchItems = (authorization: string) => new Promise<Item[]>((resolve, reject) => {
+const fetchItems = (token: () => string) => () => new Promise<Item[]>((resolve, reject) => {
   fetch('/api/lists/1/items', {
     headers: {
-      'Authorization': authorization
+      'Authorization': token(),
     },
   }).then(res => {
     res.json().then(json => {
@@ -50,10 +50,10 @@ const fetchItems = (authorization: string) => new Promise<Item[]>((resolve, reje
   }).catch(reject);
 });
 
-export default {
-  addItem,
-  completeItem,
-  deleteItem,
-  fetchItems,
-  uncompleteItem,
-};
+export default (token: () => string) => ({
+  addItem: addItem(token),
+  completeItem: completeItem(token),
+  deleteItem: deleteItem(token),
+  fetchItems: fetchItems(token),
+  uncompleteItem: uncompleteItem(token),
+});
