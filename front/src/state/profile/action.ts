@@ -23,7 +23,7 @@ export const loadProfile =
   (name: string) =>
     (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
       dispatch(profileRequest(name));
-      client.getProfile(name)
+      client.profile.get(name)
         .then(
           profile => { dispatch(profileSuccess(name, profile)); }
         ).catch(
