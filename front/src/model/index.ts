@@ -17,8 +17,6 @@ export interface User {
   passwordChanged: 'none' | 'success' | 'error' | 'pending';
 }
 
-export interface GroceryState extends PossibleState<Item[]> {
-  itemToAdd: string;
-}
+export interface GroceryState extends PossibleState<Item[]> {}
 
 export type UserState = PossibleState<User>;

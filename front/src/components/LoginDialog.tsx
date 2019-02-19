@@ -9,109 +9,58 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import TextField from '@material-ui/core/TextField';
+
+import TextField from './utils/TextField';
 
 import { closeModal, login } from '../state/login/action';
+import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 
 interface LoginDialogProps {
   open: boolean;
-  submittable: boolean;
-  error: boolean;
   onClose: () => void;
-  onConnect: (login: string, password: string) => void;
+  onConnect: (values: Login) => void;
 }
 
-interface LoginDialogState {
+interface Login {
   login: string;
   password: string;
 }
 
-class LoginDialog extends React.Component<LoginDialogProps, LoginDialogState> {
-  constructor(props: LoginDialogProps) {
-    super(props);
-    this.state = {
-      login: '',
-      password: '',
-    };
-  }
-
-  changeLogin(newLogin: string) {
-    this.setState({
-      ...this.state,
-      login: newLogin,
-    });
-  }
-
-  changePassword(newPassword: string) {
-    this.setState({
-      ...this.state,
-      password: newPassword,
-    });
-  }
-
-  handleSubmit() {
-    this.props.onConnect(this.state.login, this.state.password);
-  }
-
-  render() {
-    const { open, onClose, submittable, error } = this.props;
-    return (
-      <Dialog
-        open={open}
-        onClose={onClose}
-      >
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            this.handleSubmit();
-          }}
-        >
-          <DialogTitle>
+const LoginForm =
+  ({ handleSubmit, open, onClose, onConnect, submitting, error }: InjectedFormProps<Login> & LoginDialogProps) => (
+    <Dialog
+      open={open}
+      onClose={onClose}
+    >
+      <form onSubmit={handleSubmit(onConnect)}>
+        <DialogTitle>
+          Se connecter
+          {submitting &&
+            <CircularProgress size="1em" />}
+        </DialogTitle>
+        <DialogContent>
+          {error &&
+            <FormHelperText error={true}>
+              Identification échouée. Veuillez réessayer.
+            {error}
+            </FormHelperText>
+          }
+          <Field name="login" component={TextField} label="Identifiant" margin="dense" autoFocus={true} />
+          <Field name="password" component={TextField} label="Mot de passe" margin="dense" type="password" />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose}>Annuler</Button>
+          <Button
+            type="submit"
+            disabled={submitting}
+            variant="contained"
+            color="primary"
+          >
             Se connecter
-            {!submittable &&
-              <CircularProgress size="1em" />}
-          </DialogTitle>
-          <DialogContent>
-            {error &&
-              <FormHelperText error={true}>
-                Identification échouée. Veuillez réessayer.
-              </FormHelperText>
-            }
-            <TextField
-              disabled={!submittable}
-              autoFocus={true}
-              margin="dense"
-              label="Identifiant"
-              fullWidth={true}
-              value={this.state.login}
-              onChange={change => this.changeLogin(change.currentTarget.value)}
-            />
-            <TextField
-              disabled={!submittable}
-              margin="dense"
-              label="Mot de passe"
-              type="password"
-              fullWidth={true}
-              value={this.state.password}
-              onChange={change => this.changePassword(change.currentTarget.value)}
-            />
-          </DialogContent>
-          <DialogActions >
-            <Button onClick={onClose}>Annuler</Button>
-            <Button
-              type="submit"
-              disabled={!submittable}
-              variant="contained"
-              color="primary"
-            >
-              Se connecter
-            </Button>
-          </DialogActions>
-        </form>
-      </Dialog>
-    );
-  }
-}
+          </Button>
+        </DialogActions>
+      </form>
+    </Dialog>);
 
 export default connect(
   (state: CKState) => ({
@@ -123,7 +72,10 @@ export default connect(
     onClose: () => {
       dispatch(closeModal());
     },
-    onConnect: (name: string, password: string) => {
-      dispatch(login(name, password));
+    onConnect: (values: Login) => {
+      dispatch(login(values.login, values.password));
     },
-  }))(LoginDialog);
+  }))(
+    reduxForm<Login, LoginDialogProps>({
+      form: 'login',
+    })(LoginForm));
