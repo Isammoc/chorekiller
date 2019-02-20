@@ -1,3 +1,5 @@
+import { reset } from 'redux-form';
+
 import { Item } from '../../model';
 
 import ActionTypes from './actionTypes';
@@ -16,11 +18,6 @@ const listSuccess = (items: Item[]) => ({
   payload: items,
 });
 
-export const changeItemToAdd = (item: string) => ({
-  type: ActionTypes.CHANGE_ITEM_TO_ADD,
-  payload: item,
-});
-
 export const fetchList = () => (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
   dispatch(listRequest());
   client.groceries.fetchItems()
@@ -28,14 +25,14 @@ export const fetchList = () => (dispatch: CKDispatch, getState: () => CKState, {
     .catch(err => dispatch(listFailure(err)));
 };
 
-export const addItem = () => (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
-  client.groceries.addItem(
-    getState().groceries.itemToAdd
-  ).then(res => {
-    dispatch(changeItemToAdd(''));
-    dispatch(fetchList());
-  });
-};
+export const addItem =
+  (item: string) =>
+    (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
+      return client.groceries.addItem(item).then(res => {
+        dispatch(reset('itemToAdd'));
+        dispatch(fetchList());
+      });
+    };
 
 export const deleteItem = (id: number) =>
   (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {

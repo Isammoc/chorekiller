@@ -1,5 +1,7 @@
 import * as React from 'react';
+
 import { connect } from 'react-redux';
+import { reduxForm, InjectedFormProps, Field, FormErrors, SubmissionError } from 'redux-form';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -10,87 +12,95 @@ import Typography from '@material-ui/core/Typography';
 
 import { changePassword } from '../state/login/action';
 
-import PasswordInput from './PasswordInput';
+import PasswordField from './utils/PasswordField';
 
-interface PasswordFormProps {
-  success: boolean;
-  error: boolean;
-  onSubmit: (oldPassword: string, newPassword: string) => void;
+interface Props {
+  onSubmit: (values: PasswordChange) => Promise<void>;
 }
 
-const PasswordForm: React.SFC<PasswordFormProps> = ({ onSubmit, success, error }) => {
-  const [oldPassword, setOldPassword] = React.useState('');
-  const [newPassword, setNewPassword] = React.useState('');
-  const [verifyPassword, setVerifyPassword] = React.useState('');
+interface PasswordChange {
+  oldPassword: string;
+  newPassword: string;
+  verifyPassword: string;
+}
 
-  const errorPassword = verifyPassword !== newPassword;
-  const possible = !errorPassword && newPassword.length !== 0;
-  const submit = (e: React.FormEvent) => {
-    if (possible) {
-      onSubmit(oldPassword, newPassword);
-    }
-    setOldPassword('');
-    setNewPassword('');
-    setVerifyPassword('');
-    e.preventDefault();
-  };
-
-  return (
-    <Card>
-      <form onSubmit={submit}>
-        <CardHeader title="Modification du mot de passe" />
-        <CardContent>
-          {success &&
-            <Typography color="textSecondary" gutterBottom={true}>Mot de passe modifié avec succès.</Typography>
-          }
-          {error &&
-            <Typography color="error" gutterBottom={true}>Erreur lors de la modification du mot de passe.</Typography>
-          }
-          <PasswordInput
-            id="old-password"
-            label="Mot de passe actuel"
-            password={oldPassword}
-            setPassword={setOldPassword}
-            error={false}
-          />
-          <PasswordInput
-            id="new-password"
-            label="Nouveau mot de passe"
-            password={newPassword}
-            setPassword={setNewPassword}
-            error={false}
-          />
-          <PasswordInput
-            id="verify-password"
-            label="Vérification"
-            password={verifyPassword}
-            setPassword={setVerifyPassword}
-            error={errorPassword}
-          />
-        </CardContent>
-        <CardActions>
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={!possible}
-            type="submit"
-          >
-            Changer de mot de passe
-          </Button>
-        </CardActions>
-      </form>
-    </Card>
-  );
+const validate = (values: PasswordChange) => {
+  const errors: FormErrors<PasswordChange> = {};
+  if (!values.oldPassword) {
+    errors.oldPassword = 'Requis';
+  }
+  if (!values.newPassword) {
+    errors.newPassword = 'Requis';
+  }
+  if (!values.verifyPassword) {
+    errors.verifyPassword = 'Requis';
+  } else if (values.verifyPassword !== values.newPassword) {
+    errors.verifyPassword = 'Doit être identique à votre nouveau mot de passe';
+  }
+  return errors;
 };
 
+const mySubmit =
+  (real: (values: PasswordChange) => Promise<void>) =>
+    (values: PasswordChange) =>
+      new Promise<void>((resolve, reject) => {
+        real(values).then(() => {
+          resolve();
+        }).catch(() => {
+          reject(new SubmissionError<PasswordChange>({
+            _error: 'Impossible de modifier le mot de passe.',
+          }));
+        });
+      });
+
+const PasswordForm =
+  ({
+    error,
+    handleSubmit,
+    onSubmit,
+    submitting,
+    submitFailed,
+    submitSucceeded,
+  }: Props & InjectedFormProps<PasswordChange, Props>) => {
+    return (
+      <Card>
+        <form onSubmit={handleSubmit(mySubmit(onSubmit))}>
+          <CardHeader title="Modification du mot de passe" />
+          <CardContent>
+            {submitSucceeded &&
+              <Typography gutterBottom={true}>Mot de passe modifié avec succès.</Typography>
+            }
+            {submitFailed && Boolean(error) &&
+              <Typography color="error" gutterBottom={true}>
+                {error}
+              </Typography>
+            }
+            <Field name="oldPassword" id="old-password" label="Mot de passe actuel" component={PasswordField} />
+            <Field name="newPassword" id="new-password" label="Nouveau mot de passe" component={PasswordField} />
+            <Field name="verifyPassword" id="verify-password" label="Vérification" component={PasswordField} />
+          </CardContent>
+          <CardActions>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={submitting}
+              type="submit"
+            >
+              Changer de mot de passe
+            </Button>
+          </CardActions>
+        </form>
+      </Card>
+    );
+  };
+
 export default connect(
-  (state: CKState) => ({
-    success: state.currentUser.current!.passwordChanged === 'success',
-    error: state.currentUser.current!.passwordChanged === 'error',
-  }),
+  undefined,
   (dispatch: CKDispatch) => ({
-    onSubmit: (oldPassword: string, newPassword: string) => {
-      dispatch(changePassword(oldPassword, newPassword));
-    },
+    onSubmit:
+      (values: PasswordChange) => dispatch(changePassword(values.oldPassword, values.newPassword)),
   }),
-)(PasswordForm);
+)(reduxForm<PasswordChange>({
+  form: 'passwordChange',
+  validate,
+})(PasswordForm));

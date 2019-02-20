@@ -8,17 +8,11 @@ const defaultState: GroceryState = {
   current: null,
   status: 'none',
   form: 'none',
-  itemToAdd: '',
 };
 
 const reducer: Reducer<GroceryState, CKAction> =
   (state: GroceryState = defaultState, action: CKAction) => {
     switch (action.type) {
-      case ActionTypes.CHANGE_ITEM_TO_ADD:
-        return {
-          ...state,
-          itemToAdd: action.payload,
-        };
       case ActionTypes.LIST_REQUEST:
         return {
           ...state,

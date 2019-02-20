@@ -1,44 +1,35 @@
 import * as React from 'react';
 
 import { connect } from 'react-redux';
+import { InjectedFormProps, Field, reduxForm } from 'redux-form';
 
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
-import TextField from '@material-ui/core/TextField';
 
-import { addItem, changeItemToAdd } from '../../state/groceries/action';
+import { addItem } from '../../state/groceries/action';
+import TextField from '../utils/TextField';
 
-interface GroceryInputProps {
+interface Grocery {
   item: string;
-  onSubmit: () => void;
-  onChange: (item: string) => void;
 }
 
-const mySubmit = (onSubmit: () => void) => (event: React.BaseSyntheticEvent) => {
-  onSubmit();
-  event.preventDefault();
-};
+interface GroceryFormProps {
+  onSubmit: (values: Grocery) => Promise<void>;
+}
 
-const GroceryInput: React.SFC<GroceryInputProps> = ({ item, onSubmit, onChange }) => (
-  <form style={{display: 'flex'}} onSubmit={mySubmit(onSubmit)}>
-    <TextField
-        label="Article à ajouter"
-        variant="outlined"
-        style={{flex: 1}}
-        onChange={e => onChange(e.target.value)}
-        value={item}
-    />
-    <Fab>
-      <AddIcon onClick={mySubmit(onSubmit)} />
+const GroceryForm = ({ handleSubmit, onSubmit }: GroceryFormProps & InjectedFormProps<Grocery, GroceryFormProps>) => (
+  <form style={{ display: 'flex' }} onSubmit={handleSubmit(onSubmit)}>
+    <Field name="item" component={TextField} label="Article à ajouter" variant="outlined" style={{ flex: 1 }} />
+    <Fab type="submit">
+      <AddIcon />
     </Fab>
   </form>
 );
 
 export default connect(
-  (state: CKState) => ({
-    item: state.groceries.itemToAdd,
-  }),
+  undefined,
   (dispatch: CKDispatch) => ({
-    onSubmit: () => { dispatch(addItem()); },
-    onChange: (item: string) => { dispatch(changeItemToAdd(item)); },
-  }))(GroceryInput);
+    onSubmit: (values: Grocery) => dispatch(addItem(values.item)),
+  }))(reduxForm({
+    form: 'itemToAdd',
+  })(GroceryForm));
