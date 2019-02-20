@@ -13,7 +13,6 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
 import rootReducer from '../state/root.reducer';
 
-import { onLocationChange } from './onLocationChange';
 import onStart from './onStart';
 import client from '../client';
 
@@ -51,12 +50,7 @@ const store: Store<CKState, CKAction> = createStore<CKState, CKAction, {}, {}>(
   )
 );
 
-const myLocationListener = onLocationChange(store.getState, store.dispatch);
-
-history.listen(myLocationListener);
-
 onStart(store);
-myLocationListener(history.location, undefined);
 
 if (module.hot) {
   module.hot.accept('../state/root.reducer', () => {

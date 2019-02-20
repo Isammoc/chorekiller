@@ -8,6 +8,7 @@ const defaultCurrentUser: UserState = {
   current: null,
   status: 'none',
   form: 'none',
+  token: '',
 };
 
 const changeIfOpen = (state: UserState, newForm: 'none' | 'pending' | 'error') =>
@@ -70,6 +71,15 @@ const reducer: Reducer<UserState, CKAction> =
         return changePasswordStatus(state, 'error');
       case actionTypes.CHANGE_PASSWORD_SUCCESS:
         return changePasswordStatus(state, 'success');
+      case actionTypes.TOKEN_RENEW:
+        if (state.token === action.payload) {
+          return state;
+        } else {
+          return {
+            ...state,
+            token: action.payload,
+          };
+        }
       default:
         return state;
     }

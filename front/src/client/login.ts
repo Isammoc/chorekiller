@@ -11,7 +11,6 @@ const manageResponse = (
         resolve({
           login: json.login,
           name: json.displayName,
-          authorization: res.headers.get('Set-Authorization')!,
           passwordChanged: 'none',
         })
       ).catch(reject);
@@ -36,28 +35,26 @@ export const login = (username: string, password: string) => new Promise<User>((
   );
 });
 
-export const connectedUser = (token: string) => new Promise<User>((resolve, reject): void => {
+export const connectedUser = (client: typeof fetch) => new Promise<User>((resolve, reject): void => {
   manageResponse(
     resolve,
     reject,
-    fetch('/api/users/me', {
+    client('/api/users/me', {
       method: 'get',
       headers: {
         'Content-Type': 'application.json',
-        'Authorization': token,
       }
     })
   );
 });
 
 export const changePassword =
-  (token: string, oldPassword: string, newPassword: string) => new Promise<void>((resolve, reject): void => {
-    fetch('/api/users/me/password', {
+  (client: typeof fetch, oldPassword: string, newPassword: string) => new Promise<void>((resolve, reject): void => {
+    client('/api/users/me/password', {
       method: 'post',
       body: JSON.stringify({ oldPassword, newPassword }),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token,
       }
     }).then(res => {
       if (res.ok) {
