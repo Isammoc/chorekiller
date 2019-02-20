@@ -4,7 +4,7 @@ import { AppState } from "../src/state/root.reducer";
 import client from "../src/client";
 
 declare global {
-  type CKClient = ReturnType<typeof client>;
+  type CKClient = typeof client;
   type CKState = AppState;
   type CKAction = AnyAction;
   type CKThunkExtraParams = { client: CKClient };

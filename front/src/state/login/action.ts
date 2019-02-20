@@ -1,9 +1,9 @@
 import { User } from '../../model';
 
-import { connectedUser } from '../../client/login';
 import { fetchList } from '../groceries/action';
 
 import actionTypes from './actionTypes';
+import directClient from '../../client';
 
 export const openModal = () => ({
   type: actionTypes.OPEN_MODAL,
@@ -29,15 +29,18 @@ const loginSuccess = (user: User) => ({
   payload: user,
 });
 
-const saveToken = (user: User) => {
-  localStorage.setItem('token', user.authorization);
-};
+export const renewToken =
+  (token: string) => ({
+    type: actionTypes.TOKEN_RENEW,
+    payload: token,
+  });
 
-export const loadToken = (dispatch: CKDispatch) => {
+export const loadToken = (dispatch: CKDispatch, getState: () => CKState) => {
   const token = localStorage.getItem('token');
   if (token) {
+    dispatch(renewToken(token));
     dispatch(loginRequest());
-    connectedUser(token)
+    directClient(dispatch, getState).login.connectedUser(token)
       .then(res => {
         dispatch(loginSuccess(res));
         dispatch(fetchList());
@@ -48,10 +51,9 @@ export const loadToken = (dispatch: CKDispatch) => {
 export const login = (username: string, password: string) =>
   (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
     dispatch(loginRequest());
-    const res = client.login.login(username, password);
+    const res = client(dispatch, getState).login.login(username, password);
     res.then(user => {
       dispatch(loginSuccess(user));
-      saveToken(user);
       dispatch(fetchList());
     }).catch(err => dispatch(loginFailure(err)));
     return res;
@@ -83,7 +85,7 @@ export const changePassword =
   (oldPassword: string, newPassword: string) =>
     (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
       dispatch(changePasswordRequest());
-      const res = client.login.changePassword(oldPassword, newPassword);
+      const res = client(dispatch, getState).login.changePassword(oldPassword, newPassword);
       res
         .then(() => { dispatch(changePasswordSuccess()); })
         .catch(err => { dispatch(changePasswordFailure(err)); });

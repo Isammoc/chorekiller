@@ -7,7 +7,6 @@ import ActionTypes from './actionTypes';
 const defaultState: GroceryState = {
   current: null,
   status: 'none',
-  form: 'none',
 };
 
 const reducer: Reducer<GroceryState, CKAction> =

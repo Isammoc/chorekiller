@@ -2,17 +2,37 @@ import { selectors } from '../state/root.selector';
 import profile from './profile';
 import groceries from './groceries';
 import * as login from './login';
+import { renewToken } from '../state/login/action';
 
-const client = (getState: () => CKState) => {
-  const token = () => selectors(getState()).token;
+const withRenewToken =
+  (dispatch: CKDispatch, getState: () => CKState) =>
+    (input: RequestInfo, init?: RequestInit) => {
+      const realInit = {
+        ...init,
+        headers: {
+          ...(init ? init.headers : {}),
+          'Authorization': selectors(getState()).token,
+        }
+      };
+      return fetch(input, realInit).then(res => {
+        const newToken = res.headers.get('Set-Authorization');
+        if (newToken) {
+          dispatch(renewToken(newToken));
+        }
+        return res;
+      });
+    };
+
+const client = (dispatch: CKDispatch, getState: () => CKState) => {
+  const api = withRenewToken(dispatch, getState);
   return {
-    profile: profile(token),
-    groceries: groceries(token),
+    profile: profile(api),
+    groceries: groceries(api),
     login: {
       login: login.login,
       changePassword:
-        (oldPassword: string, newPassword: string) => login.changePassword(token(), oldPassword, newPassword),
-      connectedUser: (possibleToken: string) => login.connectedUser(possibleToken),
+        (oldPassword: string, newPassword: string) => login.changePassword(api, oldPassword, newPassword),
+      connectedUser: (possibleToken: string) => login.connectedUser(api),
     }
   };
 };
