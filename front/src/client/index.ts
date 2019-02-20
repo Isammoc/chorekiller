@@ -3,7 +3,7 @@ import profile from './profile';
 import groceries from './groceries';
 import * as login from './login';
 
-const client = (getState: () => CKState) => {
+const client = (dispatch: CKDispatch, getState: () => CKState) => {
   const token = () => selectors(getState()).token;
   return {
     profile: profile(token),

@@ -46,7 +46,7 @@ const store: Store<CKState, CKAction> = createStore<CKState, CKAction, {}, {}>(
   composeEnhancers(
     applyMiddleware(
       routerMiddleware(history),
-      thunk.withExtraArgument({ client: client(() => store.getState()) }),
+      thunk.withExtraArgument({ client }),
     ),
   )
 );

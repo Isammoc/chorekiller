@@ -48,7 +48,7 @@ export const loadToken = (dispatch: CKDispatch) => {
 export const login = (username: string, password: string) =>
   (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
     dispatch(loginRequest());
-    const res = client.login.login(username, password);
+    const res = client(dispatch, getState).login.login(username, password);
     res.then(user => {
       dispatch(loginSuccess(user));
       saveToken(user);
@@ -83,7 +83,7 @@ export const changePassword =
   (oldPassword: string, newPassword: string) =>
     (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
       dispatch(changePasswordRequest());
-      const res = client.login.changePassword(oldPassword, newPassword);
+      const res = client(dispatch, getState).login.changePassword(oldPassword, newPassword);
       res
         .then(() => { dispatch(changePasswordSuccess()); })
         .catch(err => { dispatch(changePasswordFailure(err)); });
