@@ -29,7 +29,7 @@ const client = (dispatch: CKDispatch, getState: () => CKState) => {
     profile: profile(api),
     groceries: groceries(api),
     login: {
-      login: login.login,
+      login: login.login(api),
       changePassword:
         (oldPassword: string, newPassword: string) => login.changePassword(api, oldPassword, newPassword),
       connectedUser: (possibleToken: string) => login.connectedUser(api),
