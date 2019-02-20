@@ -21,19 +21,22 @@ const manageResponse = (
     .catch(reject);
 };
 
-export const login = (username: string, password: string) => new Promise<User>((resolve, reject): void => {
-  manageResponse(
-    resolve,
-    reject,
-    fetch('/api/users/me', {
-      method: 'post',
-      body: JSON.stringify({ login: username.toLowerCase(), password: password }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-  );
-});
+export const login =
+  (client: typeof fetch) =>
+    (username: string, password: string) =>
+      new Promise<User>((resolve, reject): void => {
+        manageResponse(
+          resolve,
+          reject,
+          client('/api/users/me', {
+            method: 'post',
+            body: JSON.stringify({ login: username.toLowerCase(), password: password }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+        );
+      });
 
 export const connectedUser = (client: typeof fetch) => new Promise<User>((resolve, reject): void => {
   manageResponse(
