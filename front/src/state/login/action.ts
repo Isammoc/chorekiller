@@ -30,10 +30,13 @@ const loginSuccess = (user: User) => ({
 });
 
 export const renewToken =
-  (token: string) => ({
-    type: actionTypes.TOKEN_RENEW,
-    payload: token,
-  });
+  (token: string) => {
+    localStorage.setItem('token', token);
+    return {
+      type: actionTypes.TOKEN_RENEW,
+      payload: token,
+    };
+  };
 
 export const loadToken = (dispatch: CKDispatch, getState: () => CKState) => {
   const token = localStorage.getItem('token');
