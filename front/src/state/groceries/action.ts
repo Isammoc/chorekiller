@@ -20,7 +20,7 @@ const listSuccess = (items: Item[]) => ({
 
 export const fetchList = () => (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
   dispatch(listRequest());
-  client(dispatch, getState).groceries.fetchItems()
+  client(dispatch, getState).groceries.fetchItems(1)
     .then(items => dispatch(listSuccess(items)))
     .catch(err => dispatch(listFailure(err)));
 };
@@ -28,7 +28,7 @@ export const fetchList = () => (dispatch: CKDispatch, getState: () => CKState, {
 export const addItem =
   (item: string) =>
     (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
-      return client(dispatch, getState).groceries.addItem(item).then(res => {
+      return client(dispatch, getState).groceries.addItem(1, item).then(res => {
         dispatch(reset('itemToAdd'));
         dispatch(fetchList());
       });
@@ -36,7 +36,7 @@ export const addItem =
 
 export const deleteItem = (id: number) =>
   (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
-    client(dispatch, getState).groceries.deleteItem(id).then(res => {
+    client(dispatch, getState).groceries.deleteItem(1, id).then(res => {
       dispatch(fetchList());
     });
   };
@@ -49,7 +49,7 @@ export const toggle = (id: number) =>
       ? client(dispatch, getState).groceries.uncompleteItem
       : client(dispatch, getState).groceries.completeItem;
 
-    clientMethod(id).then(res => {
+    clientMethod(1, id).then(res => {
       dispatch(fetchList());
     });
   };
