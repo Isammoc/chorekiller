@@ -28,7 +28,7 @@ export const fetchList = () => (dispatch: CKDispatch, getState: () => CKState, {
 export const addItem =
   (item: string) =>
     (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
-      client.groceries.addItem(item).then(res => {
+      return client.groceries.addItem(item).then(res => {
         dispatch(reset('itemToAdd'));
         dispatch(fetchList());
       });

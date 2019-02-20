@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { connect } from 'react-redux';
-import { reduxForm, InjectedFormProps, Field, FormErrors } from 'redux-form';
+import { reduxForm, InjectedFormProps, Field, FormErrors, SubmissionError } from 'redux-form';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -15,7 +15,7 @@ import { changePassword } from '../state/login/action';
 import PasswordField from './utils/PasswordField';
 
 interface Props {
-  onSubmit: (values: PasswordChange) => void;
+  onSubmit: (values: PasswordChange) => Promise<void>;
 }
 
 interface PasswordChange {
@@ -40,15 +40,40 @@ const validate = (values: PasswordChange) => {
   return errors;
 };
 
+const mySubmit =
+  (real: (values: PasswordChange) => Promise<void>) =>
+    (values: PasswordChange) =>
+      new Promise<void>((resolve, reject) => {
+        real(values).then(() => {
+          resolve();
+        }).catch(() => {
+          reject(new SubmissionError<PasswordChange>({
+            _error: 'Impossible de modifier le mot de passe.',
+          }));
+        });
+      });
+
 const PasswordForm =
-  ({ error, handleSubmit, onSubmit, submitting }: Props & InjectedFormProps<PasswordChange, Props>) => {
+  ({
+    error,
+    handleSubmit,
+    onSubmit,
+    submitting,
+    submitFailed,
+    submitSucceeded,
+  }: Props & InjectedFormProps<PasswordChange, Props>) => {
     return (
       <Card>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(mySubmit(onSubmit))}>
           <CardHeader title="Modification du mot de passe" />
           <CardContent>
-            {error &&
-              <Typography color="error" gutterBottom={true}>Erreur lors de la modification du mot de passe.</Typography>
+            {submitSucceeded &&
+              <Typography gutterBottom={true}>Mot de passe modifié avec succès.</Typography>
+            }
+            {submitFailed && Boolean(error) &&
+              <Typography color="error" gutterBottom={true}>
+                {error}
+              </Typography>
             }
             <Field name="oldPassword" id="old-password" label="Mot de passe actuel" component={PasswordField} />
             <Field name="newPassword" id="new-password" label="Nouveau mot de passe" component={PasswordField} />
@@ -72,9 +97,8 @@ const PasswordForm =
 export default connect(
   undefined,
   (dispatch: CKDispatch) => ({
-    onSubmit: (values: PasswordChange) => {
-      dispatch(changePassword(values.oldPassword, values.newPassword));
-    },
+    onSubmit:
+      (values: PasswordChange) => dispatch(changePassword(values.oldPassword, values.newPassword)),
   }),
 )(reduxForm<PasswordChange>({
   form: 'passwordChange',

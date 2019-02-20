@@ -14,7 +14,7 @@ interface Grocery {
 }
 
 interface GroceryFormProps {
-  onSubmit: (values: Grocery) => void;
+  onSubmit: (values: Grocery) => Promise<void>;
 }
 
 const GroceryForm = ({ handleSubmit, onSubmit }: GroceryFormProps & InjectedFormProps<Grocery, GroceryFormProps>) => (
@@ -29,7 +29,7 @@ const GroceryForm = ({ handleSubmit, onSubmit }: GroceryFormProps & InjectedForm
 export default connect(
   undefined,
   (dispatch: CKDispatch) => ({
-    onSubmit: (values: Grocery) => { dispatch(addItem(values.item)); },
+    onSubmit: (values: Grocery) => dispatch(addItem(values.item)),
   }))(reduxForm({
     form: 'itemToAdd',
   })(GroceryForm));
