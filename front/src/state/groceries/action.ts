@@ -4,13 +4,18 @@ import { Item } from '../../model';
 
 import ActionTypes from './actionTypes';
 
-const listRequest = () => ({
+const listRequest = (listId: number) => ({
   type: ActionTypes.LIST_REQUEST,
+  payload: listId,
 });
 
-const listFailure = (err: Error) => ({
+const listFailure = (listId: number, err: Error) => ({
   type: ActionTypes.LIST_FAILURE,
-  payload: err,
+  payload: {
+    err,
+    listId,
+  },
+  error: true,
 });
 
 const listSuccess = (items: Item[]) => ({
@@ -18,30 +23,32 @@ const listSuccess = (items: Item[]) => ({
   payload: items,
 });
 
-export const fetchList = () => (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
-  dispatch(listRequest());
-  client(dispatch, getState).groceries.fetchItems(1)
-    .then(items => dispatch(listSuccess(items)))
-    .catch(err => dispatch(listFailure(err)));
-};
+export const fetchList =
+  (listId: number) =>
+    (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
+      dispatch(listRequest(listId));
+      client(dispatch, getState).groceries.fetchItems(listId)
+        .then(items => dispatch(listSuccess(items)))
+        .catch(err => dispatch(listFailure(listId, err)));
+    };
 
 export const addItem =
-  (item: string) =>
+  (listId: number, item: string) =>
     (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
-      return client(dispatch, getState).groceries.addItem(1, item).then(res => {
+      return client(dispatch, getState).groceries.addItem(listId, item).then(res => {
         dispatch(reset('itemToAdd'));
-        dispatch(fetchList());
+        dispatch(fetchList(listId));
       });
     };
 
-export const deleteItem = (id: number) =>
+export const deleteItem = (listId: number, id: number) =>
   (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
-    client(dispatch, getState).groceries.deleteItem(1, id).then(res => {
-      dispatch(fetchList());
+    client(dispatch, getState).groceries.deleteItem(listId, id).then(res => {
+      dispatch(fetchList(listId));
     });
   };
 
-export const toggle = (id: number) =>
+export const toggle = (listId: number, id: number) =>
   (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
     const completed = getState().groceries.current!.find(e => e.id === id)!.completed;
 
@@ -49,7 +56,7 @@ export const toggle = (id: number) =>
       ? client(dispatch, getState).groceries.uncompleteItem
       : client(dispatch, getState).groceries.completeItem;
 
-    clientMethod(1, id).then(res => {
-      dispatch(fetchList());
+    clientMethod(listId, id).then(res => {
+      dispatch(fetchList(listId));
     });
   };

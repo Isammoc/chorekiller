@@ -36,7 +36,7 @@ export default connect(
     items: itemsFromState(state.groceries.current),
   }),
   {
-    onToggle: toggle,
-    onDelete: deleteItem,
+    onToggle: (id: number) => toggle(1, id),
+    onDelete: (id: number) => deleteItem(1, id),
   }
 )(GroceryList);

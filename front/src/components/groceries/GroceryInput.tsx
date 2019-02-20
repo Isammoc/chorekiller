@@ -29,7 +29,7 @@ const GroceryForm = ({ handleSubmit, onSubmit }: GroceryFormProps & InjectedForm
 export default connect(
   undefined,
   {
-    onSubmit: (values: Grocery) => addItem(values.item),
+    onSubmit: (values: Grocery) => addItem(1, values.item),
   })(reduxForm({
     form: 'itemToAdd',
   })(GroceryForm));
