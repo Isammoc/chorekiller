@@ -14,7 +14,9 @@ const styles: StyleRulesCallback<'footer'> = (theme: Theme) => ({
   }
 });
 
-const Footer: React.SFC<WithStyles<'footer'>> = ({ classes }) => (
+type Props = WithStyles<'footer'>;
+
+const Footer = ({ classes }: Props) => (
   <footer className={classes!.footer}>
     Version: {process.env.REACT_APP_VERSION}
   </footer>

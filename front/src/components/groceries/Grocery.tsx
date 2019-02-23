@@ -9,12 +9,14 @@ import RemoveCircle from '@material-ui/icons/RemoveCircle';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 
-type GroceryProps = {
+type OwnProps = {
   name: string;
   completed: boolean;
   onClick: () => void;
   onDelete: () => void;
 };
+
+type Props = OwnProps & WithStyles<typeof styles>;
 
 const styles = createStyles({
   completed: {
@@ -27,11 +29,10 @@ const styles = createStyles({
   },
 });
 
-const Grocery: React.SFC<GroceryProps & WithStyles<typeof styles>> =
-({ name, completed, onClick, onDelete, classes }) => (
+const Grocery = ({ name, completed, onClick, onDelete, classes }: Props) => (
   <ListItem button={true} onClick={onClick} className={classes.item}>
     <Checkbox checked={completed} disableRipple={true} color="primary" />
-    <ListItemText primary={name} className={completed ? classes.completed : undefined}/>
+    <ListItemText primary={name} className={completed ? classes.completed : undefined} />
     <ListItemSecondaryAction>
       <IconButton aria-label="Delete" onClick={onDelete}>
         <RemoveCircle />

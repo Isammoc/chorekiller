@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const Ribbon: React.SFC<{}> = () => (
+const Ribbon = () => (
   <div
     style={{
       width: '12em',

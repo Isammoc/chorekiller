@@ -8,11 +8,11 @@ import CardHeader from '@material-ui/core/CardHeader';
 import LogInButton from '../components/LogInButton';
 import { selectors } from '../state/root.selector';
 
-type NotFoundProps = {
+type Props = {
   connected: boolean;
 };
 
-const NotFound: React.SFC<NotFoundProps> = ({ connected }) => (
+const NotFound = ({ connected }: Props) => (
   <Card>
     <CardHeader title="Page non trouvée !" />
     <CardContent>
