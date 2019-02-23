@@ -49,12 +49,9 @@ const styles: StyleRulesCallback = theme => ({
 });
 
 class MyAppBar extends React.Component<MyAppBarProps & WithStyles, MyAppBarState> {
-  constructor(props: MyAppBarProps & WithStyles) {
-    super(props);
-    this.state = {
-      anchorEl: null,
-    };
-  }
+  state = {
+    anchorEl: null,
+  };
 
   handleClick = (event: React.MouseEvent<HTMLElement>) => {
     this.setState({
