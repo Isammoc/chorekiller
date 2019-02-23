@@ -13,11 +13,17 @@ interface Grocery {
   item: string;
 }
 
-interface GroceryFormProps {
+interface StateProps { }
+interface DispatchProps {
   onSubmit: (values: Grocery) => Promise<void>;
 }
+interface OwnProps {
+  listId: number;
+}
 
-const GroceryForm = ({ handleSubmit, onSubmit }: GroceryFormProps & InjectedFormProps<Grocery, GroceryFormProps>) => (
+type Props = StateProps & DispatchProps & OwnProps & InjectedFormProps<Grocery, StateProps & DispatchProps & OwnProps>;
+
+const GroceryForm = ({ handleSubmit, onSubmit }: Props) => (
   <form style={{ display: 'flex' }} onSubmit={handleSubmit(onSubmit)}>
     <Field name="item" component={TextField} label="Article à ajouter" variant="outlined" style={{ flex: 1 }} />
     <Fab type="submit">
@@ -28,8 +34,11 @@ const GroceryForm = ({ handleSubmit, onSubmit }: GroceryFormProps & InjectedForm
 
 export default connect(
   undefined,
-  {
-    onSubmit: (values: Grocery) => addItem(values.item),
-  })(reduxForm({
+  (dispatch: CKDispatch, { listId }: OwnProps) => ({
+    onSubmit: (values: Grocery) => addItem(listId, values.item),
+  }),
+)(
+  reduxForm({
     form: 'itemToAdd',
-  })(GroceryForm));
+  })(GroceryForm)
+);

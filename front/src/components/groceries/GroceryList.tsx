@@ -9,13 +9,22 @@ import { deleteItem, toggle } from '../../state/groceries/action';
 
 import Grocery from './Grocery';
 
-interface GroceryListProps {
+interface StateProps {
   items: Item[];
+}
+
+interface DispatchProps {
   onToggle: (id: number) => void;
   onDelete: (id: number) => void;
 }
 
-const GroceryList: React.SFC<GroceryListProps> = ({ items, onDelete, onToggle }) => (
+interface OwnProps {
+  listId: number;
+}
+
+type Props = StateProps & DispatchProps & OwnProps;
+
+const GroceryList = ({ items, onDelete, onToggle }: Props) => (
   <List>
     {items && items.map(item =>
       <Grocery key={item.id} {...item} onDelete={() => onDelete(item.id)} onClick={() => onToggle(item.id)} />
@@ -35,8 +44,8 @@ export default connect(
   (state: CKState) => ({
     items: itemsFromState(state.groceries.current),
   }),
-  {
-    onToggle: toggle,
-    onDelete: deleteItem,
-  }
+  (dispatch: CKDispatch, { listId }: OwnProps) => ({
+    onToggle: (id: number) => toggle(listId, id),
+    onDelete: (id: number) => deleteItem(listId, id),
+  }),
 )(GroceryList);
