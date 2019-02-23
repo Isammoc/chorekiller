@@ -4,15 +4,13 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 
-import GroceryList from '../components/groceries/GroceryList';
-import GroceryInput from '../components/groceries/GroceryInput';
+import GroceryCard from '../components/groceries/GroceryCard';
 
 export default () => (
   <Card>
-    <CardHeader title="Liste de courses" />
+    <CardHeader title="Dashboard" />
     <CardContent>
-      <GroceryList />
-      <GroceryInput />
+      <GroceryCard listId={1} /> {/* XXX listId*/}
     </CardContent>
   </Card>
 );
