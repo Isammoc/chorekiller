@@ -112,10 +112,10 @@ export default connect(
   (state: CKState) => ({
     currentUser: state.currentUser.current,
   }),
-  (dispatch: CKDispatch) => ({
-    onConnect: () => { dispatch(openModal()); },
-    onLogout: () => { dispatch(logout()); },
-    onHome: () => { dispatch(push('/')); },
-    onProfile: (login: string) => { dispatch(push('/profile/' + login)); },
-  }),
+  {
+    onConnect: openModal,
+    onLogout: logout,
+    onHome: () => push('/'),
+    onProfile: (login: string) => push('/profile/' + login),
+  },
 )(withStyles(styles)(MyAppBar));
