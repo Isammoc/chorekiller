@@ -1,11 +1,11 @@
 import { Reducer } from 'redux';
 import actionTypes from './actionTypes';
 
-export interface Profile {
+export type Profile = {
   login: string;
   displayName: string;
   isAdmin: boolean;
-}
+};
 
 export type ProfileState = { [name: string]: Profile };
 

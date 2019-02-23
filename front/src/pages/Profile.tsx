@@ -12,12 +12,12 @@ import { Profile } from '../state/profile/reducer';
 import { loadProfile } from '../state/profile/action';
 import PasswordForm from '../components/PasswordForm';
 
-interface ProfileProps {
+type ProfileProps = {
   who: string;
   profile?: Profile;
   currentUser: boolean;
   onLoad: (id: string) => void;
-}
+};
 
 const Profile: React.SFC<ProfileProps> = ({ currentUser, who, profile, onLoad }) => {
   React.useEffect(() => {

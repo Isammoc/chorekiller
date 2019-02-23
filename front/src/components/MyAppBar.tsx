@@ -20,17 +20,17 @@ import withStyles, { WithStyles, StyleRulesCallback } from '@material-ui/core/st
 import { openModal, logout } from '../state/login/action';
 import { User } from '../model';
 
-interface MyAppBarProps {
+type MyAppBarProps = {
   currentUser: null | User;
   onConnect: () => void;
   onLogout: () => void;
   onHome: () => void;
   onProfile: (login: string) => void;
-}
+};
 
-interface MyAppBarState {
+type MyAppBarState = {
   anchorEl: HTMLElement | null;
-}
+};
 
 const styles: StyleRulesCallback = theme => ({
   flex: {

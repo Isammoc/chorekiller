@@ -6,9 +6,9 @@ import Button from '@material-ui/core/Button';
 
 import * as login from '../state/login/action';
 
-interface LogInButtonProps {
+type LogInButtonProps = {
   onConnect: () => void;
-}
+};
 
 const LogInButton: React.SFC<LogInButtonProps> = ({ onConnect }) => (
   <Button variant="contained" color="primary" onClick={onConnect}>Connectez-vous</Button>

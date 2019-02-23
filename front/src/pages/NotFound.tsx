@@ -8,9 +8,9 @@ import CardHeader from '@material-ui/core/CardHeader';
 import LogInButton from '../components/LogInButton';
 import { selectors } from '../state/root.selector';
 
-interface NotFoundProps {
+type NotFoundProps = {
   connected: boolean;
-}
+};
 
 const NotFound: React.SFC<NotFoundProps> = ({ connected }) => (
   <Card>

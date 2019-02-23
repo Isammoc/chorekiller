@@ -26,11 +26,11 @@ const styles = (theme: Theme) => createStyles({
   }
 });
 
-interface AppProps {
+type Props = {
   connected: boolean;
-}
+};
 
-const App: React.SFC<AppProps & WithStyles<typeof styles>> = ({ connected, classes }) => (
+const App: React.SFC<Props & WithStyles<typeof styles>> = ({ connected, classes }) => (
   <div className={classes.root}>
     <Ribbon />
     <LoginDialog />

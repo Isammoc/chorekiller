@@ -5,6 +5,11 @@ import { FormControl, InputLabel, Input, InputAdornment, IconButton, FormHelperT
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
+type PasswordInputProps = {
+  id: string;
+  label: string;
+};
+
 export default ({ id, input, label, meta: { touched, error }, ...custom }: WrappedFieldProps & PasswordInputProps) => {
   const [showPassword, setShowPassword] = React.useState(false);
   return (
@@ -33,8 +38,3 @@ export default ({ id, input, label, meta: { touched, error }, ...custom }: Wrapp
     </FormControl>
   );
 };
-
-interface PasswordInputProps {
-  id: string;
-  label: string;
-}

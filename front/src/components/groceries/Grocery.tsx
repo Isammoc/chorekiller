@@ -9,12 +9,12 @@ import RemoveCircle from '@material-ui/icons/RemoveCircle';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 
-interface GroceryProps {
+type GroceryProps = {
   name: string;
   completed: boolean;
   onClick: () => void;
   onDelete: () => void;
-}
+};
 
 const styles = createStyles({
   completed: {

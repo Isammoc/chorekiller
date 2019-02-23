@@ -1,23 +1,23 @@
-export interface Item {
+export type Item = {
   id: number;
   name: string;
   completed: boolean;
-}
+};
 
-export interface PossibleState<P> {
+export type PossibleState<P> = {
   current: P | null;
   status: 'none' | 'pending' | 'alive';
-}
+};
 
-export interface User {
+export type User = {
   login: string;
   name: string;
   passwordChanged: 'none' | 'success' | 'error' | 'pending';
-}
+};
 
-export interface GroceryState extends PossibleState<Item[]> {}
+export type GroceryState = PossibleState<Item[]> & {};
 
-export interface UserState extends PossibleState<User> {
+export type UserState = PossibleState<User> & {
   form: 'none' | 'pending' | 'error';
   token: string;
-}
+};

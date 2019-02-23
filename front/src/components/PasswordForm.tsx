@@ -14,15 +14,15 @@ import { changePassword } from '../state/login/action';
 
 import PasswordField from './utils/PasswordField';
 
-interface Props {
+type Props = {
   onSubmit: (values: PasswordChange) => Promise<void>;
-}
+};
 
-interface PasswordChange {
+type PasswordChange = {
   oldPassword: string;
   newPassword: string;
   verifyPassword: string;
-}
+};
 
 const validate = (values: PasswordChange) => {
   const errors: FormErrors<PasswordChange> = {};
