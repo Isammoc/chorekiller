@@ -26,25 +26,25 @@ const styles = (theme: Theme) => createStyles({
   }
 });
 
-interface AppProps {
+type Props = WithStyles<typeof styles> & {
   connected: boolean;
-}
+};
 
-const App: React.SFC<AppProps & WithStyles<typeof styles>> = ({ connected, classes }) => (
+const App = ({ connected, classes }: Props) => (
   <div className={classes.root}>
     <Ribbon />
     <LoginDialog />
     <MyAppBar />
     {connected
       && <Switch>
-          <Route exact={true} path="/" component={Dashboard} />
-          <Route exact={true} path="/profile/:id" component={Profile} />
-          <Route component={NotFound} />
-        </Switch>
+        <Route exact={true} path="/" component={Dashboard} />
+        <Route exact={true} path="/profile/:id" component={Profile} />
+        <Route component={NotFound} />
+      </Switch>
       || <Switch>
-          <Route exact={true} path="/" component={Welcome} />
-          <Route component={NotFound} />
-        </Switch>
+        <Route exact={true} path="/" component={Welcome} />
+        <Route component={NotFound} />
+      </Switch>
     }
     <Footer />
   </div>

@@ -20,17 +20,17 @@ import withStyles, { WithStyles, StyleRulesCallback } from '@material-ui/core/st
 import { openModal, logout } from '../state/login/action';
 import { User } from '../model';
 
-interface MyAppBarProps {
+type MyAppBarProps = {
   currentUser: null | User;
   onConnect: () => void;
   onLogout: () => void;
   onHome: () => void;
   onProfile: (login: string) => void;
-}
+};
 
-interface MyAppBarState {
+type MyAppBarState = {
   anchorEl: HTMLElement | null;
-}
+};
 
 const styles: StyleRulesCallback = theme => ({
   flex: {
@@ -49,31 +49,28 @@ const styles: StyleRulesCallback = theme => ({
 });
 
 class MyAppBar extends React.Component<MyAppBarProps & WithStyles, MyAppBarState> {
-  constructor(props: MyAppBarProps & WithStyles) {
-    super(props);
-    this.state = {
-      anchorEl: null,
-    };
-  }
+  state = {
+    anchorEl: null,
+  };
 
-  public handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  handleClick = (event: React.MouseEvent<HTMLElement>) => {
     this.setState({
       anchorEl: event.currentTarget,
     });
   }
 
-  public handleClose = () => {
+  handleClose = () => {
     this.setState({
       anchorEl: null,
     });
   }
 
-  public handleOnHome = (e: React.BaseSyntheticEvent) => {
+  handleOnHome = (e: React.BaseSyntheticEvent) => {
     this.props.onHome();
     e.preventDefault();
   }
 
-  public render() {
+  render() {
     const { classes, onConnect, currentUser, onLogout, onProfile } = this.props;
     return (
       <AppBar>

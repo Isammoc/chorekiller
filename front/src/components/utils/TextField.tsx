@@ -3,9 +3,9 @@ import * as React from 'react';
 import { WrappedFieldProps } from 'redux-form';
 import TextField from '@material-ui/core/TextField';
 
-interface BasicProps {
+type BasicProps = {
   label: string;
-}
+};
 
 export default ({ input, label, meta: { touched, error }, ...custom }: WrappedFieldProps & BasicProps) => (
   <TextField

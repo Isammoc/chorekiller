@@ -9,17 +9,17 @@ import Fab from '@material-ui/core/Fab';
 import { addItem } from '../../state/groceries/action';
 import TextField from '../utils/TextField';
 
-interface Grocery {
+type Grocery = {
   item: string;
-}
+};
 
-interface StateProps { }
-interface DispatchProps {
+type StateProps = { };
+type DispatchProps = {
   onSubmit: (values: Grocery) => Promise<void>;
-}
-interface OwnProps {
+};
+type OwnProps = {
   listId: number;
-}
+};
 
 type Props = StateProps & DispatchProps & OwnProps & InjectedFormProps<Grocery, StateProps & DispatchProps & OwnProps>;
 

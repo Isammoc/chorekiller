@@ -17,16 +17,16 @@ import { User } from '../model';
 import TextField from './utils/TextField';
 import PasswordField from './utils/PasswordField';
 
-interface LoginDialogProps {
+type LoginDialogProps = {
   open: boolean;
   onClose: () => void;
   onConnect: (values: Login) => Promise<User>;
-}
+};
 
-interface Login {
+type Login = {
   login: string;
   password: string;
-}
+};
 
 const mySubmit =
   (real: (values: Login) => Promise<User>) =>

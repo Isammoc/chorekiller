@@ -9,18 +9,18 @@ import { deleteItem, toggle } from '../../state/groceries/action';
 
 import Grocery from './Grocery';
 
-interface StateProps {
+type StateProps = {
   items: Item[];
-}
+};
 
-interface DispatchProps {
+type DispatchProps = {
   onToggle: (id: number) => void;
   onDelete: (id: number) => void;
-}
+};
 
-interface OwnProps {
+type OwnProps = {
   listId: number;
-}
+};
 
 type Props = StateProps & DispatchProps & OwnProps;
 

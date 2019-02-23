@@ -6,9 +6,9 @@ import CardHeader from '@material-ui/core/CardHeader';
 import GroceryList from './GroceryList';
 import GroceryInput from './GroceryInput';
 
-interface OwnProps {
+type OwnProps = {
   listId: number;
-}
+};
 
 export default ({ listId }: OwnProps) => (
   <Card>
