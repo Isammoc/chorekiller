@@ -56,24 +56,24 @@ class MyAppBar extends React.Component<MyAppBarProps & WithStyles, MyAppBarState
     };
   }
 
-  public handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  handleClick = (event: React.MouseEvent<HTMLElement>) => {
     this.setState({
       anchorEl: event.currentTarget,
     });
   }
 
-  public handleClose = () => {
+  handleClose = () => {
     this.setState({
       anchorEl: null,
     });
   }
 
-  public handleOnHome = (e: React.BaseSyntheticEvent) => {
+  handleOnHome = (e: React.BaseSyntheticEvent) => {
     this.props.onHome();
     e.preventDefault();
   }
 
-  public render() {
+  render() {
     const { classes, onConnect, currentUser, onLogout, onProfile } = this.props;
     return (
       <AppBar>
