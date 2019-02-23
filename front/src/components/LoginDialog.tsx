@@ -85,12 +85,12 @@ export default connect(
     submittable: state.currentUser.form !== 'none' && state.currentUser.status !== 'pending',
     error: state.currentUser.form === 'error',
   }),
-  (dispatch: CKDispatch) => ({
-    onClose: () => {
-      dispatch(closeModal());
-    },
-    onConnect: (values: Login) => dispatch(login(values.login, values.password)),
-  }))(
-    reduxForm<Login, LoginDialogProps>({
-      form: 'login',
-    })(LoginForm));
+  {
+    onClose: closeModal,
+    onConnect: (values: Login) => login(values.login, values.password),
+  }
+)(
+  reduxForm<Login, LoginDialogProps>({
+    form: 'login',
+  })(LoginForm)
+);

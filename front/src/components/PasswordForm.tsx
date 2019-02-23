@@ -96,11 +96,13 @@ const PasswordForm =
 
 export default connect(
   undefined,
-  (dispatch: CKDispatch) => ({
+  {
     onSubmit:
-      (values: PasswordChange) => dispatch(changePassword(values.oldPassword, values.newPassword)),
-  }),
-)(reduxForm<PasswordChange>({
-  form: 'passwordChange',
-  validate,
-})(PasswordForm));
+      (values: PasswordChange) => changePassword(values.oldPassword, values.newPassword),
+  },
+)(
+  reduxForm<PasswordChange>({
+    form: 'passwordChange',
+    validate,
+  })(PasswordForm)
+);

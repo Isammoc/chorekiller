@@ -28,8 +28,8 @@ const GroceryForm = ({ handleSubmit, onSubmit }: GroceryFormProps & InjectedForm
 
 export default connect(
   undefined,
-  (dispatch: CKDispatch) => ({
-    onSubmit: (values: Grocery) => dispatch(addItem(values.item)),
-  }))(reduxForm({
+  {
+    onSubmit: (values: Grocery) => addItem(values.item),
+  })(reduxForm({
     form: 'itemToAdd',
   })(GroceryForm));

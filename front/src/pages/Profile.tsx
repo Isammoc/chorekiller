@@ -56,9 +56,7 @@ export default connect(
       currentUser: id === state.currentUser.current!.login
     };
   },
-  (dispatch: CKDispatch) => ({
-    onLoad: (id: string) => {
-      dispatch(loadProfile(id));
-    },
-  }),
+  {
+    onLoad: loadProfile,
+  },
 )(Profile);

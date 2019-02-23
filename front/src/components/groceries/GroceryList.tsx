@@ -35,8 +35,8 @@ export default connect(
   (state: CKState) => ({
     items: itemsFromState(state.groceries.current),
   }),
-  (dispatch: CKDispatch) => ({
-    onToggle: (id: number) => { dispatch(toggle(id)); },
-    onDelete: (id: number) => { dispatch(deleteItem(id)); },
-  })
+  {
+    onToggle: toggle,
+    onDelete: deleteItem,
+  }
 )(GroceryList);
