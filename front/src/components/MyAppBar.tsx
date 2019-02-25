@@ -19,6 +19,7 @@ import withStyles, { WithStyles, StyleRulesCallback } from '@material-ui/core/st
 
 import { openModal, logout } from '../state/login/action';
 import { User } from '../model';
+import { selectors } from '../state/root.selector';
 
 type MyAppBarProps = {
   currentUser: null | User;
@@ -80,11 +81,9 @@ class MyAppBar extends React.Component<MyAppBarProps & WithStyles, MyAppBarState
             Chorekiller
           </Typography>
           {currentUser &&
-            <div>
-              <IconButton onClick={this.handleClick}>
-                <Avatar>{currentUser.name.toUpperCase()[0]}</Avatar>
-              </IconButton>
-            </div>
+            <IconButton onClick={this.handleClick}>
+              <Avatar>{currentUser.name.toUpperCase()[0]}</Avatar>
+            </IconButton>
             ||
             <Button color="inherit" onClick={onConnect}>
               <ActionAccountCircle />&nbsp;Se connecter
@@ -107,7 +106,7 @@ class MyAppBar extends React.Component<MyAppBarProps & WithStyles, MyAppBarState
 
 export default connect(
   (state: CKState) => ({
-    currentUser: state.currentUser.current,
+    currentUser: selectors(state).user.getCurrent(),
   }),
   {
     onConnect: openModal,

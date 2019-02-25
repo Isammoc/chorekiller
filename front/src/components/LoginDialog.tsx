@@ -16,6 +16,7 @@ import { User } from '../model';
 
 import TextField from './utils/TextField';
 import PasswordField from './utils/PasswordField';
+import { selectors } from '../state/root.selector';
 
 type LoginDialogProps = {
   open: boolean;
@@ -81,9 +82,7 @@ const LoginForm =
 
 export default connect(
   (state: CKState) => ({
-    open: state.currentUser.form !== 'none',
-    submittable: state.currentUser.form !== 'none' && state.currentUser.status !== 'pending',
-    error: state.currentUser.form === 'error',
+    open: selectors(state).user.isModalOpen(),
   }),
   {
     onClose: closeModal,
