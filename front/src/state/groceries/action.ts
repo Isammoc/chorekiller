@@ -18,9 +18,12 @@ const listFailure = (listId: number, err: Error) => ({
   error: true,
 });
 
-const listSuccess = (items: Item[]) => ({
+const listSuccess = (listId: number, items: Item[]) => ({
   type: ActionTypes.LIST_SUCCESS,
-  payload: items,
+  payload: {
+    items,
+    listId,
+  },
 });
 
 export const fetchList =
@@ -28,7 +31,7 @@ export const fetchList =
     (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
       dispatch(listRequest(listId));
       client(dispatch, getState).groceries.fetchItems(listId)
-        .then(items => dispatch(listSuccess(items)))
+        .then(items => dispatch(listSuccess(listId, items)))
         .catch(err => dispatch(listFailure(listId, err)));
     };
 
@@ -50,9 +53,7 @@ export const deleteItem = (listId: number, id: number) =>
 
 export const toggle = (listId: number, id: number) =>
   (dispatch: CKDispatch, getState: () => CKState, { client }: CKThunkExtraParams) => {
-    const completed = getState().groceries.current!.find(e => e.id === id)!.completed;
-
-    const clientMethod = completed
+    const clientMethod = getState().groceries.items[id].completed
       ? client(dispatch, getState).groceries.uncompleteItem
       : client(dispatch, getState).groceries.completeItem;
 

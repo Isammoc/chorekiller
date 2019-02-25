@@ -15,7 +15,21 @@ export type User = {
   passwordChanged: 'none' | 'success' | 'error' | 'pending';
 };
 
-export type GroceryState = PossibleState<Item[]> & {};
+type Loadable<T> = {
+  loading: boolean;
+  error?: string;
+  current: T;
+};
+
+type List = {
+  title: string;
+  items: number[];
+};
+
+export type GroceryState = {
+  lists: { [id: string]: Loadable<List> };
+  items: { [id: string]: Item };
+};
 
 export type UserState = PossibleState<User> & {
   form: 'none' | 'pending' | 'error';

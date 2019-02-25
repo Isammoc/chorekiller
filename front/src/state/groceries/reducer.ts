@@ -1,12 +1,13 @@
 import { Reducer } from 'redux';
 
-import { GroceryState } from '../../model';
+import { GroceryState, Item } from '../../model';
 
 import ActionTypes from './actionTypes';
+import { arrayToObject } from '../utils';
 
 const defaultState: GroceryState = {
-  current: null,
-  status: 'none',
+  lists: {},
+  items: {},
 };
 
 const reducer: Reducer<GroceryState, CKAction> =
@@ -15,18 +16,44 @@ const reducer: Reducer<GroceryState, CKAction> =
       case ActionTypes.LIST_REQUEST:
         return {
           ...state,
-          status: 'pending',
+          lists: {
+            ...state.lists,
+            [action.payload]: {
+              ...state.lists[action.payload],
+              loading: true,
+              error: undefined,
+            },
+          },
         };
       case ActionTypes.LIST_FAILURE:
         return {
           ...state,
-          status: 'none'
+          lists: {
+            ...state.lists,
+            [action.payload.listId]: {
+              loading: false,
+              error: action.payload.error,
+            },
+          },
         };
       case ActionTypes.LIST_SUCCESS:
         return {
           ...state,
-          status: 'alive',
-          current: action.payload,
+          lists: {
+            ...state.lists,
+            [action.payload.listId]: {
+              loading: false,
+              error: undefined,
+              current: {
+                title: 'Liste de courses',
+                items: action.payload.items.map((item: Item) => item.id),
+              },
+            },
+          },
+          items: {
+            ...state.items,
+            ...arrayToObject(action.payload.items, 'id'),
+          }
         };
       default:
         return state;
