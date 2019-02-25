@@ -18,7 +18,14 @@ const getList =
       };
     };
 
+const getLoadableList =
+  (state: GroceryState) =>
+    (listId: number) => {
+      return state.lists[listId];
+    };
+
 export default (state: GroceryState) => ({
   getItemsForList: getItemsForList(state),
   getList: getList(state),
+  getLoadableList: getLoadableList(state),
 });

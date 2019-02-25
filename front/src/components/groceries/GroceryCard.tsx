@@ -8,7 +8,9 @@ import CardHeader from '@material-ui/core/CardHeader';
 
 import { Item } from '../../model';
 import { selectors } from '../../state/root.selector';
-import { addItem, deleteItem, toggle } from '../../state/groceries/action';
+import { addItem, deleteItem, toggle, fetchList } from '../../state/groceries/action';
+
+import Loadable from '../utils/Loadable';
 
 import GroceryList from './GroceryList';
 import GroceryInput from './GroceryInput';
@@ -52,7 +54,7 @@ const GroceryCard =
       </Card>
     );
 
-export default connect(
+const ConnectedGroceryCard = connect(
   (state: CKState, { listId }: OwnProps) => ({
     title: selectors(state).groceries.getList(listId).title,
     items: selectors(state).groceries.getItemsForList(listId),
@@ -63,3 +65,36 @@ export default connect(
     deleteItem,
   },
 )(GroceryCard);
+
+type LoadableProps = {
+  loading: boolean;
+  listId: number;
+  error?: string;
+  onLoad?: () => void;
+};
+
+const LoadableGroceryCard = ({ loading, listId, error, onLoad }: LoadableProps) => {
+  if (onLoad) {
+    React.useEffect(onLoad, []);
+  }
+  return (
+    <Loadable loading={loading} error={error}>
+      <ConnectedGroceryCard listId={listId} />
+    </Loadable>
+  );
+};
+
+export default connect(
+  (state: CKState, { listId }: OwnProps) => {
+    const loadableList = selectors(state).groceries.getLoadableList(listId);
+    return {
+      loading: !loadableList || (
+        loadableList.loading && !loadableList.current
+      ),
+      error: loadableList && loadableList.error,
+    };
+  },
+  (dispatch: CKDispatch, { listId }: OwnProps) => ({
+    onLoad: () => dispatch(fetchList(listId))
+  }),
+)(LoadableGroceryCard);

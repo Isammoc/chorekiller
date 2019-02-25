@@ -1,7 +1,5 @@
 import { User } from '../../model';
 
-import { fetchList } from '../groceries/action';
-
 import actionTypes from './actionTypes';
 import directClient from '../../client';
 
@@ -46,7 +44,6 @@ export const loadToken = (dispatch: CKDispatch, getState: () => CKState) => {
     directClient(dispatch, getState).login.connectedUser(token)
       .then(res => {
         dispatch(loginSuccess(res));
-        dispatch(fetchList(1)); // XXX listId
       }).catch(err => dispatch(loginFailure(err)));
   }
 };
@@ -57,7 +54,6 @@ export const login = (username: string, password: string) =>
     const res = client(dispatch, getState).login.login(username, password);
     res.then(user => {
       dispatch(loginSuccess(user));
-      dispatch(fetchList(1)); // XXX listId
     }).catch(err => dispatch(loginFailure(err)));
     return res;
   };

@@ -32,11 +32,7 @@ export const fetchList =
       dispatch(listRequest(listId));
       client(dispatch, getState).groceries.fetchItems(listId)
         .then(items => dispatch(listSuccess(listId, items)))
-        .catch(err => {
-          // tslint:disable-next-line
-          console.log('error ???');
-          dispatch(listFailure(listId, err));
-        });
+        .catch(err => dispatch(listFailure(listId, err)));
     };
 
 export const addItem =
