@@ -11,6 +11,7 @@ import Work from '@material-ui/icons/Work';
 import { Profile } from '../state/profile/reducer';
 import { loadProfile } from '../state/profile/action';
 import PasswordForm from '../components/PasswordForm';
+import { selectors } from '../state/root.selector';
 
 type Props = {
   who: string;
@@ -52,8 +53,8 @@ export default connect(
     const id = createMatchSelector<CKState, { id: string }>('/profile/:id')(state)!.params.id;
     return {
       who: id,
-      profile: state.profiles[id],
-      currentUser: id === state.currentUser.current!.login
+      profile: selectors(state).profiles.getProfile(id),
+      currentUser: selectors(state).user.isCurrentLogin(id),
     };
   },
   {

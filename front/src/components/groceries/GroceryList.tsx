@@ -8,6 +8,7 @@ import { Item } from '../../model';
 import { deleteItem, toggle } from '../../state/groceries/action';
 
 import Grocery from './Grocery';
+import { selectors } from '../../state/root.selector';
 
 type StateProps = {
   items: Item[];
@@ -32,17 +33,9 @@ const GroceryList = ({ items, onDelete, onToggle }: Props) => (
   </List>
 );
 
-const itemsFromState = (state: Item[] | null) => {
-  if (state === null) {
-    return null;
-  } else {
-    return state.slice().sort((a, b) => a.name.localeCompare(b.name));
-  }
-};
-
 export default connect(
-  (state: CKState) => ({
-    items: itemsFromState(state.groceries.current),
+  (state: CKState, { listId }: OwnProps) => ({
+    items: selectors(state).groceries.getItemsForList(listId),
   }),
   (dispatch: CKDispatch, { listId }: OwnProps) => ({
     onToggle: (id: number) => toggle(listId, id),
