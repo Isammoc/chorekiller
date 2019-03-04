@@ -4,21 +4,21 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 
-import GroceryCard from '../components/groceries/GroceryCard';
+import ProjectCard from '../components/tasks/ProjectCard';
 import { connect } from 'react-redux';
 
 type StateProps = {
-  listIds: number[];
+  projectIds: number[];
 };
 
 type Props = StateProps;
 
-const Dashboard = ({ listIds }: Props) => (
+const Dashboard = ({ projectIds }: Props) => (
   <Card>
     <CardHeader title="Dashboard" />
     <CardContent>
-      {listIds.map(listId => (
-        <GroceryCard listId={listId} key={'list-' + listId} />
+      {projectIds.map(projectId => (
+        <ProjectCard projectId={projectId} key={'project-' + projectId} />
       ))}
     </CardContent>
   </Card>
@@ -26,6 +26,6 @@ const Dashboard = ({ listIds }: Props) => (
 
 export default connect(
   (state: CKState) => ({
-    listIds: state.preferences.listIds,
+    projectIds: state.preferences.projectIds,
   }),
 )(Dashboard);

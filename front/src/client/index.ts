@@ -1,6 +1,6 @@
 import { selectors } from '../state/root.selector';
 import profile from './profile';
-import groceries from './groceries';
+import tasks from './tasks';
 import * as login from './login';
 import { renewToken } from '../state/login/action';
 
@@ -27,7 +27,7 @@ const client = (dispatch: CKDispatch, getState: () => CKState) => {
   const api = withRenewToken(dispatch, getState);
   return {
     profile: profile(api),
-    groceries: groceries(api),
+    tasks: tasks(api),
     login: {
       login: login.login(api),
       changePassword:

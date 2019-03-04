@@ -1,9 +1,9 @@
 export type PreferencesState = {
-  listIds: number[];
+  projectIds: number[];
 };
 
 const initialState: PreferencesState = {
-  listIds: [1], // XXX listId
+  projectIds: [1], // XXX projectId
 };
 
 export default (state: PreferencesState = initialState, action: CKAction) => {
