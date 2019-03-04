@@ -1,5 +1,5 @@
 import { userSelectors } from './login/selector';
-import groceries from './groceries/selector';
+import projects from './projects/selector';
 import profiles from './profile/selector';
 
 export const selectors = (state: CKState) => {
@@ -8,7 +8,7 @@ export const selectors = (state: CKState) => {
     user: userSelect,
     token: userSelect.authentication(),
     isConnected: userSelect.isConnected(),
-    groceries: groceries(state.groceries),
+    projects: projects(state.projects),
     profiles: profiles(state.profiles),
   };
 };

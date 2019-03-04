@@ -1,4 +1,4 @@
-export type Item = {
+export type Task = {
   id: number;
   name: string;
   completed: boolean;
@@ -21,14 +21,14 @@ type Loadable<T> = {
   current: T;
 };
 
-type List = {
+type Project = {
   title: string;
-  items: number[];
+  tasks: number[];
 };
 
-export type GroceryState = {
-  lists: { [id: string]: Loadable<List> };
-  items: { [id: string]: Item };
+export type ProjectState = {
+  projects: { [id: string]: Loadable<Project> };
+  tasks: { [id: string]: Task };
 };
 
 export type UserState = PossibleState<User> & {

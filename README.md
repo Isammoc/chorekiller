@@ -27,3 +27,7 @@ And connect with `admin` / `liberty`.
  * [ ] Groceries lists like
  * [ ] Due tasks
  * [ ] Repeatable tasks
+
+## Glossary
+
+See [GLOSSARY.md](./GLOSSARY.md)

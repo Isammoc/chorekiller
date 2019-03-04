@@ -23,14 +23,14 @@ const styles = createStyles({
     textDecoration: 'line-through',
     textDecorationStyle: 'double',
   },
-  item: {
+  task: {
     paddingTop: '2px',
     paddingBottom: '2px',
   },
 });
 
-const Grocery = ({ name, completed, onClick, onDelete, classes }: Props) => (
-  <ListItem button={true} onClick={onClick} className={classes.item}>
+const Task = ({ name, completed, onClick, onDelete, classes }: Props) => (
+  <ListItem button={true} onClick={onClick} className={classes.task}>
     <Checkbox checked={completed} disableRipple={true} color="primary" />
     <ListItemText primary={name} className={completed ? classes.completed : undefined} />
     <ListItemSecondaryAction>
@@ -41,4 +41,4 @@ const Grocery = ({ name, completed, onClick, onDelete, classes }: Props) => (
   </ListItem>
 );
 
-export default withStyles(styles)(Grocery);
+export default withStyles(styles)(Task);

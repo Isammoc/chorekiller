@@ -3,16 +3,16 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /config                         controllers.ConfigController.get
+GET     /config                                       controllers.ConfigController.get
 
-GET     /users/me                       controllers.UsersController.getCurrent
-POST    /users/me                       controllers.UsersController.authenticate
-POST    /users/me/password              controllers.UsersController.changePassword
+GET     /users/me                                     controllers.UsersController.getCurrent
+POST    /users/me                                     controllers.UsersController.authenticate
+POST    /users/me/password                            controllers.UsersController.changePassword
 
-GET     /users/:name                    controllers.UsersController.get(name: String)
+GET     /users/:name                                  controllers.UsersController.get(name: String)
 
-GET     /lists/1/items                  controllers.GroceriesController.findAll
-POST    /lists/1/items                  controllers.GroceriesController.add
-DELETE  /lists/1/items/:id              controllers.GroceriesController.delete(id: Long)
-POST    /lists/1/items/:id/completion   controllers.GroceriesController.complete(id: Long)
-DELETE  /lists/1/items/:id/completion   controllers.GroceriesController.uncomplete(id: Long)
+GET     /projects/1/tasks                             controllers.TaskController.findAll
+POST    /projects/1/tasks                             controllers.TaskController.add
+DELETE  /projects/1/tasks/:id                         controllers.TaskController.delete(id: Long)
+POST    /projects/1/tasks/:id/completion              controllers.TaskController.complete(id: Long)
+DELETE  /projects/1/tasks/:id/completion              controllers.TaskController.uncomplete(id: Long)

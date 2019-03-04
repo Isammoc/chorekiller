@@ -1,58 +1,58 @@
 import { Reducer } from 'redux';
 
-import { GroceryState, Item } from '../../model';
+import { ProjectState, Task } from '../../model';
 
 import ActionTypes from './actionTypes';
 import { arrayToObject } from '../utils';
 
-const defaultState: GroceryState = {
-  lists: {},
-  items: {},
+const defaultState: ProjectState = {
+  projects: {},
+  tasks: {},
 };
 
-const reducer: Reducer<GroceryState, CKAction> =
-  (state: GroceryState = defaultState, action: CKAction) => {
+const reducer: Reducer<ProjectState, CKAction> =
+  (state: ProjectState = defaultState, action: CKAction) => {
     switch (action.type) {
-      case ActionTypes.LIST_REQUEST:
+      case ActionTypes.PROJECT_REQUEST:
         return {
           ...state,
-          lists: {
-            ...state.lists,
+          projects: {
+            ...state.projects,
             [action.payload]: {
-              ...state.lists[action.payload],
+              ...state.projects[action.payload],
               loading: true,
               error: undefined,
             },
           },
         };
-      case ActionTypes.LIST_FAILURE:
+      case ActionTypes.PROJECT_FAILURE:
         return {
           ...state,
-          lists: {
-            ...state.lists,
+          projects: {
+            ...state.projects,
             [action.payload.listId]: {
               loading: false,
               error: action.payload.error,
             },
           },
         };
-      case ActionTypes.LIST_SUCCESS:
+      case ActionTypes.PROJECT_SUCCESS:
         return {
           ...state,
-          lists: {
-            ...state.lists,
-            [action.payload.listId]: {
+          projects: {
+            ...state.projects,
+            [action.payload.projectId]: {
               loading: false,
               error: undefined,
               current: {
                 title: 'Liste de courses',
-                items: action.payload.items.map((item: Item) => item.id),
+                tasks: action.payload.tasks.map((task: Task) => task.id),
               },
             },
           },
-          items: {
-            ...state.items,
-            ...arrayToObject(action.payload.items, 'id'),
+          tasks: {
+            ...state.tasks,
+            ...arrayToObject(action.payload.tasks, 'id'),
           }
         };
       default:
